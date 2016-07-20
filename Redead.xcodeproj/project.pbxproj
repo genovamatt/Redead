@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909F406B1D3F00C10009D9E2 /* SgButton.swift */; };
+		909F40841D3F01E00009D9E2 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 909F40831D3F01E00009D9E2 /* Assets */; };
 		90E413451D3DE250006EC40C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413441D3DE250006EC40C /* AppDelegate.swift */; };
 		90E413471D3DE250006EC40C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 90E413461D3DE250006EC40C /* GameScene.sks */; };
 		90E413491D3DE250006EC40C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413481D3DE250006EC40C /* GameScene.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		909F406B1D3F00C10009D9E2 /* SgButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SgButton.swift; sourceTree = "<group>"; };
+		909F40831D3F01E00009D9E2 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		90E413411D3DE250006EC40C /* Redead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Redead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E413441D3DE250006EC40C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90E413461D3DE250006EC40C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -78,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		909F406D1D3F00C70009D9E2 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				909F406B1D3F00C10009D9E2 /* SgButton.swift */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
 		90E413381D3DE250006EC40C = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +113,8 @@
 		90E413431D3DE250006EC40C /* Redead */ = {
 			isa = PBXGroup;
 			children = (
+				909F406D1D3F00C70009D9E2 /* External */,
+				909F40831D3F01E00009D9E2 /* Assets */,
 				90E413441D3DE250006EC40C /* AppDelegate.swift */,
 				90E413461D3DE250006EC40C /* GameScene.sks */,
 				90E413481D3DE250006EC40C /* GameScene.swift */,
@@ -235,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				909F40841D3F01E00009D9E2 /* Assets in Resources */,
 				90E413471D3DE250006EC40C /* GameScene.sks in Resources */,
 				90E413531D3DE250006EC40C /* LaunchScreen.storyboard in Resources */,
 				90E413501D3DE250006EC40C /* Assets.xcassets in Resources */,
@@ -266,6 +281,7 @@
 				90E413491D3DE250006EC40C /* GameScene.swift in Sources */,
 				90E4134B1D3DE250006EC40C /* GameViewController.swift in Sources */,
 				90E413451D3DE250006EC40C /* AppDelegate.swift in Sources */,
+				909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +508,7 @@
 				90E4136F1D3DE250006EC40C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90E413701D3DE250006EC40C /* Build configuration list for PBXNativeTarget "RedeadTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +517,7 @@
 				90E413721D3DE250006EC40C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90E413731D3DE250006EC40C /* Build configuration list for PBXNativeTarget "RedeadUITests" */ = {
 			isa = XCConfigurationList;
@@ -508,6 +526,7 @@
 				90E413751D3DE250006EC40C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
