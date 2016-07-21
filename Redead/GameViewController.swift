@@ -22,7 +22,9 @@ class GameViewController: UIViewController {
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
         
-        let scene = MenuScene(size: skView.bounds.size)
+        let scene = MenuScene(size: CGSize(width: Helper.sceneCoordinatesWidth , height: Helper.sceneCoordinatesHeight))
+        
+        Helper.getVisibleScreen(Float(skView.bounds.width ), viewHeight: Float(skView.bounds.height))
         
         /* Set the scale mode to scale to fit the window */
         scene.scaleMode = .AspectFill

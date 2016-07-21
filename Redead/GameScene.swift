@@ -25,17 +25,19 @@ class GameScene: SKScene {
     }
     
     func addButtonsToScene(){
-        let screenWidth = view!.frame.width
-        let screenHeight = view!.frame.height
+        let screenWidth = Helper.visibleScreen.width
+        let screenHeight = Helper.visibleScreen.height
+        let x = Helper.visibleScreen.origin.x
+        let y = Helper.visibleScreen.origin.y
         
         let buttonSize = CGSize(width: screenWidth/20, height: screenWidth/20)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(screenWidth * 13/16.0, screenHeight * 3/16.0)
+        zButton.position = CGPointMake(x + screenWidth * 13/16.0, y + screenHeight * 3/16.0)
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: tappedButton)
         xButton.size = buttonSize
-        xButton.position = CGPointMake(screenWidth * 14/16.0, screenHeight * 2/16.0)
+        xButton.position = CGPointMake(x + screenWidth * 14/16.0, y + screenHeight * 2/16.0)
         
         self.addChild(zButton)
         self.addChild(xButton)
@@ -44,7 +46,7 @@ class GameScene: SKScene {
 
         let dPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
         
-        dPad.position = CGPointMake( screenWidth * 1/8.0, screenHeight * 3/16.0)
+        dPad.position = CGPointMake( x + screenWidth * 1/8.0, y + screenHeight * 3/16.0)
         self.addChild(dPad)
     }
     
@@ -55,4 +57,6 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
-}
+    
+    
+    }

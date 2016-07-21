@@ -16,17 +16,17 @@ class MenuScene: SKScene {
     }
     
     func addButtonsToScene(){
-        let buttonSize = CGSize(width: view!.frame.width/10, height: view!.frame.width/10)
+        let buttonSize = CGSize(width: Helper.visibleScreen.width/10, height: Helper.visibleScreen.width/10)
         
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedStartButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(frame.midX, frame.midY)
+        zButton.position = CGPointMake(Helper.visibleScreen.origin.x + Helper.visibleScreen.width / 2, Helper.visibleScreen.origin.y + Helper.visibleScreen.height / 2)
         
         self.addChild(zButton)
     }
     
     func tappedStartButton(button: SgButton){
-        let newScene = GameScene(size: view!.bounds.size)
+        let newScene = GameScene(size: CGSize(width: Helper.sceneCoordinatesWidth , height: Helper.sceneCoordinatesHeight))
         newScene.scaleMode = .AspectFill
         self.scene!.view!.presentScene(newScene)
         
