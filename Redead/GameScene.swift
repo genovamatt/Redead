@@ -25,18 +25,27 @@ class GameScene: SKScene {
     }
     
     func addButtonsToScene(){
-        let buttonSize = CGSize(width: view!.frame.width/10, height: view!.frame.width/10)
+        let screenWidth = view!.frame.width
+        let screenHeight = view!.frame.height
         
+        let buttonSize = CGSize(width: screenWidth/20, height: screenWidth/20)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(400, 400)
+        zButton.position = CGPointMake(screenWidth * 13/16.0, screenHeight * 3/16.0)
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: tappedButton)
         xButton.size = buttonSize
-        xButton.position = CGPointMake(400, 500)
+        xButton.position = CGPointMake(screenWidth * 14/16.0, screenHeight * 2/16.0)
         
         self.addChild(zButton)
         self.addChild(xButton)
+        
+        let dPadSize = CGSize(width: screenWidth/8, height: screenWidth/8)
+
+        let dPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
+        
+        dPad.position = CGPointMake( screenWidth * 1/8.0, screenHeight * 3/16.0)
+        self.addChild(dPad)
     }
     
     func tappedButton(button: SgButton){

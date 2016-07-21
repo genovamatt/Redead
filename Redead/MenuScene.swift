@@ -26,10 +26,10 @@ class MenuScene: SKScene {
     }
     
     func tappedStartButton(button: SgButton){
-        if let newScene = GameScene(fileNamed: "GameScene"){
-            newScene.scaleMode = SKSceneScaleMode.AspectFill
-            self.scene!.view!.presentScene(newScene)
-        }
+        let newScene = GameScene(size: view!.bounds.size)
+        newScene.scaleMode = .AspectFill
+        self.scene!.view!.presentScene(newScene)
+        
         
     }
     
