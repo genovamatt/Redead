@@ -8,7 +8,10 @@
 
 import SpriteKit
 
+
 class GameScene: SKScene {
+    
+    
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -19,8 +22,11 @@ class GameScene: SKScene {
 //        
 //        
 //        self.addChild(myLabel)
-        
+       
+        addMapToScene()
         addButtonsToScene()
+        
+        
         
     }
     
@@ -48,6 +54,12 @@ class GameScene: SKScene {
         
         dPad.position = CGPointMake( x + screenWidth * 1/8.0, y + screenHeight * 3/16.0)
         self.addChild(dPad)
+    }
+    
+    func addMapToScene() {
+        let tileMap = JSTileMap(named: "sample.tmx")
+        
+        self.addChild(tileMap)
     }
     
     func tappedButton(button: SgButton){

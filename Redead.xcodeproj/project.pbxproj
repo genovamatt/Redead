@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD871D416B8E00865A47 /* JSTileMap.m */; };
+		7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD891D416B8E00865A47 /* LFCGzipUtility.m */; };
+		7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7032BD8D1D416D3400865A47 /* libz.tbd */; };
+		7032BD901D41702200865A47 /* cobbleset-64_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 7032BD8F1D41702200865A47 /* cobbleset-64_0.png */; };
+		7032BD921D41702B00865A47 /* sample.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 7032BD911D41702B00865A47 /* sample.tmx */; };
 		909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909F406B1D3F00C10009D9E2 /* SgButton.swift */; };
 		909F40841D3F01E00009D9E2 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 909F40831D3F01E00009D9E2 /* Assets */; };
 		90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CC91D4065EF0044D8CF /* MenuScene.swift */; };
@@ -40,6 +45,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7032BD851D416B8E00865A47 /* Redead-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Redead-Bridging-Header.h"; sourceTree = "<group>"; };
+		7032BD861D416B8E00865A47 /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
+		7032BD871D416B8E00865A47 /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
+		7032BD881D416B8E00865A47 /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
+		7032BD891D416B8E00865A47 /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
+		7032BD8D1D416D3400865A47 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		7032BD8F1D41702200865A47 /* cobbleset-64_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cobbleset-64_0.png"; sourceTree = "<group>"; };
+		7032BD911D41702B00865A47 /* sample.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sample.tmx; sourceTree = "<group>"; };
 		909F406B1D3F00C10009D9E2 /* SgButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SgButton.swift; sourceTree = "<group>"; };
 		909F40831D3F01E00009D9E2 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = Redead/Assets; sourceTree = "<group>"; };
 		90AF8CC91D4065EF0044D8CF /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -66,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,9 +100,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7032BD8C1D416BAF00865A47 /* JSTileMap */ = {
+			isa = PBXGroup;
+			children = (
+				7032BD871D416B8E00865A47 /* JSTileMap.m */,
+				7032BD861D416B8E00865A47 /* JSTileMap.h */,
+			);
+			name = JSTileMap;
+			sourceTree = "<group>";
+		};
+		7032BD931D41703000865A47 /* Map Example */ = {
+			isa = PBXGroup;
+			children = (
+				7032BD8F1D41702200865A47 /* cobbleset-64_0.png */,
+				7032BD911D41702B00865A47 /* sample.tmx */,
+			);
+			name = "Map Example";
+			sourceTree = "<group>";
+		};
 		909F406D1D3F00C70009D9E2 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				7032BD881D416B8E00865A47 /* LFCGzipUtility.h */,
+				7032BD891D416B8E00865A47 /* LFCGzipUtility.m */,
 				909F406B1D3F00C10009D9E2 /* SgButton.swift */,
 			);
 			name = External;
@@ -97,6 +131,7 @@
 		90E413381D3DE250006EC40C = {
 			isa = PBXGroup;
 			children = (
+				7032BD8D1D416D3400865A47 /* libz.tbd */,
 				909F40831D3F01E00009D9E2 /* Assets */,
 				90E413431D3DE250006EC40C /* Redead */,
 				90E4135C1D3DE250006EC40C /* RedeadTests */,
@@ -118,6 +153,7 @@
 		90E413431D3DE250006EC40C /* Redead */ = {
 			isa = PBXGroup;
 			children = (
+				7032BD931D41703000865A47 /* Map Example */,
 				90E413441D3DE250006EC40C /* AppDelegate.swift */,
 				90E413481D3DE250006EC40C /* GameScene.swift */,
 				90AF8CD11D408E650044D8CF /* Helper.swift */,
@@ -128,7 +164,9 @@
 				90E4134F1D3DE250006EC40C /* Assets.xcassets */,
 				90E413511D3DE250006EC40C /* LaunchScreen.storyboard */,
 				90E413541D3DE250006EC40C /* Info.plist */,
+				7032BD8C1D416BAF00865A47 /* JSTileMap */,
 				909F406D1D3F00C70009D9E2 /* External */,
+				7032BD851D416B8E00865A47 /* Redead-Bridging-Header.h */,
 			);
 			path = Redead;
 			sourceTree = "<group>";
@@ -255,6 +293,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7032BD901D41702200865A47 /* cobbleset-64_0.png in Resources */,
+				7032BD921D41702B00865A47 /* sample.tmx in Resources */,
 				909F40841D3F01E00009D9E2 /* Assets in Resources */,
 				90E413531D3DE250006EC40C /* LaunchScreen.storyboard in Resources */,
 				90E413501D3DE250006EC40C /* Assets.xcassets in Resources */,
@@ -290,6 +330,8 @@
 				90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */,
 				90E413451D3DE250006EC40C /* AppDelegate.swift in Sources */,
 				909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */,
+				7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */,
+				7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,10 +473,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Redead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wustl.Redead;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Redead/Redead-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -443,10 +488,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Redead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wustl.Redead;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Redead/Redead-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
