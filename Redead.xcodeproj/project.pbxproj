@@ -16,7 +16,7 @@
 		909F40841D3F01E00009D9E2 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 909F40831D3F01E00009D9E2 /* Assets */; };
 		90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CC91D4065EF0044D8CF /* MenuScene.swift */; };
 		90AF8CCC1D406A080044D8CF /* DirectionalPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */; };
-		90AF8CD21D408E650044D8CF /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CD11D408E650044D8CF /* Helper.swift */; };
+		90AF8CD21D408E650044D8CF /* ScreenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CD11D408E650044D8CF /* ScreenHelper.swift */; };
 		90E413451D3DE250006EC40C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413441D3DE250006EC40C /* AppDelegate.swift */; };
 		90E413491D3DE250006EC40C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413481D3DE250006EC40C /* GameScene.swift */; };
 		90E4134B1D3DE250006EC40C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E4134A1D3DE250006EC40C /* GameViewController.swift */; };
@@ -57,7 +57,7 @@
 		909F40831D3F01E00009D9E2 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = Redead/Assets; sourceTree = "<group>"; };
 		90AF8CC91D4065EF0044D8CF /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPad.swift; sourceTree = "<group>"; };
-		90AF8CD11D408E650044D8CF /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		90AF8CD11D408E650044D8CF /* ScreenHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenHelper.swift; sourceTree = "<group>"; };
 		90E413411D3DE250006EC40C /* Redead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Redead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E413441D3DE250006EC40C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90E413481D3DE250006EC40C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				7032BD931D41703000865A47 /* Map Example */,
 				90E413441D3DE250006EC40C /* AppDelegate.swift */,
 				90E413481D3DE250006EC40C /* GameScene.swift */,
-				90AF8CD11D408E650044D8CF /* Helper.swift */,
+				90AF8CD11D408E650044D8CF /* ScreenHelper.swift */,
 				90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */,
 				90AF8CC91D4065EF0044D8CF /* MenuScene.swift */,
 				90E4134A1D3DE250006EC40C /* GameViewController.swift */,
@@ -257,6 +257,7 @@
 				TargetAttributes = {
 					90E413401D3DE250006EC40C = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = PG59XKN74F;
 					};
 					90E413581D3DE250006EC40C = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -324,7 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90E413491D3DE250006EC40C /* GameScene.swift in Sources */,
-				90AF8CD21D408E650044D8CF /* Helper.swift in Sources */,
+				90AF8CD21D408E650044D8CF /* ScreenHelper.swift in Sources */,
 				90E4134B1D3DE250006EC40C /* GameViewController.swift in Sources */,
 				90AF8CCC1D406A080044D8CF /* DirectionalPad.swift in Sources */,
 				90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */,
@@ -474,10 +475,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Redead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wustl.Redead;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Redead/Redead-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -489,10 +493,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Redead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wustl.Redead;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Redead/Redead-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

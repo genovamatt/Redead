@@ -8,17 +8,24 @@
 
 import SpriteKit
 
-class Helper{
-    static let sceneCoordinatesWidth:CGFloat = 1024.0
-    static let sceneCoordinatesHeight:CGFloat = 768.0
-    static var visibleScreen = CGRect()
+class ScreenHelper{
+    static let instance = ScreenHelper()
+    var sceneCoordinateSize = CGSize()
+    var viewSize = CGSize()
+    var visibleScreen = CGRect()
+    
+    func initialize(coordinateSize: CGSize, viewSize: CGSize){
+        sceneCoordinateSize = coordinateSize
+        self.viewSize = viewSize
+        visibleScreen = getVisibleScreen(Float(viewSize.width), viewHeight: Float(viewSize.height))
+    }
     
     //Returns a CGRect that has the dimensions and position for any device with respect to any specified scene. This will result in a boundary that can be utilised for positioning nodes on a scene so that they are always visible
-    static func getVisibleScreen(viewWidth: Float, viewHeight: Float) -> CGRect {
+    private func getVisibleScreen(viewWidth: Float, viewHeight: Float) -> CGRect {
         var x: Float = 0
         var y: Float = 0
-        var sceneWidth = Float(sceneCoordinatesWidth)
-        var sceneHeight = Float(sceneCoordinatesHeight)
+        var sceneWidth = Float(sceneCoordinateSize.width)
+        var sceneHeight = Float(sceneCoordinateSize.height)
         
         let deviceAspectRatio = viewWidth/viewHeight
         let sceneAspectRatio = sceneWidth/sceneHeight
@@ -48,7 +55,6 @@ class Helper{
         }
         
         let visibleScreenOffset = CGRect(x: CGFloat(x), y: CGFloat(y), width: CGFloat(sceneWidth), height: CGFloat(sceneHeight))
-        visibleScreen = visibleScreenOffset
         return visibleScreenOffset
     }
 

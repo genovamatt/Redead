@@ -14,36 +14,24 @@ class GameScene: SKScene {
     
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-//        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-//        myLabel.text = "Hello, World!"
-//        myLabel.fontSize = 45
-//        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-//        
-//        
-//        self.addChild(myLabel)
-       
         addMapToScene()
         addButtonsToScene()
-        
-        
-        
     }
     
     func addButtonsToScene(){
-        let screenWidth = Helper.visibleScreen.width
-        let screenHeight = Helper.visibleScreen.height
-        let x = Helper.visibleScreen.origin.x
-        let y = Helper.visibleScreen.origin.y
+        let screenWidth = ScreenHelper.instance.visibleScreen.width
+        let screenHeight = ScreenHelper.instance.visibleScreen.height
+        let x = ScreenHelper.instance.visibleScreen.origin.x
+        let y = ScreenHelper.instance.visibleScreen.origin.y
         
-        let buttonSize = CGSize(width: screenWidth/20, height: screenWidth/20)
+        let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(x + screenWidth * 13/16.0, y + screenHeight * 3/16.0)
+        zButton.position = CGPointMake(x + screenWidth * 16/20.0, y + screenHeight * 4/16.0)
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: tappedButton)
         xButton.size = buttonSize
-        xButton.position = CGPointMake(x + screenWidth * 14/16.0, y + screenHeight * 2/16.0)
+        xButton.position = CGPointMake(x + screenWidth * 18/20.0, y + screenHeight * 2/16.0)
         
         self.addChild(zButton)
         self.addChild(xButton)
