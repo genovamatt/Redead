@@ -418,8 +418,24 @@ class SgButton: SKSpriteNode {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if !isDisabled {
             buttonState = .Highlighted
+            
+            // mgg - moved this to touchesBegan to be more like a video game
+            buttonFunc!(button: self)
+
         }
         
+    }
+    
+    // mgg - added this so that the button is unpressed if you slide your finger off of it
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if !isDisabled{
+            if let touch = touches.first {
+                let location = touch.locationInNode(parent!)
+                if !self.containsPoint(location) {
+                    buttonState = .Normal
+                }
+            }
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -430,7 +446,7 @@ class SgButton: SKSpriteNode {
                 if let touch = touches.first {
                     let location = touch.locationInNode(parent!)
                     if self.containsPoint(location) {
-                        buttonFunc!(button: self)
+                        //buttonFunc!(button: self)
                     }
                 }
             }

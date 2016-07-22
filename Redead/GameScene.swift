@@ -10,7 +10,7 @@ import SpriteKit
 
 
 class GameScene: SKScene {
-    
+    var directionalPad:DirectionalPad? = nil
     
     
     override func didMoveToView(view: SKView) {
@@ -25,23 +25,23 @@ class GameScene: SKScene {
         let y = ScreenHelper.instance.visibleScreen.origin.y
         
         let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
-        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedButton)
+        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: pushedZButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(x + screenWidth * 16/20.0, y + screenHeight * 4/16.0)
         
-        let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: tappedButton)
+        let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: pushedXButton)
         xButton.size = buttonSize
         xButton.position = CGPointMake(x + screenWidth * 18/20.0, y + screenHeight * 2/16.0)
         
         self.addChild(zButton)
         self.addChild(xButton)
         
-        let dPadSize = CGSize(width: screenWidth/8, height: screenWidth/8)
+        let dPadSize = CGSize(width: screenWidth/5, height: screenWidth/5)
 
-        let dPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
+        directionalPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
         
-        dPad.position = CGPointMake( x + screenWidth * 1/8.0, y + screenHeight * 3/16.0)
-        self.addChild(dPad)
+        directionalPad!.position = CGPointMake( x + screenWidth * 1/8.0, y + screenHeight * 5/22.0)
+        self.addChild(directionalPad!)
     }
     
     func addMapToScene() {
@@ -50,12 +50,20 @@ class GameScene: SKScene {
         self.addChild(tileMap)
     }
     
-    func tappedButton(button: SgButton){
-        print("button")
+    func pushedXButton(button: SgButton){
+        print("x button")
+    }
+    
+    func pushedZButton(button: SgButton){
+        print("z button")
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        if directionalPad!.direction != .None{
+            print(directionalPad!.direction)
+        }
     }
     
     
