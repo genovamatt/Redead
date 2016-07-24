@@ -11,11 +11,13 @@ import SpriteKit
 
 class GameScene: SKScene {
     var directionalPad:DirectionalPad? = nil
-    
+    var player:Player? = nil
     
     override func didMoveToView(view: SKView) {
-        addMapToScene()
+        
         addButtonsToScene()
+        addPlayerToScene()
+        addMapToScene()
     }
     
     func addButtonsToScene(){
@@ -45,9 +47,28 @@ class GameScene: SKScene {
     }
     
     func addMapToScene() {
-        let tileMap = JSTileMap(named: "sample.tmx")
+        let screenWidth = ScreenHelper.instance.visibleScreen.width
+        let screenHeight = ScreenHelper.instance.visibleScreen.height
+        let x = ScreenHelper.instance.visibleScreen.origin.x
+        let y = ScreenHelper.instance.visibleScreen.origin.y
+        
+        let tileMap = JSTileMap(named: "iso-test-1.tmx")
+        tileMap.position = CGPoint(x: x + screenWidth/5, y: y + screenHeight/5)
+        print(tileMap.layers![0].description)
+        tileMap.addChild(player!)
         
         self.addChild(tileMap)
+    }
+    
+    func addPlayerToScene() {
+        let screenWidth = ScreenHelper.instance.visibleScreen.width
+        let screenHeight = ScreenHelper.instance.visibleScreen.height
+        let x = ScreenHelper.instance.visibleScreen.origin.x
+        let y = ScreenHelper.instance.visibleScreen.origin.y
+        
+        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(x + screenHeight/20, x + screenHeight/20))
+        player!.position = CGPointMake(x + screenWidth * 1/2.0, y + screenHeight * 1/2.0)
+        //self.addChild(player!)
     }
     
     func pushedXButton(button: SgButton){
@@ -61,8 +82,44 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
+        //Controls the players movement
         if directionalPad!.direction != .None{
-            print(directionalPad!.direction)
+            var x: CGFloat = 0.0
+            var y: CGFloat = 0.0
+            let moveUpOrRight: CGFloat = 1.0
+            let moveDownOrLeft: CGFloat = -1.0
+            let moveDiagnolLeftOrDown: CGFloat = -0.75
+            let moveDiagnolRightOrUp: CGFloat = 0.75
+            
+            if directionalPad!.direction == .Up {
+                y = moveUpOrRight
+            }
+            else if directionalPad!.direction == .UpLeft  {
+                x = moveDiagnolLeftOrDown
+                y = moveDiagnolRightOrUp
+            }
+            else if directionalPad!.direction == .UpRight  {
+                x = moveDiagnolRightOrUp
+                y = moveDiagnolRightOrUp
+            }
+            else if directionalPad!.direction == .Left  {
+                x = moveDownOrLeft
+            }
+            else if directionalPad!.direction == .Right {
+                x = moveUpOrRight
+            }
+            else if directionalPad!.direction == .DownRight  {
+                x = moveDiagnolRightOrUp
+                y = moveDiagnolLeftOrDown
+            }
+            else if directionalPad!.direction == .DownLeft  {
+                x = moveDiagnolLeftOrDown
+                y = moveDiagnolLeftOrDown
+            }
+            else if directionalPad!.direction == .Down  {
+                y = moveDownOrLeft
+            }
+            player!.move(x, yMove: y)
         }
     }
     
