@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
+    var lastInterval: CFTimeInterval?
     private let screenWidth = ScreenHelper.instance.visibleScreen.width
     private let screenHeight = ScreenHelper.instance.visibleScreen.height
     private let originX = ScreenHelper.instance.visibleScreen.origin.x
@@ -39,7 +40,7 @@ class GameScene: SKScene {
         
         let dPadSize = CGSize(width: screenWidth/5, height: screenWidth/5)
 
-        directionalPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
+        directionalPad = DirectionalPad(imageName: "Assets/flatDark00.png", size: dPadSize)
         
         directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0, originY + screenHeight * 5/22.0)
         self.addChild(directionalPad!)
@@ -72,12 +73,25 @@ class GameScene: SKScene {
         /* Called before each frame is rendered */
         
         //Controls the players movement
+        
+        if lastInterval == nil {
+            lastInterval = currentTime
+        }
+        
+        var delta: CFTimeInterval = currentTime - lastInterval!
+        
+        if (delta > 0.02) {
+            delta = 0.02;
+        }
+        
+        lastInterval = currentTime
+        
         if directionalPad!.direction != .None{
             var x: CGFloat = 0.0
             var y: CGFloat = 0.0
-            let moveUpOrRight: CGFloat = 1.0
+            let moveUpOrRight: CGFloat = 50
             let moveDownOrLeft: CGFloat = -moveUpOrRight
-            let moveDiagnolRightOrUp: CGFloat = 0.75
+            let moveDiagnolRightOrUp: CGFloat = 33.3
             let moveDiagnolLeftOrDown: CGFloat = -moveDiagnolRightOrUp
             
             if directionalPad!.direction == .Up {
@@ -115,7 +129,8 @@ class GameScene: SKScene {
             if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x, player!.position.y + y)) {
                 y = 0.0
             }
-            player!.move(x, yMove: y)
+
+            player!.move(x * CGFloat(delta), yMove: y * CGFloat(delta))
         }
         
         

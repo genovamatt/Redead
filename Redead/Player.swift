@@ -9,6 +9,7 @@ import SpriteKit
 
 class Player: SKSpriteNode{
     var health = 100
+    var moveSpeed = 10
     
     init(imageName: String, size: CGSize) {
         let texture = SKTexture(imageNamed: imageName)
@@ -25,6 +26,7 @@ class Player: SKSpriteNode{
         self.position.x += xMove
         self.position.y += yMove
     }
+    
     
     
     
