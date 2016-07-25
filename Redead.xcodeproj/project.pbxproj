@@ -11,10 +11,8 @@
 		7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD891D416B8E00865A47 /* LFCGzipUtility.m */; };
 		7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7032BD8D1D416D3400865A47 /* libz.tbd */; };
 		70AF588B1D440BC500BB3B37 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AF588A1D440BC500BB3B37 /* Player.swift */; };
-		70AF588D1D445FC000BB3B37 /* iso-test-1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 70AF588C1D445FC000BB3B37 /* iso-test-1.tmx */; };
-		70AF58911D44600800BB3B37 /* iso-64x64-outside.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AF588E1D44600800BB3B37 /* iso-64x64-outside.png */; };
-		70AF58921D44600800BB3B37 /* iso-tileset-64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AF588F1D44600800BB3B37 /* iso-tileset-64x64.png */; };
-		70AF58931D44600800BB3B37 /* tileSet64x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AF58901D44600800BB3B37 /* tileSet64x128.png */; };
+		70D19F761D457E79007ECBE0 /* caveAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 70D19F751D457E79007ECBE0 /* caveAtlas.png */; };
+		70D19F781D457E80007ECBE0 /* XMLSampleLayers.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */; };
 		909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909F406B1D3F00C10009D9E2 /* SgButton.swift */; };
 		909F40841D3F01E00009D9E2 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 909F40831D3F01E00009D9E2 /* Assets */; };
 		90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CC91D4065EF0044D8CF /* MenuScene.swift */; };
@@ -55,10 +53,8 @@
 		7032BD891D416B8E00865A47 /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
 		7032BD8D1D416D3400865A47 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		70AF588A1D440BC500BB3B37 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		70AF588C1D445FC000BB3B37 /* iso-test-1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "iso-test-1.tmx"; sourceTree = "<group>"; };
-		70AF588E1D44600800BB3B37 /* iso-64x64-outside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-64x64-outside.png"; sourceTree = "<group>"; };
-		70AF588F1D44600800BB3B37 /* iso-tileset-64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-tileset-64x64.png"; sourceTree = "<group>"; };
-		70AF58901D44600800BB3B37 /* tileSet64x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tileSet64x128.png; sourceTree = "<group>"; };
+		70D19F751D457E79007ECBE0 /* caveAtlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caveAtlas.png; sourceTree = "<group>"; };
+		70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = XMLSampleLayers.tmx; sourceTree = "<group>"; };
 		909F406B1D3F00C10009D9E2 /* SgButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SgButton.swift; sourceTree = "<group>"; };
 		909F40831D3F01E00009D9E2 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = Redead/Assets; sourceTree = "<group>"; };
 		90AF8CC91D4065EF0044D8CF /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -118,10 +114,8 @@
 		7032BD931D41703000865A47 /* Map Example */ = {
 			isa = PBXGroup;
 			children = (
-				70AF588E1D44600800BB3B37 /* iso-64x64-outside.png */,
-				70AF588F1D44600800BB3B37 /* iso-tileset-64x64.png */,
-				70AF58901D44600800BB3B37 /* tileSet64x128.png */,
-				70AF588C1D445FC000BB3B37 /* iso-test-1.tmx */,
+				70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */,
+				70D19F751D457E79007ECBE0 /* caveAtlas.png */,
 			);
 			name = "Map Example";
 			sourceTree = "<group>";
@@ -303,14 +297,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70AF58921D44600800BB3B37 /* iso-tileset-64x64.png in Resources */,
-				70AF58911D44600800BB3B37 /* iso-64x64-outside.png in Resources */,
 				909F40841D3F01E00009D9E2 /* Assets in Resources */,
-				70AF58931D44600800BB3B37 /* tileSet64x128.png in Resources */,
 				90E413531D3DE250006EC40C /* LaunchScreen.storyboard in Resources */,
+				70D19F761D457E79007ECBE0 /* caveAtlas.png in Resources */,
 				90E413501D3DE250006EC40C /* Assets.xcassets in Resources */,
 				90E4134E1D3DE250006EC40C /* Main.storyboard in Resources */,
-				70AF588D1D445FC000BB3B37 /* iso-test-1.tmx in Resources */,
+				70D19F781D457E80007ECBE0 /* XMLSampleLayers.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

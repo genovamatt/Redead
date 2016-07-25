@@ -12,28 +12,27 @@ import SpriteKit
 class GameScene: SKScene {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
+    var tileMap:JSTileMap? = nil
+    private let screenWidth = ScreenHelper.instance.visibleScreen.width
+    private let screenHeight = ScreenHelper.instance.visibleScreen.height
+    private let originX = ScreenHelper.instance.visibleScreen.origin.x
+    private let originY = ScreenHelper.instance.visibleScreen.origin.y
     
     override func didMoveToView(view: SKView) {
-        
         addButtonsToScene()
         addPlayerToScene()
         addMapToScene()
     }
     
     func addButtonsToScene(){
-        let screenWidth = ScreenHelper.instance.visibleScreen.width
-        let screenHeight = ScreenHelper.instance.visibleScreen.height
-        let x = ScreenHelper.instance.visibleScreen.origin.x
-        let y = ScreenHelper.instance.visibleScreen.origin.y
-        
         let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: pushedZButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(x + screenWidth * 16/20.0, y + screenHeight * 4/16.0)
+        zButton.position = CGPointMake(originX + screenWidth * 16/20.0, originY + screenHeight * 4/16.0)
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: pushedXButton)
         xButton.size = buttonSize
-        xButton.position = CGPointMake(x + screenWidth * 18/20.0, y + screenHeight * 2/16.0)
+        xButton.position = CGPointMake(originX + screenWidth * 18/20.0, originY + screenHeight * 2/16.0)
         
         self.addChild(zButton)
         self.addChild(xButton)
@@ -42,33 +41,23 @@ class GameScene: SKScene {
 
         directionalPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
         
-        directionalPad!.position = CGPointMake( x + screenWidth * 1/8.0, y + screenHeight * 5/22.0)
+        directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0, originY + screenHeight * 5/22.0)
         self.addChild(directionalPad!)
     }
     
     func addMapToScene() {
-        let screenWidth = ScreenHelper.instance.visibleScreen.width
-        let screenHeight = ScreenHelper.instance.visibleScreen.height
-        let x = ScreenHelper.instance.visibleScreen.origin.x
-        let y = ScreenHelper.instance.visibleScreen.origin.y
+        tileMap = JSTileMap(named: "XMLSampleLayers.tmx")
+        tileMap!.position = CGPoint(x: originX + screenWidth/4, y: originY + screenHeight/12)
         
-        let tileMap = JSTileMap(named: "iso-test-1.tmx")
-        tileMap.position = CGPoint(x: x + screenWidth/5, y: y + screenHeight/5)
-        print(tileMap.layers![0].description)
-        tileMap.addChild(player!)
+        //Made it so the player is a child of the map, not the scene
+        tileMap!.addChild(player!)
         
-        self.addChild(tileMap)
+        self.addChild(tileMap!)
     }
     
     func addPlayerToScene() {
-        let screenWidth = ScreenHelper.instance.visibleScreen.width
-        let screenHeight = ScreenHelper.instance.visibleScreen.height
-        let x = ScreenHelper.instance.visibleScreen.origin.x
-        let y = ScreenHelper.instance.visibleScreen.origin.y
-        
-        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(x + screenHeight/20, x + screenHeight/20))
-        player!.position = CGPointMake(x + screenWidth * 1/2.0, y + screenHeight * 1/2.0)
-        //self.addChild(player!)
+        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
+        player!.position = CGPointMake(10.0, 10.0)
     }
     
     func pushedXButton(button: SgButton){
@@ -87,9 +76,9 @@ class GameScene: SKScene {
             var x: CGFloat = 0.0
             var y: CGFloat = 0.0
             let moveUpOrRight: CGFloat = 1.0
-            let moveDownOrLeft: CGFloat = -1.0
-            let moveDiagnolLeftOrDown: CGFloat = -0.75
+            let moveDownOrLeft: CGFloat = -moveUpOrRight
             let moveDiagnolRightOrUp: CGFloat = 0.75
+            let moveDiagnolLeftOrDown: CGFloat = -moveDiagnolRightOrUp
             
             if directionalPad!.direction == .Up {
                 y = moveUpOrRight
@@ -119,8 +108,24 @@ class GameScene: SKScene {
             else if directionalPad!.direction == .Down  {
                 y = moveDownOrLeft
             }
+            
+            //Checks the map bounds
+            if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
+                x = 0.0            }
+            if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x, player!.position.y + y)) {
+                y = 0.0
+            }
             player!.move(x, yMove: y)
         }
+        
+        
+        /* Can use this sort of setup to determine what layer the player is currently a part of
+        if (tileMap!.layerNamed("Tile Layer 4").containsPoint(player!.position)) {
+            print("Death")
+        }
+        else {
+            print("Life")
+        }*/
     }
     
     
