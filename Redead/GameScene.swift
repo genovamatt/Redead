@@ -15,6 +15,9 @@ class GameScene: SKScene {
     var tileMap:JSTileMap? = nil
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var lastInterval: CFTimeInterval?
+    var elapsedTime: Float = 0.0
+    var timerLabel: SKLabelNode? = nil
+    
     private let screenWidth = ScreenHelper.instance.visibleScreen.width
     private let screenHeight = ScreenHelper.instance.visibleScreen.height
     private let originX = ScreenHelper.instance.visibleScreen.origin.x
@@ -25,7 +28,13 @@ class GameScene: SKScene {
         addPlayerToScene()
         addMapToScene()
         addHeartsToScene()
-        
+        addTimerToScene()
+    }
+    
+    func addTimerToScene(){
+        timerLabel = SKLabelNode(text: "00:00")
+        timerLabel!.position = CGPointMake(originX + screenWidth * 18/20.0, originY + screenHeight * 18/20.0)
+        self.addChild(timerLabel!)
     }
     
     func addButtonsToScene(){
@@ -101,6 +110,11 @@ class GameScene: SKScene {
         if (delta > 0.02) {
             delta = 0.02;
         }
+        
+        elapsedTime += Float(delta)
+        let seconds = Int(elapsedTime % 60)
+        let minutes = Int((elapsedTime / 60) % 60)
+        timerLabel!.text = NSString(format: "%0.2d:%0.2d", minutes, seconds) as String
         
         lastInterval = currentTime
         
