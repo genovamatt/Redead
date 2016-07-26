@@ -26,7 +26,7 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         addButtonsToScene()
         addPlayerToScene()
-        addMapToScene()
+        addMapToScene("XMLSampleLayers.tmx")
         addHeartsToScene()
         addTimerToScene()
     }
@@ -58,12 +58,18 @@ class GameScene: SKScene {
         self.addChild(directionalPad!)
     }
     
-    func addMapToScene() {
-        tileMap = JSTileMap(named: "XMLSampleLayers.tmx")
+    func addMapToScene(mapName: String) {
+        if (tileMap != nil) {
+            player!.removeFromParent()
+            tileMap!.removeFromParent()
+        }
+        tileMap = JSTileMap(named: mapName)
         tileMap!.position = CGPoint(x: originX + screenWidth/4, y: originY + screenHeight/12)
+        tileMap!.name = mapName
         
         //Made it so the player is a child of the map, not the scene
         tileMap!.addChild(player!)
+        player!.position = CGPoint(x: screenWidth/4, y: screenHeight/2)
         
         self.addChild(tileMap!)
     }
@@ -85,7 +91,6 @@ class GameScene: SKScene {
     
     func addPlayerToScene() {
         player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
-        player!.position = CGPointMake(10.0, 10.0)
     }
     
     func pushedXButton(button: SgButton){
@@ -123,13 +128,23 @@ class GameScene: SKScene {
             var y: CGFloat = directionalPad!.getDirectionVector().dy * player!.moveSpeed * CGFloat(delta)
                         
             //Checks the map bounds
-            if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
+            if !tileMap!.layerNamed("MapArea").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
                 x = 0.0            }
-            if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x, player!.position.y + y)) {
+            if !tileMap!.layerNamed("MapArea").containsPoint(CGPointMake(player!.position.x, player!.position.y + y)) {
                 y = 0.0
             }
-
+            
             player!.move(x , yMove: y)
+            if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
+                print(tileMap!.filename)
+                print(tileMap!.name!)
+                if (tileMap!.name == "XMLSampleLayers.tmx") {
+                    addMapToScene("secondMap.tmx")
+                }
+                else {
+                    addMapToScene("XMLSampleLayers.tmx")
+                }
+            }
         }
         
         
