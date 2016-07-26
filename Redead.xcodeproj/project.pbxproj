@@ -16,6 +16,8 @@
 		70D19F781D457E80007ECBE0 /* XMLSampleLayers.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */; };
 		908691381D46D972000C92E8 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908691371D46D972000C92E8 /* Enemy.swift */; };
 		9086913C1D46E28A000C92E8 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086913B1D46E28A000C92E8 /* Weapon.swift */; };
+		9086913E1D482406000C92E8 /* TileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086913D1D482406000C92E8 /* TileManager.swift */; };
+		908691401D482444000C92E8 /* InputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086913F1D482444000C92E8 /* InputManager.swift */; };
 		909F406C1D3F00C10009D9E2 /* SgButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909F406B1D3F00C10009D9E2 /* SgButton.swift */; };
 		909F40841D3F01E00009D9E2 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 909F40831D3F01E00009D9E2 /* Assets */; };
 		90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CC91D4065EF0044D8CF /* MenuScene.swift */; };
@@ -61,6 +63,8 @@
 		70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = XMLSampleLayers.tmx; sourceTree = "<group>"; };
 		908691371D46D972000C92E8 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		9086913B1D46E28A000C92E8 /* Weapon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		9086913D1D482406000C92E8 /* TileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileManager.swift; sourceTree = "<group>"; };
+		9086913F1D482444000C92E8 /* InputManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputManager.swift; sourceTree = "<group>"; };
 		909F406B1D3F00C10009D9E2 /* SgButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SgButton.swift; sourceTree = "<group>"; };
 		909F40831D3F01E00009D9E2 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Assets; path = Redead/Assets; sourceTree = "<group>"; };
 		90AF8CC91D4065EF0044D8CF /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 				90E413481D3DE250006EC40C /* GameScene.swift */,
 				90AF8CD11D408E650044D8CF /* ScreenHelper.swift */,
 				70AF588A1D440BC500BB3B37 /* Player.swift */,
+				9086913F1D482444000C92E8 /* InputManager.swift */,
+				9086913D1D482406000C92E8 /* TileManager.swift */,
 				908691371D46D972000C92E8 /* Enemy.swift */,
 				9086913B1D46E28A000C92E8 /* Weapon.swift */,
 				90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */,
@@ -340,6 +346,7 @@
 				90E413491D3DE250006EC40C /* GameScene.swift in Sources */,
 				90AF8CD21D408E650044D8CF /* ScreenHelper.swift in Sources */,
 				90E4134B1D3DE250006EC40C /* GameViewController.swift in Sources */,
+				9086913E1D482406000C92E8 /* TileManager.swift in Sources */,
 				90AF8CCC1D406A080044D8CF /* DirectionalPad.swift in Sources */,
 				90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */,
 				9086913C1D46E28A000C92E8 /* Weapon.swift in Sources */,
@@ -348,6 +355,7 @@
 				908691381D46D972000C92E8 /* Enemy.swift in Sources */,
 				7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */,
 				70AF588B1D440BC500BB3B37 /* Player.swift in Sources */,
+				908691401D482444000C92E8 /* InputManager.swift in Sources */,
 				7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -39,11 +39,11 @@ class GameScene: SKScene {
     
     func addButtonsToScene(){
         let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
-        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: pushedZButton)
+        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: InputManager.instance.pushedZButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(originX + screenWidth * 16/20.0, originY + screenHeight * 4/16.0)
         
-        let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: pushedXButton)
+        let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: InputManager.instance.pushedXButton)
         xButton.size = buttonSize
         xButton.position = CGPointMake(originX + screenWidth * 18/20.0, originY + screenHeight * 2/16.0)
         
@@ -56,14 +56,17 @@ class GameScene: SKScene {
         
         directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0, originY + screenHeight * 5/22.0)
         self.addChild(directionalPad!)
+        InputManager.instance.setDirectionalPad(directionalPad!)
     }
     
     func addMapToScene(mapName: String) {
+        
         if (tileMap != nil) {
             player!.removeFromParent()
             tileMap!.removeFromParent()
         }
         tileMap = JSTileMap(named: mapName)
+        TileManager.instance.setTileMap(tileMap!)
         tileMap!.position = CGPoint(x: originX + screenWidth/4, y: originY + screenHeight/12)
         tileMap!.name = mapName
         
@@ -90,15 +93,7 @@ class GameScene: SKScene {
     }
     
     func addPlayerToScene() {
-        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
-    }
-    
-    func pushedXButton(button: SgButton){
-        print("x button")
-    }
-    
-    func pushedZButton(button: SgButton){
-        print("z button")
+        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20), directionalPad: self.directionalPad!)
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -123,27 +118,16 @@ class GameScene: SKScene {
         
         lastInterval = currentTime
         
-        if directionalPad!.direction != .None{
-            var x: CGFloat = directionalPad!.getDirectionVector().dx * player!.moveSpeed * CGFloat(delta)
-            var y: CGFloat = directionalPad!.getDirectionVector().dy * player!.moveSpeed * CGFloat(delta)
-                        
-            //Checks the map bounds
-            if !tileMap!.layerNamed("MapArea").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
-                x = 0.0            }
-            if !tileMap!.layerNamed("MapArea").containsPoint(CGPointMake(player!.position.x, player!.position.y + y)) {
-                y = 0.0
+        player!.update(delta)
+        
+        if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
+            print(tileMap!.filename)
+            print(tileMap!.name!)
+            if (tileMap!.name == "XMLSampleLayers.tmx") {
+                addMapToScene("secondMap.tmx")
             }
-            
-            player!.move(x , yMove: y)
-            if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
-                print(tileMap!.filename)
-                print(tileMap!.name!)
-                if (tileMap!.name == "XMLSampleLayers.tmx") {
-                    addMapToScene("secondMap.tmx")
-                }
-                else {
-                    addMapToScene("XMLSampleLayers.tmx")
-                }
+            else {
+                addMapToScene("XMLSampleLayers.tmx")
             }
         }
         
@@ -158,4 +142,4 @@ class GameScene: SKScene {
     }
     
     
-    }
+}
