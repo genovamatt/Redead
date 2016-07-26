@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
+    var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var lastInterval: CFTimeInterval?
     private let screenWidth = ScreenHelper.instance.visibleScreen.width
     private let screenHeight = ScreenHelper.instance.visibleScreen.height
@@ -23,6 +24,8 @@ class GameScene: SKScene {
         addButtonsToScene()
         addPlayerToScene()
         addMapToScene()
+        addHeartsToScene()
+        
     }
     
     func addButtonsToScene(){
@@ -54,6 +57,21 @@ class GameScene: SKScene {
         tileMap!.addChild(player!)
         
         self.addChild(tileMap!)
+    }
+    
+    func addHeartsToScene() {
+        let heartSize = CGSize(width: screenWidth/9, height: screenWidth/9)
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
+        
+        var counter : CGFloat = 0.0
+        for heart in heartsArray {
+            heart.size = heartSize
+            heart.position = CGPoint(x: screenWidth/20 + (screenWidth/12) * counter, y: screenHeight + screenHeight/10)
+            self.addChild(heart)
+            counter+=1.0
+        }
     }
     
     func addPlayerToScene() {
