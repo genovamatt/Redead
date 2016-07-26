@@ -25,6 +25,8 @@ class Player: SKSpriteNode{
         self.position.y += yMove
     }
     
+    
+    
     func update(delta: CFTimeInterval){
         
     }

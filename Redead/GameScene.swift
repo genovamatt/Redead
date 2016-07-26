@@ -68,7 +68,7 @@ class GameScene: SKScene {
         var counter : CGFloat = 0.0
         for heart in heartsArray {
             heart.size = heartSize
-            heart.position = CGPoint(x: screenWidth/20 + (screenWidth/12) * counter, y: screenHeight + screenHeight/10)
+            heart.position = CGPoint(x: originX + screenWidth/20 + (screenWidth/12) * counter, y: originY + screenHeight * 12/13.0)
             self.addChild(heart)
             counter+=1.0
         }
