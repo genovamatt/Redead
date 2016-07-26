@@ -87,8 +87,8 @@ class GameScene: SKScene {
         lastInterval = currentTime
         
         if directionalPad!.direction != .None{
-            var x: CGFloat = directionalPad!.getDirectionVector().dx * player!.moveSpeed
-            var y: CGFloat = directionalPad!.getDirectionVector().dy * player!.moveSpeed
+            var x: CGFloat = directionalPad!.getDirectionVector().dx * player!.moveSpeed * CGFloat(delta)
+            var y: CGFloat = directionalPad!.getDirectionVector().dy * player!.moveSpeed * CGFloat(delta)
                         
             //Checks the map bounds
             if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
@@ -97,7 +97,7 @@ class GameScene: SKScene {
                 y = 0.0
             }
 
-            player!.move(x * CGFloat(delta), yMove: y * CGFloat(delta))
+            player!.move(x , yMove: y)
         }
         
         
