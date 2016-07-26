@@ -10,13 +10,11 @@ import SpriteKit
 class Player: SKSpriteNode{
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
-    var directionalPad: DirectionalPad? = nil
     var moveSpeed: CGFloat = 100.0
     
-    init(imageName: String, size: CGSize, directionalPad: DirectionalPad) {
+    init(imageName: String, size: CGSize) {
         let texture = SKTexture(imageNamed: imageName)
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
-        self.directionalPad = directionalPad
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,9 +30,13 @@ class Player: SKSpriteNode{
     
     
     func update(delta: CFTimeInterval){
-        if directionalPad!.direction != .None{
-            var x: CGFloat = directionalPad!.getDirectionVector().dx * moveSpeed * CGFloat(delta)
-            var y: CGFloat = directionalPad!.getDirectionVector().dy * moveSpeed * CGFloat(delta)
+        
+        let direction = InputManager.instance.getDpadDirection()
+        let directionVector = InputManager.instance.getDpadDirectionVector()
+        
+        if direction != .None{
+            var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
+            var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
             
             //Checks the map bounds
             if let tileMap = TileManager.instance.tileMap{
@@ -49,6 +51,7 @@ class Player: SKSpriteNode{
             
             move(x , yMove: y)
             
+            directionFacing = direction
             
         }
     }

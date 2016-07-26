@@ -93,7 +93,7 @@ class GameScene: SKScene {
     }
     
     func addPlayerToScene() {
-        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20), directionalPad: self.directionalPad!)
+        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
     }
     
     override func update(currentTime: CFTimeInterval) {
