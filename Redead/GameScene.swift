@@ -131,6 +131,9 @@ class GameScene: SKScene {
             }
         }
         
+        //last thing in update
+        InputManager.instance.update()
+        
         
         /* Can use this sort of setup to determine what layer the player is currently a part of
         if (tileMap!.layerNamed("Tile Layer 4").containsPoint(player!.position)) {

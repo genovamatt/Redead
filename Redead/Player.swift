@@ -26,9 +26,6 @@ class Player: SKSpriteNode{
         self.position.y += yMove
     }
     
-    
-    
-    
     func update(delta: CFTimeInterval){
         
         let direction = InputManager.instance.getDpadDirection()
@@ -41,18 +38,21 @@ class Player: SKSpriteNode{
             //Checks the map bounds
             if let tileMap = TileManager.instance.tileMap{
                 if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x + x, position.y)) {
-                    x = 0.0            }
+                    x = 0.0
+                }
                 if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x, position.y + y)) {
                     y = 0.0
                 }
-                
-                
             }
             
             move(x , yMove: y)
             
             directionFacing = direction
             
+        }
+        
+        if (InputManager.instance.xButtonPressedInFrame){
+            print("x")
         }
     }
     
