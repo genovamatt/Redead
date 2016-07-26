@@ -87,42 +87,9 @@ class GameScene: SKScene {
         lastInterval = currentTime
         
         if directionalPad!.direction != .None{
-            var x: CGFloat = 0.0
-            var y: CGFloat = 0.0
-            let moveUpOrRight: CGFloat = 50
-            let moveDownOrLeft: CGFloat = -moveUpOrRight
-            let moveDiagnolRightOrUp: CGFloat = 33.3
-            let moveDiagnolLeftOrDown: CGFloat = -moveDiagnolRightOrUp
-            
-            if directionalPad!.direction == .Up {
-                y = moveUpOrRight
-            }
-            else if directionalPad!.direction == .UpLeft  {
-                x = moveDiagnolLeftOrDown
-                y = moveDiagnolRightOrUp
-            }
-            else if directionalPad!.direction == .UpRight  {
-                x = moveDiagnolRightOrUp
-                y = moveDiagnolRightOrUp
-            }
-            else if directionalPad!.direction == .Left  {
-                x = moveDownOrLeft
-            }
-            else if directionalPad!.direction == .Right {
-                x = moveUpOrRight
-            }
-            else if directionalPad!.direction == .DownRight  {
-                x = moveDiagnolRightOrUp
-                y = moveDiagnolLeftOrDown
-            }
-            else if directionalPad!.direction == .DownLeft  {
-                x = moveDiagnolLeftOrDown
-                y = moveDiagnolLeftOrDown
-            }
-            else if directionalPad!.direction == .Down  {
-                y = moveDownOrLeft
-            }
-            
+            var x: CGFloat = directionalPad!.getDirectionVector().dx * player!.moveSpeed
+            var y: CGFloat = directionalPad!.getDirectionVector().dy * player!.moveSpeed
+                        
             //Checks the map bounds
             if !tileMap!.layerNamed("Tile Layer 1").containsPoint(CGPointMake(player!.position.x + x, player!.position.y)) {
                 x = 0.0            }

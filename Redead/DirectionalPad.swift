@@ -9,6 +9,8 @@
 import SpriteKit
 
 class DirectionalPad: SKSpriteNode{
+    let diagonal = 0.71
+    
     enum Direction {
         case None, Up, Down, Left, Right, UpLeft, UpRight, DownLeft, DownRight
     }
@@ -28,6 +30,20 @@ class DirectionalPad: SKSpriteNode{
         
         setUpZones()
         userInteractionEnabled = true
+    }
+    
+    func getDirectionVector() -> (CGVector){
+        switch direction{
+        case .None: return CGVector(dx: 0,dy: 0)
+        case .Up: return CGVector(dx: 0,dy: 1)
+        case .Down: return CGVector(dx: 0, dy: -1)
+        case .Left: return CGVector(dx: -1, dy: 0)
+        case .Right: return CGVector(dx: 1, dy: 0)
+        case .UpLeft: return CGVector(dx: -diagonal, dy: diagonal)
+        case .UpRight: return CGVector(dx: diagonal, dy: diagonal)
+        case .DownLeft: return CGVector(dx: -diagonal, dy: -diagonal)
+        case .DownRight: return CGVector(dx: diagonal, dy: -diagonal)
+        }
     }
     
     private func setUpZones(){
