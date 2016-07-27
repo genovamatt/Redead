@@ -11,6 +11,7 @@ class Player: SKSpriteNode{
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
     var moveSpeed: CGFloat = 100.0
+    var sword = Weapon()
     
     init(imageName: String, size: CGSize) {
         let texture = SKTexture(imageNamed: imageName)
@@ -30,6 +31,7 @@ class Player: SKSpriteNode{
         
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
+        
         
         if direction != .None{
             var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
@@ -51,8 +53,15 @@ class Player: SKSpriteNode{
             
         }
         
-        if (InputManager.instance.xButtonPressedInFrame){
+        if InputManager.instance.xButtonPressedInFrame{
             print("x")
+        }
+    }
+    
+    func attack(){
+        if !sword.attacking{
+            
+            sword.attack(directionFacing)
         }
     }
     

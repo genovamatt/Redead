@@ -9,11 +9,14 @@
 import SpriteKit
 
 class Weapon: SKSpriteNode{
+    let swingTime = 1.0
+    var attacking = false
     
-    init(imageName: String, size: CGSize) {
-        let texture = SKTexture(imageNamed: imageName)
+    init() {
+        let texture = SKTexture(imageNamed: "Assets/sword.png")
+        let size = CGSize(width: 50, height: 10)
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
-        
+        hidden = true
         
     }
     
@@ -22,6 +25,10 @@ class Weapon: SKSpriteNode{
     }
     
     func update(delta: CFTimeInterval){
+        
+    }
+    
+    func attack(direction: DirectionalPad.Direction){
         
     }
     
