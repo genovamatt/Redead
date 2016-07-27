@@ -35,6 +35,7 @@ class GameScene: SKScene {
         addMapToScene("XMLSampleLayers.tmx")
         addHeartsToScene()
         addTimerToScene()
+        setBackgroundMusic("Assets/A_Journey_Awaits")
         
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
     }
