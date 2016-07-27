@@ -81,6 +81,7 @@ class GameScene: SKScene {
         if (tileMap != nil) {
             player!.removeFromParent()
             tileMap!.removeFromParent()
+            self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
         }
         tileMap = JSTileMap(named: mapName)
         TileManager.instance.setTileMap(tileMap!)
@@ -110,7 +111,7 @@ class GameScene: SKScene {
     }
     
     func addPlayerToScene() {
-        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
+        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(screenWidth/12, screenWidth/12))
     }
     
        
@@ -156,7 +157,7 @@ class GameScene: SKScene {
         else if player!.position.y < self.camera!.position.y - 20 {
             self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - 2.0)
         }
-
+        InputManager.instance.update()
     }
     
     /*
