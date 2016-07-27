@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 
 class GameScene: SKScene {
@@ -140,6 +141,57 @@ class GameScene: SKScene {
             print("Life")
         }*/
     }
+    
+    /*
+     *  SOUND STUFF
+     *
+     *
+     */
+    
+    let deathMusic = "Assets/Death Is Just Another Path_0"
+    let dungeonMusic = "Assets/A Journey Awaits"
+    let bossMusic = "Assets/boss theme"
+    
+    private var backgroundSound = NSURL()
+    private var backgroundAudioPlayer : AVAudioPlayer!
+    
+    func setBackgroundMusic(musicPath: String)
+    {
+        backgroundSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(musicPath, ofType: "mp3")!)
+        do {
+            backgroundAudioPlayer = try AVAudioPlayer(contentsOfURL: backgroundSound)
+        }
+        catch
+        {
+            backgroundAudioPlayer = nil
+        }
+        backgroundAudioPlayer.numberOfLoops = -1
+        backgroundAudioPlayer.prepareToPlay()
+        backgroundAudioPlayer.play()
+    }
+    
+    let hitSound = "Assets/Hit"
+    let deathSound = "Assets/gameOverSound"
+    let zombieDeathSound = "Assets/zombieDeathSound"
+    
+    private var tempSound = NSURL()
+    private var tempAudioPlayer : AVAudioPlayer!
+    
+    func playTempSound(soundPath: String)
+    {
+        tempSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundPath, ofType: "mp3")!)
+        do {
+            tempAudioPlayer = try AVAudioPlayer(contentsOfURL: tempSound)
+        }
+        catch
+        {
+            tempAudioPlayer = nil
+        }
+        
+        tempAudioPlayer.prepareToPlay()
+        tempAudioPlayer.play()
+    }
+
     
     
 }
