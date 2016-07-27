@@ -16,6 +16,8 @@ class Player: SKSpriteNode{
     init(imageName: String, size: CGSize) {
         let texture = SKTexture(imageNamed: imageName)
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
+        sword.position = self.position
+        self.addChild(sword)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,35 +34,37 @@ class Player: SKSpriteNode{
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
         
-        
-        if direction != .None{
-            var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
-            var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
-            
-            //Checks the map bounds
-            if let tileMap = TileManager.instance.tileMap{
-                if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x + x, position.y)) {
-                    x = 0.0
+        if !sword.attacking{
+            if direction != .None{
+                var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
+                var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
+                
+                //Checks the map bounds
+                if let tileMap = TileManager.instance.tileMap{
+                    if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x + x, position.y)) {
+                        x = 0.0
+                    }
+                    if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x, position.y + y)) {
+                        y = 0.0
+                    }
                 }
-                if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x, position.y + y)) {
-                    y = 0.0
-                }
+                
+                move(x , yMove: y)
+                
+                directionFacing = direction
+                
             }
             
-            move(x , yMove: y)
-            
-            directionFacing = direction
-            
-        }
-        
-        if InputManager.instance.xButtonPressedInFrame{
-            print("x")
+            if InputManager.instance.xButtonPressedInFrame{
+                print("x")
+                attack()
+            }
+
         }
     }
     
     func attack(){
         if !sword.attacking{
-            
             sword.attack(directionFacing)
         }
     }
