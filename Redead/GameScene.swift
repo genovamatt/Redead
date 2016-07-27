@@ -19,44 +19,60 @@ class GameScene: SKScene {
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
     
+    private var yCameraAdjust: CGFloat = 0.0
+    private var xCameraAdjust: CGFloat = 0.0
     private let screenWidth = ScreenHelper.instance.visibleScreen.width
     private let screenHeight = ScreenHelper.instance.visibleScreen.height
     private let originX = ScreenHelper.instance.visibleScreen.origin.x
     private let originY = ScreenHelper.instance.visibleScreen.origin.y
     
     override func didMoveToView(view: SKView) {
+        yCameraAdjust = -CGRectGetMidY(self.frame) + screenHeight/6
+        xCameraAdjust = -CGRectGetMidX(self.frame)
+        addCameraToScene()
         addButtonsToScene()
         addPlayerToScene()
         addMapToScene("XMLSampleLayers.tmx")
         addHeartsToScene()
         addTimerToScene()
+        
+        self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
+    }
+    
+    func addCameraToScene() {
+        let cam: SKCameraNode! = SKCameraNode()
+        
+        self.camera = cam
+        self.addChild(cam)
+        
+        cam.position = CGPoint(x: originX, y: originY)
     }
     
     func addTimerToScene(){
         timerLabel = SKLabelNode(text: "00:00")
-        timerLabel!.position = CGPointMake(originX + screenWidth * 18/20.0, originY + screenHeight * 18/20.0)
-        self.addChild(timerLabel!)
+        timerLabel!.position = CGPointMake(originX + screenWidth * 18/20.0 + xCameraAdjust, originY + screenHeight * 18/20.0 + yCameraAdjust)
+        self.camera!.addChild(timerLabel!)
     }
     
     func addButtonsToScene(){
         let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: InputManager.instance.pushedZButton)
         zButton.size = buttonSize
-        zButton.position = CGPointMake(originX + screenWidth * 16/20.0, originY + screenHeight * 4/16.0)
+        zButton.position = CGPointMake(originX + screenWidth * 16/20.0 + xCameraAdjust, originY + screenHeight * 4/16.0 + yCameraAdjust)
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: InputManager.instance.pushedXButton)
         xButton.size = buttonSize
-        xButton.position = CGPointMake(originX + screenWidth * 18/20.0, originY + screenHeight * 2/16.0)
+        xButton.position = CGPointMake(originX + screenWidth * 18/20.0 + xCameraAdjust, originY + screenHeight * 2/16.0 + yCameraAdjust)
         
-        self.addChild(zButton)
-        self.addChild(xButton)
+        self.camera!.addChild(zButton)
+        self.camera!.addChild(xButton)
         
         let dPadSize = CGSize(width: screenWidth/5, height: screenWidth/5)
 
         directionalPad = DirectionalPad(imageName: "Assets/flatDark00.png", size: dPadSize)
         
-        directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0, originY + screenHeight * 5/22.0)
-        self.addChild(directionalPad!)
+        directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0 + xCameraAdjust, originY + screenHeight * 5/22.0 + yCameraAdjust)
+        self.camera!.addChild(directionalPad!)
         InputManager.instance.setDirectionalPad(directionalPad!)
     }
     
@@ -87,8 +103,8 @@ class GameScene: SKScene {
         var counter : CGFloat = 0.0
         for heart in heartsArray {
             heart.size = heartSize
-            heart.position = CGPoint(x: originX + screenWidth/20 + (screenWidth/12) * counter, y: originY + screenHeight * 12/13.0)
-            self.addChild(heart)
+            heart.position = CGPoint(x: originX + screenWidth/20 + xCameraAdjust + (screenWidth/12) * counter, y: originY + yCameraAdjust + screenHeight * 12/13.0)
+            self.camera!.addChild(heart)
             counter+=1.0
         }
     }
@@ -97,6 +113,7 @@ class GameScene: SKScene {
         player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(originX + screenHeight/20, originX + screenHeight/20))
     }
     
+       
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
@@ -124,22 +141,22 @@ class GameScene: SKScene {
         if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
             print(tileMap!.filename)
             print(tileMap!.name!)
-            if (tileMap!.name == "XMLSampleLayers.tmx") {
+            if tileMap!.name == "XMLSampleLayers.tmx" {
                 addMapToScene("secondMap.tmx")
             }
-            else {
+            else if tileMap!.name == "secondMap.tmx" {
                 addMapToScene("XMLSampleLayers.tmx")
             }
         }
         
-        
-        /* Can use this sort of setup to determine what layer the player is currently a part of
-        if (tileMap!.layerNamed("Tile Layer 4").containsPoint(player!.position)) {
-            print("Death")
+        //Handles the scrolling of the map vertically. Currently there is no horizontal scrolling.
+        if player!.position.y > self.camera!.position.y + 20 {
+            self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + 2.0)
         }
-        else {
-            print("Life")
-        }*/
+        else if player!.position.y < self.camera!.position.y - 20 {
+            self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - 2.0)
+        }
+
     }
     
     /*

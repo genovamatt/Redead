@@ -39,14 +39,13 @@ class Player: SKSpriteNode{
             var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
             
             //Checks the map bounds
-            if let tileMap = TileManager.instance.tileMap{
-                if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x + x, position.y)) {
+            if let tileMap = TileManager.instance.tileMap {
+                if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x + x, position.y)) {
                     x = 0.0            }
-                if !tileMap.layerNamed("MapArea").containsPoint(CGPointMake(position.x, position.y + y)) {
+                if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x, position.y + y)) {
                     y = 0.0
                 }
-                
-                
+                //Look into doing this using Gid and zposition perhaps
             }
             
             move(x , yMove: y)
