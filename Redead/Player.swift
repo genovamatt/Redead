@@ -55,10 +55,8 @@ class Player: SKSpriteNode{
         self.position.y += yMove
         upperBound = self.position.y + self.size.height/2
         lowerBound = self.position.y - self.size.height/2
-        rightBound = self.position.x + self.size.width/3
-        leftBound = self.position.x - self.size.width/3
-
-        print(upperBound)
+        rightBound = self.position.x + self.size.width/2
+        leftBound = self.position.x - self.size.width/2
     }
     
     func update(delta: CFTimeInterval){
@@ -77,23 +75,32 @@ class Player: SKSpriteNode{
                 //Checks the map bounds
                 if let tileMap = TileManager.instance.tileMap {
                     let layer = tileMap.layerNamed("MovableMap")
-                    var gidXRight: Int32
-                    var gidXLeft: Int32
-                    var gidYUp: Int32
-                    var gidYDown: Int32
+                    var gidTopRightX: Int32
+                    var gidTopLeftX: Int32
+                    var gidBottomRightX: Int32
+                    var gidBottomLeftX: Int32
+                    var gidTopRightY: Int32
+                    var gidTopLeftY: Int32
+                    var gidBottomRightY: Int32
+                    var gidBottomLeftY: Int32
                     
                     
                     //Checks the player bounds
-                    gidXRight = layer.tileGidAt(CGPointMake(rightBound + x, position.y))
-                    gidXLeft = layer.tileGidAt(CGPointMake(leftBound + x, position.y))
-                    gidYUp = layer.tileGidAt(CGPointMake(position.x, upperBound + y))
-                    gidYDown = layer.tileGidAt(CGPointMake(position.x, lowerBound + y))
+                    gidTopRightX = layer.tileGidAt(CGPointMake(rightBound + x, upperBound))
+                    gidTopLeftX = layer.tileGidAt(CGPointMake(leftBound + x, upperBound))
+                    gidBottomRightX = layer.tileGidAt(CGPointMake(rightBound + x, lowerBound))
+                    gidBottomLeftX = layer.tileGidAt(CGPointMake(leftBound + x, lowerBound))
+                    gidTopRightY = layer.tileGidAt(CGPointMake(rightBound, upperBound + y))
+                    gidTopLeftY = layer.tileGidAt(CGPointMake(leftBound, upperBound + y))
+                    gidBottomRightY = layer.tileGidAt(CGPointMake(rightBound, lowerBound + y))
+                    gidBottomLeftY = layer.tileGidAt(CGPointMake(leftBound, lowerBound + y))
+                    
                     
                     //Checks if the tile the player is moving to is part of the movableMap
-                    if gidXRight == 0 || gidXLeft == 0 {
+                    if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
                         x = 0.0
                     }
-                    if gidYUp == 0 || gidYDown == 0 {
+                    if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
                         y = 0.0
                     }
                     
@@ -104,7 +111,6 @@ class Player: SKSpriteNode{
                     if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x, position.y + y)) {
                         y = 0.0
                     }*/
-
                 }
                 
                 move(x , yMove: y)
