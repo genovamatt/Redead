@@ -145,9 +145,10 @@ class GameScene: SKScene {
             
             player!.update(delta)
             
-            if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
-                print(tileMap!.filename)
-                print(tileMap!.name!)
+            let layer = tileMap!.layerNamed("MovableMap")
+            let gid = layer.tileGidAt(player!.position)
+            
+            if gid == 3 {
                 if tileMap!.name == "XMLSampleLayers.tmx" {
                     addMapToScene("secondMap.tmx")
                 }
@@ -155,6 +156,7 @@ class GameScene: SKScene {
                     addMapToScene("XMLSampleLayers.tmx")
                 }
             }
+
             
             //Handles the scrolling of the map vertically. Currently there is no horizontal scrolling.
             if player!.position.y > self.camera!.position.y + 20 {

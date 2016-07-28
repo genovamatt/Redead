@@ -8,10 +8,8 @@
 
 import SpriteKit
 
-enum difficulty{
-    hard
-    mediium
-    easy
+enum Difficulty{
+    case Hard, Medium, Easy
 }
 
 class Enemy: SKSpriteNode{
@@ -23,12 +21,10 @@ class Enemy: SKSpriteNode{
     var leftBound: CGFloat = 0.0
     var rightBound: CGFloat = 0.0
     
-    init(imageName: String, size: CGSize, level: difficulty) {
+    init(imageName: String, size: CGSize, level: Difficulty) {
         let texture = SKTexture(imageNamed: imageName)
         
         super.init(texture: texture, color: UIColor.clearColor(), size: size)
-        sword.position = self.position
-        self.addChild(sword)
         
         upperBound = self.position.y + self.size.height/2
         lowerBound = self.position.y - self.size.height/2
@@ -36,12 +32,13 @@ class Enemy: SKSpriteNode{
         leftBound = self.position.x - self.size.width/3
         
         switch level{
-        case hard:
+        case .Hard:
             moveSpeed = 200.0
-        case medium:
+        case .Medium:
             moveSpeed = 150.0
-        case easy:
+        case .Easy:
             moveSpeed = 100.0
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

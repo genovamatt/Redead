@@ -16,6 +16,10 @@ class Player: SKSpriteNode{
     var walkUpTexture = [SKTexture]()
     var walkDownTexture = [SKTexture]()
     var walkRightTexture = [SKTexture]()
+    var upperBound: CGFloat = 0.0
+    var lowerBound: CGFloat = 0.0
+    var rightBound: CGFloat = 0.0
+    var leftBound: CGFloat = 0.0
 
     init() {
         walkRightTexture.append(SKTexture(imageNamed: "Assets/player_01.png"))
