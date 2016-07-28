@@ -140,9 +140,10 @@ class GameScene: SKScene {
         
         player!.update(delta)
         
-        if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
-            print(tileMap!.filename)
-            print(tileMap!.name!)
+        let layer = tileMap!.layerNamed("MovableMap")
+        let gid = layer.tileGidAt(player!.position)
+        
+        if gid == 3 {
             if tileMap!.name == "XMLSampleLayers.tmx" {
                 addMapToScene("secondMap.tmx")
             }
