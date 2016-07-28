@@ -8,14 +8,31 @@
 import SpriteKit
 
 class Player: SKSpriteNode{
+    let playerSize = CGSize(width: 50, height: 65)
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
     var moveSpeed: CGFloat = 100.0
     var sword = Weapon()
-    
-    init(imageName: String, size: CGSize) {
-        let texture = SKTexture(imageNamed: imageName)
-        super.init(texture: texture, color: UIColor.clearColor(), size: size)
+    var walkUpTexture = [SKTexture]()
+    var walkDownTexture = [SKTexture]()
+    var walkRightTexture = [SKTexture]()
+
+    init() {
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_01.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_02.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_03.png"))
+        
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_04.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_05.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_06.png"))
+
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_07.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_09.png"))
+
+        
+        //let texture = SKTexture(imageNamed: "Assets/player_05.png")
+        super.init(texture: walkDownTexture[1], color: UIColor.clearColor(), size: playerSize)
         sword.position = self.position
         self.addChild(sword)
     }
@@ -34,10 +51,11 @@ class Player: SKSpriteNode{
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
         
-
-        
         if !sword.attacking {
             if direction != .None{
+                //xScale = directionVector.dx
+                
+                
                 var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
                 var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
                 

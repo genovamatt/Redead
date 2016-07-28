@@ -8,17 +8,19 @@
 
 import SpriteKit
 
+
 class Weapon: SKSpriteNode{
-    let totalSwingTime = 0.5
+    let weaponSize = CGSize(width: 70, height: 12)
+    let totalSwingTime = 0.3
     let swingRotation:Float = 45.0
     var attacking = false
     
     init() {
         let texture = SKTexture(imageNamed: "Assets/sword.png")
-        let size = CGSize(width: 100, height: 20)
-        super.init(texture: texture, color: UIColor.clearColor(), size: size)
+        super.init(texture: texture, color: UIColor.clearColor(), size: weaponSize)
         
         self.anchorPoint = CGPoint(x: 0,y: 0.5)
+        self.zPosition = 0.1
         hidden = true
         
     }

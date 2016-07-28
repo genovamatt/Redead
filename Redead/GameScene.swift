@@ -18,6 +18,7 @@ class GameScene: SKScene {
     var lastInterval: CFTimeInterval?
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
+    var initialized = false
     
     private var yCameraAdjust: CGFloat = 0.0
     private var xCameraAdjust: CGFloat = 0.0
@@ -25,6 +26,8 @@ class GameScene: SKScene {
     private let screenHeight = ScreenHelper.instance.visibleScreen.height
     private let originX = ScreenHelper.instance.visibleScreen.origin.x
     private let originY = ScreenHelper.instance.visibleScreen.origin.y
+    private let sceneCoordinatesX = ScreenHelper.instance.sceneCoordinateSize.width
+    private let sceneCoordinatesY = ScreenHelper.instance.sceneCoordinateSize.height
     
     override func didMoveToView(view: SKView) {
         yCameraAdjust = -CGRectGetMidY(self.frame) + screenHeight/6
@@ -38,6 +41,7 @@ class GameScene: SKScene {
         setBackgroundMusic("Assets/A_Journey_Awaits")
         
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
+        initialized = true
     }
     
     func addCameraToScene() {
@@ -70,7 +74,7 @@ class GameScene: SKScene {
         
         let dPadSize = CGSize(width: screenWidth/5, height: screenWidth/5)
 
-        directionalPad = DirectionalPad(imageName: "Assets/flatDark00.png", size: dPadSize)
+        directionalPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
         
         directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0 + xCameraAdjust, originY + screenHeight * 5/22.0 + yCameraAdjust)
         self.camera!.addChild(directionalPad!)
@@ -112,7 +116,7 @@ class GameScene: SKScene {
     }
     
     func addPlayerToScene() {
-        player = Player(imageName: "Assets/Placeholder_Character.png", size: CGSizeMake(screenWidth/12, screenWidth/12))
+        player = Player()
     }
     
        
@@ -121,44 +125,48 @@ class GameScene: SKScene {
         
         //Controls the players movement
         
-        if lastInterval == nil {
+        if initialized{
+            if lastInterval == nil {
+                lastInterval = currentTime
+            }
+            
+            var delta: CFTimeInterval = currentTime - lastInterval!
+            
+            if (delta > 0.02) {
+                delta = 0.02;
+            }
+            
+            elapsedTime += Float(delta)
+            let seconds = Int(elapsedTime % 60)
+            let minutes = Int((elapsedTime / 60) % 60)
+            timerLabel!.text = NSString(format: "%0.2d:%0.2d", minutes, seconds) as String
+            
             lastInterval = currentTime
-        }
-        
-        var delta: CFTimeInterval = currentTime - lastInterval!
-        
-        if (delta > 0.02) {
-            delta = 0.02;
-        }
-        
-        elapsedTime += Float(delta)
-        let seconds = Int(elapsedTime % 60)
-        let minutes = Int((elapsedTime / 60) % 60)
-        timerLabel!.text = NSString(format: "%0.2d:%0.2d", minutes, seconds) as String
-        
-        lastInterval = currentTime
-        
-        player!.update(delta)
-        
-        if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
-            print(tileMap!.filename)
-            print(tileMap!.name!)
-            if tileMap!.name == "XMLSampleLayers.tmx" {
-                addMapToScene("secondMap.tmx")
+            
+            player!.update(delta)
+            
+            if tileMap!.layerNamed("ExitMap").containsPoint(CGPointMake(player!.position.x, player!.position.y)) {
+                print(tileMap!.filename)
+                print(tileMap!.name!)
+                if tileMap!.name == "XMLSampleLayers.tmx" {
+                    addMapToScene("secondMap.tmx")
+                }
+                else if tileMap!.name == "secondMap.tmx" {
+                    addMapToScene("XMLSampleLayers.tmx")
+                }
             }
-            else if tileMap!.name == "secondMap.tmx" {
-                addMapToScene("XMLSampleLayers.tmx")
+            
+            //Handles the scrolling of the map vertically. Currently there is no horizontal scrolling.
+            if player!.position.y > self.camera!.position.y + 20 {
+                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + 2.0)
             }
+            else if player!.position.y < self.camera!.position.y - 20 {
+                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - 2.0)
+            }
+            
+            InputManager.instance.update()
+
         }
-        
-        //Handles the scrolling of the map vertically. Currently there is no horizontal scrolling.
-        if player!.position.y > self.camera!.position.y + 20 {
-            self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + 2.0)
-        }
-        else if player!.position.y < self.camera!.position.y - 20 {
-            self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - 2.0)
-        }
-        InputManager.instance.update()
     }
     
     /*

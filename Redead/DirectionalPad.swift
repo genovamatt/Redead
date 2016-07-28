@@ -50,13 +50,13 @@ class DirectionalPad: SKSpriteNode{
         let zoneSize = CGSize(width: size.width/3.0, height: size.height/3.0)
         
         var zoneOrigin = CGPointMake(-zoneSize.width * 1.5, zoneSize.height * 0.5)
-        zones.append(DirectionZone(direction: .UpLeft, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
+        //zones.append(DirectionZone(direction: .UpLeft, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(-zoneSize.width * 0.5, zoneSize.height * 0.5)
         zones.append(DirectionZone(direction: .Up, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(zoneSize.width * 0.5 , zoneSize.height * 0.5)
-        zones.append(DirectionZone(direction: .UpRight, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
+        //zones.append(DirectionZone(direction: .UpRight, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(-zoneSize.width * 1.5, -zoneSize.height * 0.5)
         zones.append(DirectionZone(direction: .Left, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
@@ -68,13 +68,13 @@ class DirectionalPad: SKSpriteNode{
         zones.append(DirectionZone(direction: .Right, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(-zoneSize.width * 1.5, -zoneSize.height * 1.5)
-        zones.append(DirectionZone(direction: .DownLeft, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
+        //zones.append(DirectionZone(direction: .DownLeft, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(-zoneSize.width * 0.5, -zoneSize.height * 1.5)
         zones.append(DirectionZone(direction: .Down, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
         
         zoneOrigin = CGPointMake(zoneSize.width * 0.5, -zoneSize.height * 1.5)
-        zones.append(DirectionZone(direction: .DownRight, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
+        //zones.append(DirectionZone(direction: .DownRight, zone: CGRect(origin: zoneOrigin, size: zoneSize)))
 
     }
     
