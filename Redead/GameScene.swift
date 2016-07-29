@@ -40,7 +40,7 @@ class GameScene: SKScene {
         addTimerToScene()
         setBackgroundMusic("Assets/A_Journey_Awaits")
         
-        self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
+        self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         initialized = true
     }
     
@@ -85,8 +85,9 @@ class GameScene: SKScene {
         
         if (tileMap != nil) {
             player!.removeFromParent()
+            self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
             tileMap!.removeFromParent()
-            self.camera!.position = CGPoint(x: -xCameraAdjust, y: -yCameraAdjust)
+            
         }
         tileMap = JSTileMap(named: mapName)
         TileManager.instance.setTileMap(tileMap!)
@@ -95,7 +96,7 @@ class GameScene: SKScene {
         
         //Made it so the player is a child of the map, not the scene
         tileMap!.addChild(player!)
-        player!.position = CGPoint(x: screenWidth/4, y: screenHeight/2)
+        player!.position = CGPoint(x: tileMap!.tileSize.width * 1.5, y: tileMap!.tileSize.height * 2)
         
         self.addChild(tileMap!)
     }
@@ -158,12 +159,21 @@ class GameScene: SKScene {
             }
 
             
-            //Handles the scrolling of the map vertically. Currently there is no horizontal scrolling.
+            //Handles the scrolling of the map vertically.
+            let cameraSpeed: CGFloat = 2.0
             if player!.position.y > self.camera!.position.y + 20 {
-                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + 2.0)
+                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + cameraSpeed)
             }
             else if player!.position.y < self.camera!.position.y - 20 {
-                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - 2.0)
+                self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y - cameraSpeed)
+            }
+            
+            //Handles the scrolling of the map horizontally.
+            if player!.position.x - xCameraAdjust > self.camera!.position.x + 95  {
+                self.camera!.position = CGPointMake(self.camera!.position.x + cameraSpeed, self.camera!.position.y)
+            } //account for camera adjust
+            else if player!.position.x - xCameraAdjust < self.camera!.position.x - 95 {
+                self.camera!.position = CGPointMake(self.camera!.position.x - cameraSpeed, self.camera!.position.y)
             }
             
             InputManager.instance.update()
