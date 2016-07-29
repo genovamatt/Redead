@@ -40,7 +40,7 @@ class Weapon: SKSpriteNode{
         switch direction{
         case .Up: initialAngle = 90
         case .Down: initialAngle = 270
-        case .Left: initialAngle = 180
+        case .Left: initialAngle = 0 // left and right the same bc scale flips for animation
         case .Right: initialAngle = 0
         case .UpLeft: initialAngle = 135
         case .UpRight: initialAngle = 45

@@ -8,42 +8,47 @@
 import SpriteKit
 
 class Player: SKSpriteNode{
-    let playerSize = CGSize(width: 50, height: 65)
+    var playerSize: CGSize
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
+    var previousDirectionalInput = DirectionalPad.Direction.None
     var moveSpeed: CGFloat = 100.0
     var sword = Weapon()
     var walkUpTexture = [SKTexture]()
     var walkDownTexture = [SKTexture]()
     var walkRightTexture = [SKTexture]()
+    let animationFrameTime = 0.1
     var upperBound: CGFloat = 0.0
     var lowerBound: CGFloat = 0.0
     var rightBound: CGFloat = 0.0
     var leftBound: CGFloat = 0.0
 
     init() {
-        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_01.png"))
-        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_02.png"))
-        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_03.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_01_large.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_02_large.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_03_large.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/player_02_large.png"))
         
-        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_04.png"))
-        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_05.png"))
-        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_06.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_04_large.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_05_large.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_06_large.png"))
+        walkDownTexture.append(SKTexture(imageNamed: "Assets/player_05_large.png"))
 
-        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_07.png"))
-        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08.png"))
-        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_09.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_07_large.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08_large.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_09_large.png"))
+        walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08_large.png"))
 
-        
+        playerSize = walkDownTexture[1].size()
         //let texture = SKTexture(imageNamed: "Assets/player_05.png")
-        super.init(texture: walkDownTexture[1], color: UIColor.clearColor(), size: playerSize)
+        super.init(texture: walkDownTexture[1], color: UIColor.clearColor(), size: walkDownTexture[1].size())
         sword.position = self.position
         self.addChild(sword)
         
-        upperBound = self.position.y + self.size.height/2
-        lowerBound = self.position.y - self.size.height/2
-        rightBound = self.position.x + self.size.width/3
-        leftBound = self.position.x - self.size.width/3
+        upperBound = self.position.y + playerSize.height/3
+        lowerBound = self.position.y - playerSize.height/2
+        rightBound = self.position.x + playerSize.width/3
+        leftBound = self.position.x - playerSize.width/3
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,10 +58,10 @@ class Player: SKSpriteNode{
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove
         self.position.y += yMove
-        upperBound = self.position.y + self.size.height/2
-        lowerBound = self.position.y - self.size.height/2
-        rightBound = self.position.x + self.size.width/2
-        leftBound = self.position.x - self.size.width/2
+        upperBound = self.position.y + playerSize.height/3
+        lowerBound = self.position.y - playerSize.height/2
+        rightBound = self.position.x + playerSize.width/3
+        leftBound = self.position.x - playerSize.width/3
     }
     
     func update(delta: CFTimeInterval){
@@ -64,66 +69,84 @@ class Player: SKSpriteNode{
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
         
-        if !sword.attacking {
-            if direction != .None{
-                //xScale = directionVector.dx
+        if !sword.attacking && direction != .None{
+            var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
+            var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
+            
+            //Checks the map bounds
+            if let tileMap = TileManager.instance.tileMap {
+                let layer = tileMap.layerNamed("MovableMap")
+                var gidTopRightX: Int32
+                var gidTopLeftX: Int32
+                var gidBottomRightX: Int32
+                var gidBottomLeftX: Int32
+                var gidTopRightY: Int32
+                var gidTopLeftY: Int32
+                var gidBottomRightY: Int32
+                var gidBottomLeftY: Int32
                 
                 
-                var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
-                var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
+                //Checks the player bounds
+                gidTopRightX = layer.tileGidAt(CGPointMake(rightBound + x, upperBound))
+                gidTopLeftX = layer.tileGidAt(CGPointMake(leftBound + x, upperBound))
+                gidBottomRightX = layer.tileGidAt(CGPointMake(rightBound + x, lowerBound))
+                gidBottomLeftX = layer.tileGidAt(CGPointMake(leftBound + x, lowerBound))
+                gidTopRightY = layer.tileGidAt(CGPointMake(rightBound, upperBound + y))
+                gidTopLeftY = layer.tileGidAt(CGPointMake(leftBound, upperBound + y))
+                gidBottomRightY = layer.tileGidAt(CGPointMake(rightBound, lowerBound + y))
+                gidBottomLeftY = layer.tileGidAt(CGPointMake(leftBound, lowerBound + y))
                 
-                //Checks the map bounds
-                if let tileMap = TileManager.instance.tileMap {
-                    let layer = tileMap.layerNamed("MovableMap")
-                    var gidTopRightX: Int32
-                    var gidTopLeftX: Int32
-                    var gidBottomRightX: Int32
-                    var gidBottomLeftX: Int32
-                    var gidTopRightY: Int32
-                    var gidTopLeftY: Int32
-                    var gidBottomRightY: Int32
-                    var gidBottomLeftY: Int32
-                    
-                    
-                    //Checks the player bounds
-                    gidTopRightX = layer.tileGidAt(CGPointMake(rightBound + x, upperBound))
-                    gidTopLeftX = layer.tileGidAt(CGPointMake(leftBound + x, upperBound))
-                    gidBottomRightX = layer.tileGidAt(CGPointMake(rightBound + x, lowerBound))
-                    gidBottomLeftX = layer.tileGidAt(CGPointMake(leftBound + x, lowerBound))
-                    gidTopRightY = layer.tileGidAt(CGPointMake(rightBound, upperBound + y))
-                    gidTopLeftY = layer.tileGidAt(CGPointMake(leftBound, upperBound + y))
-                    gidBottomRightY = layer.tileGidAt(CGPointMake(rightBound, lowerBound + y))
-                    gidBottomLeftY = layer.tileGidAt(CGPointMake(leftBound, lowerBound + y))
-                    
-                    
-                    //Checks if the tile the player is moving to is part of the movableMap
-                    if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
-                        x = 0.0
-                    }
-                    if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
-                        y = 0.0
-                    }
-                    
-                    //This is no longer used, left here for reference
-                    /*if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x + x, position.y)) {
-                        x = 0.0
-                    }
-                    if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x, position.y + y)) {
-                        y = 0.0
-                    }*/
+                
+                //Checks if the tile the player is moving to is part of the movableMap
+                if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
+                    x = 0.0
+                }
+                if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
+                    y = 0.0
                 }
                 
-                move(x , yMove: y)
-                
-                directionFacing = direction
+                //This is no longer used, left here for reference
+                /*if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x + x, position.y)) {
+                    x = 0.0
+                }
+                if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x, position.y + y)) {
+                    y = 0.0
+                }*/
             }
             
-            if InputManager.instance.xButtonPressedInFrame{
-                print("x")
-                attack()
+            move(x , yMove: y)
+            directionFacing = direction
+            
+            if previousDirectionalInput != direction{
+                if direction == .Right{
+                    xScale = 1
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkRightTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
+                }
+                else if direction == .Left{
+                    xScale = -1
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkRightTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                }
+                else if direction == .Up{
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkUpTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                }
+                else if direction == .Down{
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkDownTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                }
             }
-
+            
+            previousDirectionalInput = direction
+            
+        }else{
+            self.removeActionForKey("moveAnimation")
+            previousDirectionalInput = .None
         }
+        
+        if InputManager.instance.xButtonPressedInFrame{
+            print("x")
+            attack()
+        }
+        
+        
     }
     
     func attack(){
