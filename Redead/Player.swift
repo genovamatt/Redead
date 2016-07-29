@@ -8,7 +8,7 @@
 import SpriteKit
 
 class Player: SKSpriteNode{
-    var playerSize: CGSize
+    var playerSize = CGSize()
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
     var previousDirectionalInput = DirectionalPad.Direction.None
@@ -52,7 +52,8 @@ class Player: SKSpriteNode{
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        //fatalError("init(coder:) has not been implemented")
     }
     
     func move(xMove: CGFloat, yMove: CGFloat) {
