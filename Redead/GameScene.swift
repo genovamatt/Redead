@@ -14,7 +14,7 @@ class GameScene: SKScene {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
-    var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
+    
     var lastInterval: CFTimeInterval?
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
@@ -104,12 +104,9 @@ class GameScene: SKScene {
     
     func addHeartsToScene() {
         let heartSize = CGSize(width: screenWidth/9, height: screenWidth/9)
-        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
-        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
-        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
         
         var counter : CGFloat = 0.0
-        for heart in heartsArray {
+        for heart in player!.heartsArray {
             heart.size = heartSize
             heart.position = CGPoint(x: originX + screenWidth/20 + xCameraAdjust + (screenWidth/12) * counter, y: originY + yCameraAdjust + screenHeight * 12/13.0)
             self.camera!.addChild(heart)
