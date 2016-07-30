@@ -19,6 +19,7 @@ class GameScene: SKScene {
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
     var initialized = false
+    let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FirstMap.tmx"]
     
     private var yCameraAdjust: CGFloat = 0.0
     private var xCameraAdjust: CGFloat = 0.0
@@ -35,10 +36,10 @@ class GameScene: SKScene {
         addCameraToScene()
         addButtonsToScene()
         addPlayerToScene()
-        addMapToScene("XMLSampleLayers.tmx")
+        addMapToScene("FirstMap.tmx")
         addHeartsToScene()
         addTimerToScene()
-        setBackgroundMusic("Assets/A_Journey_Awaits")
+        //setBackgroundMusic("Assets/A_Journey_Awaits")
         
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         initialized = true
@@ -150,12 +151,7 @@ class GameScene: SKScene {
             let gid = layer.tileGidAt(player!.position)
             
             if gid == 3 {
-                if tileMap!.name == "XMLSampleLayers.tmx" {
-                    addMapToScene("secondMap.tmx")
-                }
-                else if tileMap!.name == "secondMap.tmx" {
-                    addMapToScene("XMLSampleLayers.tmx")
-                }
+                addMapToScene(maps[tileMap!.name!]!)
             }
 
             
