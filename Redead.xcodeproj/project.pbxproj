@@ -10,10 +10,13 @@
 		7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD871D416B8E00865A47 /* JSTileMap.m */; };
 		7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD891D416B8E00865A47 /* LFCGzipUtility.m */; };
 		7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7032BD8D1D416D3400865A47 /* libz.tbd */; };
+		703606D81D4D1921001EECA5 /* GoldBricks.png in Resources */ = {isa = PBXBuildFile; fileRef = 703606D71D4D1921001EECA5 /* GoldBricks.png */; };
+		703606DA1D4D1926001EECA5 /* Level1WorldTileSheet-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 703606D91D4D1926001EECA5 /* Level1WorldTileSheet-ipadhd.png */; };
+		703606DC1D4D1E4E001EECA5 /* FirstMap.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 703606DB1D4D1E4E001EECA5 /* FirstMap.tmx */; };
+		703606DE1D4D2719001EECA5 /* ThirdMap.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 703606DD1D4D2719001EECA5 /* ThirdMap.tmx */; };
 		70AF588B1D440BC500BB3B37 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AF588A1D440BC500BB3B37 /* Player.swift */; };
 		70C58E1B1D48109500EEDC5D /* secondMap.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 70C58E1A1D48109500EEDC5D /* secondMap.tmx */; };
 		70D19F761D457E79007ECBE0 /* caveAtlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 70D19F751D457E79007ECBE0 /* caveAtlas.png */; };
-		70D19F781D457E80007ECBE0 /* XMLSampleLayers.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */; };
 		908691381D46D972000C92E8 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908691371D46D972000C92E8 /* Enemy.swift */; };
 		9086913C1D46E28A000C92E8 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086913B1D46E28A000C92E8 /* Weapon.swift */; };
 		9086913E1D482406000C92E8 /* TileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086913D1D482406000C92E8 /* TileManager.swift */; };
@@ -57,10 +60,13 @@
 		7032BD881D416B8E00865A47 /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
 		7032BD891D416B8E00865A47 /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
 		7032BD8D1D416D3400865A47 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		703606D71D4D1921001EECA5 /* GoldBricks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoldBricks.png; sourceTree = "<group>"; };
+		703606D91D4D1926001EECA5 /* Level1WorldTileSheet-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Level1WorldTileSheet-ipadhd.png"; sourceTree = "<group>"; };
+		703606DB1D4D1E4E001EECA5 /* FirstMap.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = FirstMap.tmx; sourceTree = "<group>"; };
+		703606DD1D4D2719001EECA5 /* ThirdMap.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ThirdMap.tmx; sourceTree = "<group>"; };
 		70AF588A1D440BC500BB3B37 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		70C58E1A1D48109500EEDC5D /* secondMap.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = secondMap.tmx; sourceTree = "<group>"; };
 		70D19F751D457E79007ECBE0 /* caveAtlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caveAtlas.png; sourceTree = "<group>"; };
-		70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = XMLSampleLayers.tmx; sourceTree = "<group>"; };
 		908691371D46D972000C92E8 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		9086913B1D46E28A000C92E8 /* Weapon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		9086913D1D482406000C92E8 /* TileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileManager.swift; sourceTree = "<group>"; };
@@ -124,8 +130,11 @@
 		7032BD931D41703000865A47 /* Map Example */ = {
 			isa = PBXGroup;
 			children = (
+				703606DD1D4D2719001EECA5 /* ThirdMap.tmx */,
+				703606DB1D4D1E4E001EECA5 /* FirstMap.tmx */,
+				703606D91D4D1926001EECA5 /* Level1WorldTileSheet-ipadhd.png */,
+				703606D71D4D1921001EECA5 /* GoldBricks.png */,
 				70C58E1A1D48109500EEDC5D /* secondMap.tmx */,
-				70D19F771D457E80007ECBE0 /* XMLSampleLayers.tmx */,
 				70D19F751D457E79007ECBE0 /* caveAtlas.png */,
 			);
 			name = "Map Example";
@@ -313,12 +322,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				909F40841D3F01E00009D9E2 /* Assets in Resources */,
+				703606DC1D4D1E4E001EECA5 /* FirstMap.tmx in Resources */,
 				90E413531D3DE250006EC40C /* LaunchScreen.storyboard in Resources */,
 				70C58E1B1D48109500EEDC5D /* secondMap.tmx in Resources */,
+				703606DE1D4D2719001EECA5 /* ThirdMap.tmx in Resources */,
 				70D19F761D457E79007ECBE0 /* caveAtlas.png in Resources */,
 				90E413501D3DE250006EC40C /* Assets.xcassets in Resources */,
+				703606D81D4D1921001EECA5 /* GoldBricks.png in Resources */,
+				703606DA1D4D1926001EECA5 /* Level1WorldTileSheet-ipadhd.png in Resources */,
 				90E4134E1D3DE250006EC40C /* Main.storyboard in Resources */,
-				70D19F781D457E80007ECBE0 /* XMLSampleLayers.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
