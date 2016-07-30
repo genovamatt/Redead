@@ -12,6 +12,7 @@ class Player: SKSpriteNode{
     var health = 3
     var directionFacing = DirectionalPad.Direction.Down
     var previousDirectionalInput = DirectionalPad.Direction.None
+    var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var moveSpeed: CGFloat = 100.0
     var sword = Weapon()
     var walkUpTexture = [SKTexture]()
@@ -38,6 +39,10 @@ class Player: SKSpriteNode{
         walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08_large.png"))
         walkUpTexture.append(SKTexture(imageNamed: "Assets/player_09_large.png"))
         walkUpTexture.append(SKTexture(imageNamed: "Assets/player_08_large.png"))
+        
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
+        heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
 
         playerSize = walkDownTexture[1].size()
         //let texture = SKTexture(imageNamed: "Assets/player_05.png")
@@ -161,6 +166,14 @@ class Player: SKSpriteNode{
             }
             sword.attack(directionFacing)
         }
+    }
+    
+    func takeDamage() {
+        if (health > 0) {
+            heartsArray[health-1].texture = SKTexture(imageNamed: "Assets/empty_heart.png")
+            health -= 1
+        }
+        
     }
     
     
