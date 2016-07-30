@@ -152,6 +152,13 @@ class Player: SKSpriteNode{
     
     func attack(){
         if !sword.attacking{
+            switch directionFacing {
+            case .Down: sword.position = CGPointMake(0, -playerSize.height/3)
+            case .Left: sword.position = CGPointMake(playerSize.width/3, 0)
+            case .Right: sword.position = CGPointMake(playerSize.width/3, 0)
+            case .Up: sword.position = CGPointMake(0, playerSize.height/3)
+            default: break
+            }
             sword.attack(directionFacing)
         }
     }
