@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
+    var enemy: Enemy? = nil
     
     var lastInterval: CFTimeInterval?
     var elapsedTime: Float = 0.0
@@ -40,7 +41,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addHeartsToScene()
         addTimerToScene()
         //setBackgroundMusic("Assets/A_Journey_Awaits")
+        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
         
+        tileMap!.addChild(enemy!)
+        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)
+        self.addChild(tileMap!)
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
@@ -92,7 +97,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player!.removeFromParent()
             self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
             tileMap!.removeFromParent()
-            
         }
         tileMap = JSTileMap(named: mapName)
         TileManager.instance.setTileMap(tileMap!)
@@ -103,7 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tileMap!.addChild(player!)
         player!.position = CGPoint(x: tileMap!.tileSize.width * 1.5, y: tileMap!.tileSize.height * 2)
         
-        self.addChild(tileMap!)
+        //self.addChild(tileMap!)
     }
     
     func addHeartsToScene() {
@@ -121,7 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addPlayerToScene() {
         player = Player()
     }
-    
        
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -147,6 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             lastInterval = currentTime
             
             player!.update(delta)
+            enemy!.update(delta)
             
             let layer = tileMap!.layerNamed("MovableMap")
             let gid = layer.tileGidAt(player!.position)

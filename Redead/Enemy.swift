@@ -14,22 +14,69 @@ enum Difficulty{
 
 class Enemy: SKSpriteNode{
     var health = 3
-    var directionFacing = DirectionalPad.Direction.Down
+    var directionFacing = Direction.None
+    var previousDirectionalInput = Direction.None
     var moveSpeed: CGFloat = 100.0
+    var walkLeftTexture = [SKTexture]()
+    var attackTexture = [SKTexture]()
+    var appearTexture = [SKTexture]()
+    var idleTexture = [SKTexture]()
+    let player: Player
+    let animationFrameTime = 0.1
+
     var upperBound: CGFloat = 0.0
     var lowerBound: CGFloat = 0.0
     var leftBound: CGFloat = 0.0
     var rightBound: CGFloat = 0.0
     
-    init(imageName: String, size: CGSize, level: Difficulty) {
-        let texture = SKTexture(imageNamed: imageName)
+    enum Direction {
+        case None, UpLeft, UpRight, DownLeft, DownRight
+    }
+    
+    init(level: Difficulty, thePlayer: Player) {
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_1.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_2.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_3.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_4.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_5.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_6.png"))
+        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_7.png"))
         
-        super.init(texture: texture, color: UIColor.clearColor(), size: size)
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_1.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_2.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_3.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_4.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_5.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_6.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_7.png"))
+        
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_1.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_2.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_3.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_4.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_5.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_6.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_7.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_8.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_9.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_10.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_11.png"))
+        
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/zombie.png"))
+        
+        let enemySize = CGSizeMake(walkLeftTexture[1].size().width/2.5, walkLeftTexture[1].size().height/2.5)
+        
+        
+        player = thePlayer
+        
+        super.init(texture: idleTexture[0], color: UIColor.clearColor(), size: enemySize)
         
         upperBound = self.position.y + self.size.height/2
         lowerBound = self.position.y - self.size.height/2
         rightBound = self.position.x + self.size.width/3
         leftBound = self.position.x - self.size.width/3
+        
+        
         
         switch level{
         case .Hard:
@@ -39,6 +86,8 @@ class Enemy: SKSpriteNode{
         case .Easy:
             moveSpeed = 100.0
         }
+        
+        self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,14 +105,40 @@ class Enemy: SKSpriteNode{
         print(upperBound)
     }
     
-    func update(delta: CFTimeInterval){
+    func getDirectionVector() -> (CGVector){
+        switch directionFacing{
+            case .None: return CGVector(dx: 0,dy: 0)
+            case .UpRight: return CGVector(dx: distanceFromPlayer()/200.0,dy: distanceFromPlayer()/200)
+            case .DownLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200)
+            case .UpLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: distanceFromPlayer()/200.0)
+            case .DownRight: return CGVector(dx: distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200.0)
+        }
+    }
+    
+    func distanceFromPlayer() -> CGFloat  {
+        return sqrt(pow(player.position.x - self.position.x, 2) + pow(player.position.y - self.position.y, 2))
+    }
+    
+    func update(delta: CFTimeInterval) {
+        if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+            directionFacing = .UpLeft
+        }
+        else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
+            directionFacing = .DownLeft
+        }
+        else if player.position.x > self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+            directionFacing = .UpRight
+        }
+        else if player.position.x > self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
+            directionFacing = .DownRight
+        }
+        else {
+            directionFacing = .None
+        }
+        let directionVector = getDirectionVector()
+    
         
-        let direction = InputManager.instance.getDpadDirection()
-        let directionVector = InputManager.instance.getDpadDirectionVector()
-        
-
-        
-        if direction != .None{
+        if directionFacing != .None{
             var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
             var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
                 
@@ -76,7 +151,7 @@ class Enemy: SKSpriteNode{
                 var gidYDown: Int32
                     
                     
-                //Checks the player bounds
+                //Checks the enemy bounds
                 gidXRight = layer.tileGidAt(CGPointMake(rightBound + x, position.y))
                 gidXLeft = layer.tileGidAt(CGPointMake(leftBound + x, position.y))
                 gidYUp = layer.tileGidAt(CGPointMake(position.x, upperBound + y))
@@ -101,7 +176,22 @@ class Enemy: SKSpriteNode{
             
             move(x , yMove: y)
             
-            directionFacing = direction
+            if previousDirectionalInput != directionFacing{
+                if directionFacing == .UpRight && directionFacing == .DownRight{
+                    xScale = -1
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
+                }
+                else if directionFacing == .UpLeft && directionFacing == .DownLeft {
+                    xScale = 1
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                }
+            }
+            
+            previousDirectionalInput = directionFacing
+        }
+        else{
+            self.removeActionForKey("moveAnimation")
+            previousDirectionalInput = .None
         }
     }
 
