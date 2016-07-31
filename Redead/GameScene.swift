@@ -185,6 +185,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         let firstNode = contact.bodyA.node as! SKSpriteNode
         let secondNode = contact.bodyB.node as! SKSpriteNode
+        
+        if firstNode is Player && secondNode is Enemy{
+            // hurt player
+            player!.takeDamage()
+            
+        }else if firstNode is Enemy && secondNode is Player{
+            // hurt player
+            player!.takeDamage()
+            
+        }else if firstNode is Weapon && secondNode is Enemy{
+            // hurt enemy if weapon is attacking
+            print("hit enemy")
+            
+        }else if firstNode is Enemy && secondNode is Weapon{
+            // hurt enemy if weapon is attacking
+            print("hit enemy")
+        }
+        
+        
         print("contact")
         
     

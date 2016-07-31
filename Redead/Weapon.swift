@@ -29,7 +29,7 @@ class Weapon: SKSpriteNode{
         
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.categoryBitMask = 2
-        self.physicsBody!.contactTestBitMask = 1
+        self.physicsBody!.contactTestBitMask = 4
         
         
     }

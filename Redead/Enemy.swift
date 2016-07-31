@@ -76,6 +76,13 @@ class Enemy: SKSpriteNode{
         rightBound = self.position.x + self.size.width/3
         leftBound = self.position.x - self.size.width/3
         
+        let physicsRectSize = CGSize(width: size.width*2/3, height: size.height*2/3)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = 4
+        self.physicsBody!.contactTestBitMask = 1 | 2
+        
         
         
         switch level{
