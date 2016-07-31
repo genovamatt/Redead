@@ -21,6 +21,7 @@ class Enemy: SKSpriteNode{
     var attackTexture = [SKTexture]()
     var appearTexture = [SKTexture]()
     var idleTexture = [SKTexture]()
+    var deathTexture = [SKTexture]()
     let player: Player
     let animationFrameTime = 0.1
 
@@ -62,7 +63,21 @@ class Enemy: SKSpriteNode{
         appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_10.png"))
         appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_11.png"))
         
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/zombie.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_1.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_2.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_3.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_4.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_5.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_6.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_7.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_8.png"))
+        
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_1.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_2.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_3.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_4.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_5.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_6.png"))
         
         let enemySize = CGSizeMake(walkLeftTexture[1].size().width/2.5, walkLeftTexture[1].size().height/2.5)
         
@@ -101,6 +116,18 @@ class Enemy: SKSpriteNode{
         fatalError("init(coder:) has not been implemented")
     }
     
+    func takeDamage() {
+        if health > 0 {
+            health -= 1
+            if health == 0 {
+                print("WHY WON'T YOU DIE")
+                self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
+                self.removeFromParent()
+            }
+        }
+        print("Health: \(health)")
+    }
+    
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove * moveSpeed / 100.0
         self.position.y += yMove * moveSpeed / 100.0
@@ -108,8 +135,6 @@ class Enemy: SKSpriteNode{
         lowerBound = self.position.y - self.size.height/2
         rightBound = self.position.x + self.size.width/3
         leftBound = self.position.x - self.size.width/3
-
-        print(upperBound)
     }
     
     func getDirectionVector() -> (CGVector){
@@ -120,6 +145,10 @@ class Enemy: SKSpriteNode{
             case .UpLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: distanceFromPlayer()/200.0)
             case .DownRight: return CGVector(dx: distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200.0)
         }
+    }
+    
+    func attack() {
+        self.runAction(SKAction.animateWithTextures(attackTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
     }
     
     func distanceFromPlayer() -> CGFloat  {
@@ -148,7 +177,7 @@ class Enemy: SKSpriteNode{
         if directionFacing != .None{
             var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
             var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
-                
+            
             //Checks the map bounds
             if let tileMap = TileManager.instance.tileMap {
                 let layer = tileMap.layerNamed("MovableMap")
@@ -183,12 +212,12 @@ class Enemy: SKSpriteNode{
             
             move(x , yMove: y)
             
-            if previousDirectionalInput != directionFacing{
-                if directionFacing == .UpRight && directionFacing == .DownRight{
+            if previousDirectionalInput != directionFacing {
+                if directionFacing == .UpRight || directionFacing == .DownRight{
                     xScale = -1
                     self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
                 }
-                else if directionFacing == .UpLeft && directionFacing == .DownLeft {
+                else if directionFacing == .UpLeft || directionFacing == .DownLeft {
                     xScale = 1
                     self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
                 }

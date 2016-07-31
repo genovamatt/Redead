@@ -41,11 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addHeartsToScene()
         addTimerToScene()
         //setBackgroundMusic("Assets/A_Journey_Awaits")
-        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
-        
-        tileMap!.addChild(enemy!)
-        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)
-        self.addChild(tileMap!)
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
@@ -107,7 +102,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tileMap!.addChild(player!)
         player!.position = CGPoint(x: tileMap!.tileSize.width * 1.5, y: tileMap!.tileSize.height * 2)
         
-        //self.addChild(tileMap!)
+        addEnemiesToScene()
+        
+        self.addChild(tileMap!)
     }
     
     func addHeartsToScene() {
@@ -124,6 +121,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addPlayerToScene() {
         player = Player()
+    }
+    
+    func addEnemiesToScene() {
+        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
+        
+        tileMap!.addChild(enemy!)
+        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)
     }
        
     override func update(currentTime: CFTimeInterval) {
@@ -196,10 +200,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }else if firstNode is Weapon && secondNode is Enemy{
             // hurt enemy if weapon is attacking
+            let e = secondNode as! Enemy
+            e.takeDamage()
             print("hit enemy")
             
         }else if firstNode is Enemy && secondNode is Weapon{
             // hurt enemy if weapon is attacking
+            let e = firstNode as! Enemy
+            e.takeDamage()
             print("hit enemy")
         }
         
