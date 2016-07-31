@@ -50,7 +50,7 @@ class Player: SKSpriteNode{
         sword.position = self.position
         self.addChild(sword)
         
-        upperBound = self.position.y + playerSize.height/3
+        upperBound = self.position.y + playerSize.height/2
         lowerBound = self.position.y - playerSize.height/2
         rightBound = self.position.x + playerSize.width/3
         leftBound = self.position.x - playerSize.width/3
@@ -64,14 +64,13 @@ class Player: SKSpriteNode{
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove
         self.position.y += yMove
-        upperBound = self.position.y + playerSize.height/3
+        upperBound = self.position.y + playerSize.height/2
         lowerBound = self.position.y - playerSize.height/2
         rightBound = self.position.x + playerSize.width/3
         leftBound = self.position.x - playerSize.width/3
     }
     
     func update(delta: CFTimeInterval){
-        
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
         
