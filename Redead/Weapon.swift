@@ -10,7 +10,7 @@ import SpriteKit
 
 
 class Weapon: SKSpriteNode{
-    let weaponSize = CGSize(width: 70, height: 12)
+    let weaponSize = CGSize(width: 70.0, height: 12.0)
     let totalSwingTime = 0.3
     let swingRotation:Float = 45.0
     var attacking = false
@@ -22,6 +22,15 @@ class Weapon: SKSpriteNode{
         self.anchorPoint = CGPoint(x: 0,y: 0.5)
         self.zPosition = 0.1
         hidden = true
+        
+        let physicsRectSize = CGSize(width: weaponSize.width*8/9, height: weaponSize.height*8/9)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
+        
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = 2
+        self.physicsBody!.contactTestBitMask = 1
+        
         
     }
     

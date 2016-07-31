@@ -54,6 +54,13 @@ class Player: SKSpriteNode{
         lowerBound = self.position.y - playerSize.height/2
         rightBound = self.position.x + playerSize.width/3
         leftBound = self.position.x - playerSize.width/3
+        
+        let physicsRectSize = CGSize(width: playerSize.width*2/3, height: playerSize.height*2/3)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = 1
+        self.physicsBody!.contactTestBitMask = 2
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -151,6 +158,8 @@ class Player: SKSpriteNode{
             print("x")
             attack()
         }
+        
+        sword.update(delta)
         
         
     }

@@ -10,7 +10,7 @@ import SpriteKit
 import AVFoundation
 
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
@@ -42,6 +42,10 @@ class GameScene: SKScene {
         //setBackgroundMusic("Assets/A_Journey_Awaits")
         
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
+        
+        self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVectorMake(0,0)
+        
         initialized = true
     }
     
@@ -172,6 +176,14 @@ class GameScene: SKScene {
             InputManager.instance.update()
 
         }
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        let firstNode = contact.bodyA.node as! SKSpriteNode
+        let secondNode = contact.bodyB.node as! SKSpriteNode
+        print("contact")
+        
+    
     }
     
     /*
