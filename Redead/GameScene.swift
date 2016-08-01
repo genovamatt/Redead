@@ -187,29 +187,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        let firstNode = contact.bodyA.node as! SKSpriteNode
-        let secondNode = contact.bodyB.node as! SKSpriteNode
-        
-        if firstNode is Player && secondNode is Enemy{
-            // hurt player
-            player!.takeDamage()
-            
-        }else if firstNode is Enemy && secondNode is Player{
-            // hurt player
-            player!.takeDamage()
-            
-        }else if firstNode is Weapon && secondNode is Enemy{
-            // hurt enemy if weapon is attacking
-            let e = secondNode as! Enemy
-            e.takeDamage()
-            print("hit enemy")
-            
-        }else if firstNode is Enemy && secondNode is Weapon{
-            // hurt enemy if weapon is attacking
-            let e = firstNode as! Enemy
-            e.takeDamage()
-            print("hit enemy")
+        if let firstNode = contact.bodyA.node as? SKSpriteNode{
+            if let secondNode = contact.bodyB.node as? SKSpriteNode{
+                if firstNode is Player && secondNode is Enemy{
+                    // hurt player
+                    player!.takeDamage(secondNode as! Enemy)
+                    
+                }else if firstNode is Enemy && secondNode is Player{
+                    // hurt player
+                    player!.takeDamage(firstNode as! Enemy)
+                    
+                }else if firstNode is Weapon && secondNode is Enemy{
+                    // hurt enemy if weapon is attacking
+                    if let weapon = firstNode as? Weapon{
+                        if weapon.attacking{
+                            let e = secondNode as! Enemy
+                            e.takeDamage(weapon)
+                            print("hit enemy")
+                        }
+                        
+                    }
+                    
+                    
+                    
+                }else if firstNode is Enemy && secondNode is Weapon{
+                    // hurt enemy if weapon is attacking
+                    if let weapon = secondNode as? Weapon{
+                        if weapon.attacking{
+                            let e = firstNode as! Enemy
+                            e.takeDamage(weapon)
+                            print("hit enemy")
+                        }
+                        
+                    }
+
+                }
+
+            }
         }
+        
+        
         
         
         print("contact")
