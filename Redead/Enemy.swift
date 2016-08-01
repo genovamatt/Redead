@@ -24,6 +24,7 @@ class Enemy: SKSpriteNode{
     var deathTexture = [SKTexture]()
     let player: Player
     let animationFrameTime = 0.1
+    var hasAppeared = false
 
     var upperBound: CGFloat = 0.0
     var lowerBound: CGFloat = 0.0
@@ -79,12 +80,12 @@ class Enemy: SKSpriteNode{
         idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_5.png"))
         idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_6.png"))
         
-        let enemySize = CGSizeMake(walkLeftTexture[1].size().width/2.5, walkLeftTexture[1].size().height/2.5)
+        let enemySize = CGSizeMake(walkLeftTexture[1].size().width, walkLeftTexture[1].size().height)
         
         
         player = thePlayer
         
-        super.init(texture: idleTexture[0], color: UIColor.clearColor(), size: enemySize)
+        super.init(texture: appearTexture[0], color: UIColor.clearColor(), size: enemySize)
         
         upperBound = self.position.y + self.size.height/2
         lowerBound = self.position.y - self.size.height/2
@@ -108,10 +109,6 @@ class Enemy: SKSpriteNode{
         case .Easy:
             moveSpeed = 100.0
         }
-        
-        self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
-            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
-            })
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -162,6 +159,12 @@ class Enemy: SKSpriteNode{
     }
     
     func update(delta: CFTimeInterval) {
+        if !hasAppeared && distanceFromPlayer() <= 400 {
+            self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
+                self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+            })
+            hasAppeared = true
+        }
         if player.position.x <= self.position.x + 1 && player.position.x >= self.position.x - 1  && distanceFromPlayer() < 200.0 {
             if player.position.y > self.position.y {
                 directionFacing = .Up
