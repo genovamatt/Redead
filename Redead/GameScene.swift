@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var directionalPad:DirectionalPad? = nil
     var player:Player? = nil
     var tileMap:JSTileMap? = nil
-    var enemy: Enemy? = nil
+    var enemiesOnScreen: [Enemy] = [Enemy]()
     
     var lastInterval: CFTimeInterval?
     var elapsedTime: Float = 0.0
@@ -90,6 +90,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (tileMap != nil) {
             player!.removeFromParent()
+            for enemy in enemiesOnScreen {
+                if enemy.parent != nil {
+                    enemy.removeFromParent()
+                }
+            }
+            enemiesOnScreen = [Enemy]()
             self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
             tileMap!.removeFromParent()
         }
@@ -124,10 +130,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addEnemiesToScene() {
-        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
-        
+        print("MapSize: \(tileMap!.mapSize)")
+        var x = 0
+        var y = 0
+        let enemyLocLayer = tileMap!.layerNamed("EnemyLocs")
+        while x <  Int(tileMap!.mapSize.width){
+            while y < Int(tileMap!.mapSize.height) {
+                let point = CGPoint(x: x, y: y)
+                let gid = enemyLocLayer.tileGidAt(enemyLocLayer.pointForCoord(point))
+                if gid != 0 {
+                    var enemy: Enemy? = nil
+                    if gid == 2 {
+                        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
+                    }
+                    else if gid == 3 {
+                        enemy = Enemy(level: Difficulty.Medium, thePlayer: player!)
+                    }
+                    else if gid == 4 {
+                        enemy = Enemy(level: Difficulty.Hard, thePlayer: player!)
+                    }
+                    //print("GID \(gid)")
+                    enemiesOnScreen.append(enemy!)
+                    let enemyGridCoord = enemyLocLayer.pointForCoord(point)
+                    enemy!.position = enemyGridCoord
+                    
+                    tileMap!.addChild(enemy!)
+                }
+                y+=1
+            }
+            y = 0
+            x += 1
+        }
+        /* enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
         tileMap!.addChild(enemy!)
-        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)
+        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)*/
     }
        
     override func update(currentTime: CFTimeInterval) {
@@ -154,11 +190,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             lastInterval = currentTime
             
             player!.update(delta)
-            enemy!.update(delta)
+            for enemy in enemiesOnScreen {
+                enemy.update(delta)
+            }
             
             let layer = tileMap!.layerNamed("MovableMap")
             let gid = layer.tileGidAt(player!.position)
-            
             if gid == 3 {
                 addMapToScene(maps[tileMap!.name!]!)
             }

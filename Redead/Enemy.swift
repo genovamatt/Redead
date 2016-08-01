@@ -38,7 +38,7 @@ class Enemy: SKSpriteNode{
     var rightBound: CGFloat = 0.0
     
     enum Direction {
-        case None, UpLeft, UpRight, DownLeft, DownRight
+        case None, UpLeft, UpRight, DownLeft, DownRight, Up, Down, Left, Right
     }
     
     init(level: Difficulty, thePlayer: Player) {
@@ -86,12 +86,12 @@ class Enemy: SKSpriteNode{
         idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_5.png"))
         idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_6.png"))
         
-        let enemySize = CGSizeMake(walkLeftTexture[1].size().width/2.5, walkLeftTexture[1].size().height/2.5)
+        let enemySize = CGSizeMake(walkLeftTexture[1].size().width, walkLeftTexture[1].size().height)
         
         
         player = thePlayer
         
-        super.init(texture: idleTexture[0], color: UIColor.clearColor(), size: enemySize)
+        super.init(texture: appearTexture[0], color: UIColor.clearColor(), size: enemySize)
         
         upperBound = self.position.y + self.size.height/2
         lowerBound = self.position.y - self.size.height/2
@@ -109,8 +109,6 @@ class Enemy: SKSpriteNode{
         case .Easy:
             moveSpeed = 100.0
         }
-        
-        self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
     }
     
     func setUpPhysics(){
@@ -144,12 +142,12 @@ class Enemy: SKSpriteNode{
             knockbackDirectionVector = direction
             
             if health == 0 {
-                print("WHY WON'T YOU DIE")
-                self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
-                self.removeFromParent()
+                self.physicsBody = nil  //This is to prevent the dead zombie from hurting the player
+                self.removeActionForKey("moveAnimation")
+                self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime*1.2, resize: true, restore: false), completion: {self.removeFromParent()})
             }
         }
-        print("Health: \(health)")
+        print("Enemy Health: \(health)")
     }
     
     func flash(){
@@ -178,6 +176,10 @@ class Enemy: SKSpriteNode{
     func getDirectionVector() -> (CGVector){
         switch directionFacing{
             case .None: return CGVector(dx: 0,dy: 0)
+            case .Up: return CGVector(dx: 0, dy: distanceFromPlayer()/200.0)
+            case .Down: return CGVector(dx: 0, dy: -distanceFromPlayer()/200.0)
+            case .Left: return CGVector(dx: -distanceFromPlayer()/200.0, dy: 0)
+            case .Right: return CGVector(dx: distanceFromPlayer()/200.0, dy: 0)
             case .UpRight: return CGVector(dx: distanceFromPlayer()/200.0,dy: distanceFromPlayer()/200)
             case .DownLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200)
             case .UpLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: distanceFromPlayer()/200.0)
