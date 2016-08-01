@@ -24,7 +24,15 @@ class Enemy: SKSpriteNode{
     var deathTexture = [SKTexture]()
     let player: Player
     let animationFrameTime = 0.1
+    var dead = false
+    
+    var knockbackTimer = 0.0
+    var knockbackDirectionVector = CGVector()
+    let knockbackTime = 0.3
+    let knockbackSpeed: CGFloat = 150.0
+    var isKnockedBack = false
     var hasAppeared = false
+
 
     var upperBound: CGFloat = 0.0
     var lowerBound: CGFloat = 0.0
@@ -92,14 +100,8 @@ class Enemy: SKSpriteNode{
         rightBound = self.position.x + self.size.width/3 - 10
         leftBound = self.position.x - self.size.width/3 + 10
         
-        let physicsRectSize = CGSize(width: size.width*2/3, height: size.height*2/3)
-        
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
-        self.physicsBody!.collisionBitMask = 0
-        self.physicsBody!.categoryBitMask = 4
-        self.physicsBody!.contactTestBitMask = 1 | 2
-        
-        
+        setUpPhysics()
+
         
         switch level{
         case .Hard:
@@ -111,21 +113,61 @@ class Enemy: SKSpriteNode{
         }
     }
     
+    func setUpPhysics(){
+        let physicsRectSize = CGSize(width: size.width*2/3, height: size.height*2/3)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = 4
+        self.physicsBody!.contactTestBitMask = 1 | 2
+    }
+    
+    func removePhysics(){
+        self.physicsBody = nil
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func takeDamage() {
+    func takeDamage(weapon: Weapon) {
         if health > 0 {
             health -= 1
+            flash()
+            removePhysics()
+            
+            
             if health == 0 {
-                self.physicsBody = nil  //This is to prevent the dead zombie from hurting the player
+                dead = true
                 self.removeActionForKey("moveAnimation")
                 self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime*1.2, resize: true, restore: false), completion: {self.removeFromParent()})
+            }else{
+                isKnockedBack = true
+                knockbackTimer = knockbackTime
+                var direction = CGVector(dx:  position.x - player.position.x, dy: position.y - player.position.y)
+                let magnitude = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
+                direction.dx = direction.dx / magnitude
+                direction.dy = direction.dy / magnitude
+                
+                knockbackDirectionVector = direction
             }
         }
         print("Enemy Health: \(health)")
     }
+    
+    func flash(){
+        let turnRedColor = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.2)
+        let turnNormalColor = SKAction.colorizeWithColor(UIColor.clearColor(), colorBlendFactor: 0, duration: 0.2)
+        self.runAction(turnRedColor, completion: {
+            self.runAction(turnNormalColor, completion: {
+                self.runAction(turnRedColor, completion: {
+                    self.runAction(turnNormalColor)
+                })
+            })
+            
+        })
+    }
+
     
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove * moveSpeed / 100.0
@@ -150,6 +192,8 @@ class Enemy: SKSpriteNode{
         }
     }
     
+    
+    
     func attack() {
         self.runAction(SKAction.animateWithTextures(attackTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
     }
@@ -169,16 +213,21 @@ class Enemy: SKSpriteNode{
             if player.position.y > self.position.y {
                 directionFacing = .Up
             }
-            else {
-                directionFacing = .Down
+            if player.position.x <= self.position.x + 1 && player.position.x >= self.position.x - 1  && distanceFromPlayer() < 200.0 {
+                if player.position.y > self.position.y {
+                    directionFacing = .Up
+                }
+                else {
+                    directionFacing = .Down
+                }
             }
         }
         else if player.position.y <= self.position.y + 1.5 && player.position.y >= self.position.y - 1.5 && distanceFromPlayer() < 350.0 {
             if player.position.x > self.position.x {
                 directionFacing = .Right
             }
-            else {
-                directionFacing = .Left
+            else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+                directionFacing = .UpLeft
             }
         }
         else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
@@ -229,6 +278,7 @@ class Enemy: SKSpriteNode{
                 //Checks if the tile the player is moving to is part of the movableMap
                 if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
                     x = 0.0
+                    y = 0.0
                 }
                 if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
                     y = 0.0
@@ -237,39 +287,38 @@ class Enemy: SKSpriteNode{
                 /*if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x + x, position.y)) {
                     x = 0.0
                 }
-                if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x, position.y + y)) {
-                    y = 0.0
-                }*/
-            }
-            
-            move(x , yMove: y)
-            
-            if (previousDirectionalInput == .None) {
-                self.removeActionForKey("idleAnimation")
-            }
-            
-            if previousDirectionalInput != directionFacing {
-                if directionFacing == .UpRight || directionFacing == .DownRight || directionFacing == .Right || directionFacing == .Down {
-                    xScale = -1
-                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
+                
+                move(x , yMove: y)
+                
+                if (previousDirectionalInput == .None) {
+                    self.removeActionForKey("idleAnimation")
                 }
-                else if directionFacing == .UpLeft || directionFacing == .DownLeft || directionFacing == .Left || directionFacing == .Up {
-                    xScale = 1
-                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                
+                if previousDirectionalInput != directionFacing {
+                    if directionFacing == .UpRight || directionFacing == .DownRight || directionFacing == .Right || directionFacing == .Down {
+                        xScale = -1
+                        self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
+                    }
+                    else if directionFacing == .UpLeft || directionFacing == .DownLeft || directionFacing == .Left || directionFacing == .Up {
+                        xScale = 1
+                        self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                    }
                 }
+                
+                previousDirectionalInput = directionFacing
             }
-            
-            previousDirectionalInput = directionFacing
-        }
-        else{
-            self.removeActionForKey("moveAnimation")
-            if (previousDirectionalInput != .None) {
-                print("Begin idle!")
-                self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(idleTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+            else{
+                self.removeActionForKey("moveAnimation")
+                if (previousDirectionalInput != .None) {
+                    print("Begin idle!")
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(idleTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+                }
+                previousDirectionalInput = .None
+                
             }
-            previousDirectionalInput = .None
-            
+
         }
     }
+        
 
 }
