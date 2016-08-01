@@ -136,7 +136,7 @@ class Enemy: SKSpriteNode{
             removePhysics()
             isKnockedBack = true
             knockbackTimer = knockbackTime
-            var direction = CGVector(dx:  position.x - weapon.position.x, dy: position.y - weapon.position.y)
+            var direction = CGVector(dx:  position.x - weapon.position.x, dy: position.y - enemy.position.y)
             let magnitude = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
             direction.dx = direction.dx / magnitude
             direction.dy = direction.dy / magnitude
