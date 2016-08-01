@@ -15,6 +15,8 @@ class Player: SKSpriteNode{
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var moveSpeed: CGFloat = 100.0
     var sword = Weapon()
+    
+    
     var walkUpTexture = [SKTexture]()
     var walkDownTexture = [SKTexture]()
     var walkRightTexture = [SKTexture]()
@@ -178,10 +180,24 @@ class Player: SKSpriteNode{
     
     func takeDamage() {
         if (health > 0) {
+            flash()
             heartsArray[health-1].texture = SKTexture(imageNamed: "Assets/empty_heart.png")
             health -= 1
         }
         
+    }
+    
+    func flash(){
+        let turnRedColor = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.2)
+        let turnNormalColor = SKAction.colorizeWithColor(UIColor.clearColor(), colorBlendFactor: 0, duration: 0.2)
+        self.runAction(turnRedColor, completion: {
+            self.runAction(turnNormalColor, completion: {
+                self.runAction(turnRedColor, completion: {
+                    self.runAction(turnNormalColor)
+                })
+            })
+            
+        })
     }
     
     
