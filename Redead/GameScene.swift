@@ -133,21 +133,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("MapSize: \(tileMap!.mapSize)")
         var x = 0
         var y = 0
-        let enemyLocLayer = tileMap!.layerNamed("Walls")
+        let enemyLocLayer = tileMap!.layerNamed("EnemyLocs")
         while x <  Int(tileMap!.mapSize.width){
             while y < Int(tileMap!.mapSize.height) {
                 let point = CGPoint(x: x, y: y)
                 let gid = enemyLocLayer.tileGidAt(enemyLocLayer.pointForCoord(point))
                 if gid != 0 {
-                    let enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
+                    var enemy: Enemy? = nil
+                    if gid == 2 {
+                        enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
+                    }
+                    else if gid == 3 {
+                        enemy = Enemy(level: Difficulty.Medium, thePlayer: player!)
+                    }
+                    else if gid == 4 {
+                        enemy = Enemy(level: Difficulty.Hard, thePlayer: player!)
+                    }
                     //print("GID \(gid)")
-                    enemiesOnScreen.append(enemy)
+                    enemiesOnScreen.append(enemy!)
                     let enemyGridCoord = enemyLocLayer.pointForCoord(point)
-                    enemy.position = enemyGridCoord
+                    enemy!.position = enemyGridCoord
                     
-                    tileMap!.addChild(enemy)
-                    
-                    //print(enemy.position)
+                    tileMap!.addChild(enemy!)
                 }
                 y+=1
             }

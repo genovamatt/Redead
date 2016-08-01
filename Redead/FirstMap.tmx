@@ -77,7 +77,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="EnemyLocs" width="8" height="8" visible="0">
+ <layer name="EnemyLocs" width="8" height="8">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -97,7 +97,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1"/>
+   <tile gid="2"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -116,7 +116,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1"/>
+   <tile gid="2"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
