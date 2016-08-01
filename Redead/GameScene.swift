@@ -161,9 +161,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             y = 0
             x += 1
         }
-        /* enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
-        tileMap!.addChild(enemy!)
-        enemy!.position = CGPoint(x: tileMap!.tileSize.width * 5, y: tileMap!.tileSize.height * 4)*/
     }
        
     override func update(currentTime: CFTimeInterval) {

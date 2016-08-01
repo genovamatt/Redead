@@ -87,10 +87,10 @@ class Enemy: SKSpriteNode{
         
         super.init(texture: appearTexture[0], color: UIColor.clearColor(), size: enemySize)
         
-        upperBound = self.position.y + self.size.height/2
-        lowerBound = self.position.y - self.size.height/2
-        rightBound = self.position.x + self.size.width/3
-        leftBound = self.position.x - self.size.width/3
+        upperBound = self.position.y + self.size.height/2 - 10
+        lowerBound = self.position.y - self.size.height/2 + 10
+        rightBound = self.position.x + self.size.width/3 - 10
+        leftBound = self.position.x - self.size.width/3 + 10
         
         let physicsRectSize = CGSize(width: size.width*2/3, height: size.height*2/3)
         
@@ -130,10 +130,10 @@ class Enemy: SKSpriteNode{
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove * moveSpeed / 100.0
         self.position.y += yMove * moveSpeed / 100.0
-        upperBound = self.position.y + self.size.height/2
-        lowerBound = self.position.y - self.size.height/2
-        rightBound = self.position.x + self.size.width/3
-        leftBound = self.position.x - self.size.width/3
+        upperBound = self.position.y + self.size.height/2 - 10
+        lowerBound = self.position.y - self.size.height/2 + 10
+        rightBound = self.position.x + self.size.width/3 - 10
+        leftBound = self.position.x - self.size.width/3 + 10
     }
     
     func getDirectionVector() -> (CGVector){
@@ -159,13 +159,13 @@ class Enemy: SKSpriteNode{
     }
     
     func update(delta: CFTimeInterval) {
-        if !hasAppeared && distanceFromPlayer() <= 400 {
+        if !hasAppeared && distanceFromPlayer() < 400 {
             self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
                 self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
             })
             hasAppeared = true
         }
-        if player.position.x <= self.position.x + 1 && player.position.x >= self.position.x - 1  && distanceFromPlayer() < 200.0 {
+        if player.position.x <= self.position.x + 1.5 && player.position.x >= self.position.x - 1.5  && distanceFromPlayer() < 200.0 {
             if player.position.y > self.position.y {
                 directionFacing = .Up
             }
@@ -173,7 +173,7 @@ class Enemy: SKSpriteNode{
                 directionFacing = .Down
             }
         }
-        else if player.position.y <= self.position.y + 1 && player.position.y >= self.position.y - 1 && distanceFromPlayer() < 200.0 {
+        else if player.position.y <= self.position.y + 1.5 && player.position.y >= self.position.y - 1.5 && distanceFromPlayer() < 350.0 {
             if player.position.x > self.position.x {
                 directionFacing = .Right
             }
@@ -202,37 +202,37 @@ class Enemy: SKSpriteNode{
         if directionFacing != .None{
             var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
             var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
-            if player.position.x == self.position.x {
-                x = 0.0
-                y = 0.0
-            }
-            if player.position.y == self.position.y {
-                x = 0.0
-                y = 0.0
-            }
             //Checks the map bounds
             if let tileMap = TileManager.instance.tileMap {
                 let layer = tileMap.layerNamed("MovableMap")
-                var gidXRight: Int32
-                var gidXLeft: Int32
-                var gidYUp: Int32
-                var gidYDown: Int32
+                var gidTopRightX: Int32
+                var gidTopLeftX: Int32
+                var gidBottomRightX: Int32
+                var gidBottomLeftX: Int32
+                var gidTopRightY: Int32
+                var gidTopLeftY: Int32
+                var gidBottomRightY: Int32
+                var gidBottomLeftY: Int32
                     
                     
                 //Checks the enemy bounds
-                gidXRight = layer.tileGidAt(CGPointMake(rightBound + x, position.y))
-                gidXLeft = layer.tileGidAt(CGPointMake(leftBound + x, position.y))
-                gidYUp = layer.tileGidAt(CGPointMake(position.x, upperBound + y))
-                gidYDown = layer.tileGidAt(CGPointMake(position.x, lowerBound + y))
+                gidTopRightX = layer.tileGidAt(CGPointMake(rightBound + x, upperBound))
+                gidTopLeftX = layer.tileGidAt(CGPointMake(leftBound + x, upperBound))
+                gidBottomRightX = layer.tileGidAt(CGPointMake(rightBound + x, lowerBound))
+                gidBottomLeftX = layer.tileGidAt(CGPointMake(leftBound + x, lowerBound))
+                gidTopRightY = layer.tileGidAt(CGPointMake(rightBound, upperBound + y))
+                gidTopLeftY = layer.tileGidAt(CGPointMake(leftBound, upperBound + y))
+                gidBottomRightY = layer.tileGidAt(CGPointMake(rightBound, lowerBound + y))
+                gidBottomLeftY = layer.tileGidAt(CGPointMake(leftBound, lowerBound + y))
+                
                 
                 //Checks if the tile the player is moving to is part of the movableMap
-                if gidXRight == 0 || gidXLeft == 0 {
+                if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
                     x = 0.0
                 }
-                if gidYUp == 0 || gidYDown == 0 {
+                if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
                     y = 0.0
                 }
-                    
                 //This is no longer used, left here for reference
                 /*if !tileMap.layerNamed("MovableMap").containsPoint(CGPointMake(position.x + x, position.y)) {
                     x = 0.0
