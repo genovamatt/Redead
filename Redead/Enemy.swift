@@ -24,12 +24,14 @@ class Enemy: SKSpriteNode{
     var deathTexture = [SKTexture]()
     let player: Player
     let animationFrameTime = 0.1
+    var dead = false
     
     var knockbackTimer = 0.0
     var knockbackDirectionVector = CGVector()
     let knockbackTime = 0.3
     let knockbackSpeed: CGFloat = 150.0
     var isKnockedBack = false
+    var hasAppeared = false
 
 
     var upperBound: CGFloat = 0.0
@@ -131,20 +133,23 @@ class Enemy: SKSpriteNode{
     func takeDamage(weapon: Weapon) {
         if health > 0 {
             health -= 1
+            flash()
             removePhysics()
-            isKnockedBack = true
-            knockbackTimer = knockbackTime
-            var direction = CGVector(dx:  position.x - weapon.position.x, dy: position.y - weapon.position.y)
-            let magnitude = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-            direction.dx = direction.dx / magnitude
-            direction.dy = direction.dy / magnitude
             
-            knockbackDirectionVector = direction
             
             if health == 0 {
-                self.physicsBody = nil  //This is to prevent the dead zombie from hurting the player
+                dead = true
                 self.removeActionForKey("moveAnimation")
                 self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime*1.2, resize: true, restore: false), completion: {self.removeFromParent()})
+            }else{
+                isKnockedBack = true
+                knockbackTimer = knockbackTime
+                var direction = CGVector(dx:  position.x - player.position.x, dy: position.y - player.position.y)
+                let magnitude = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
+                direction.dx = direction.dx / magnitude
+                direction.dy = direction.dy / magnitude
+                
+                knockbackDirectionVector = direction
             }
         }
         print("Enemy Health: \(health)")
@@ -198,19 +203,41 @@ class Enemy: SKSpriteNode{
     }
     
     func update(delta: CFTimeInterval) {
-        if isKnockedBack{
-            if knockbackTimer > 0{
-                knockbackTimer -= delta
-                let x: CGFloat = knockbackDirectionVector.dx * knockbackSpeed * CGFloat(delta)
-                let y: CGFloat = knockbackDirectionVector.dy * knockbackSpeed * CGFloat(delta)
-                
-                move(x, yMove: y)
-            }else{
-                isKnockedBack = false
-                setUpPhysics()
+        if !dead{
+            if isKnockedBack{
+                if knockbackTimer > 0{
+                    knockbackTimer -= delta
+                    let x: CGFloat = knockbackDirectionVector.dx * knockbackSpeed * CGFloat(delta)
+                    let y: CGFloat = knockbackDirectionVector.dy * knockbackSpeed * CGFloat(delta)
+                    
+                    move(x, yMove: y)
+                }else{
+                    isKnockedBack = false
+                    setUpPhysics()
+                }
+            }else if !hasAppeared && distanceFromPlayer() <= 400 {
+                self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+                })
+                hasAppeared = true
             }
-        }else{
-            if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+            if player.position.x <= self.position.x + 1 && player.position.x >= self.position.x - 1  && distanceFromPlayer() < 200.0 {
+                if player.position.y > self.position.y {
+                    directionFacing = .Up
+                }
+                else {
+                    directionFacing = .Down
+                }
+            }
+            else if player.position.y <= self.position.y + 1 && player.position.y >= self.position.y - 1 && distanceFromPlayer() < 200.0 {
+                if player.position.x > self.position.x {
+                    directionFacing = .Right
+                }
+                else {
+                    directionFacing = .Left
+                }
+            }
+            else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
                 directionFacing = .UpLeft
             }
             else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
@@ -231,7 +258,14 @@ class Enemy: SKSpriteNode{
             if directionFacing != .None{
                 var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
                 var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
-                
+                if player.position.x == self.position.x {
+                    x = 0.0
+                    y = 0.0
+                }
+                if player.position.y == self.position.y {
+                    x = 0.0
+                    y = 0.0
+                }
                 //Checks the map bounds
                 if let tileMap = TileManager.instance.tileMap {
                     let layer = tileMap.layerNamed("MovableMap")
@@ -266,12 +300,16 @@ class Enemy: SKSpriteNode{
                 
                 move(x , yMove: y)
                 
+                if (previousDirectionalInput == .None) {
+                    self.removeActionForKey("idleAnimation")
+                }
+                
                 if previousDirectionalInput != directionFacing {
-                    if directionFacing == .UpRight || directionFacing == .DownRight{
+                    if directionFacing == .UpRight || directionFacing == .DownRight || directionFacing == .Right || directionFacing == .Down {
                         xScale = -1
                         self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
                     }
-                    else if directionFacing == .UpLeft || directionFacing == .DownLeft {
+                    else if directionFacing == .UpLeft || directionFacing == .DownLeft || directionFacing == .Left || directionFacing == .Up {
                         xScale = 1
                         self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
                     }
@@ -281,11 +319,16 @@ class Enemy: SKSpriteNode{
             }
             else{
                 self.removeActionForKey("moveAnimation")
+                if (previousDirectionalInput != .None) {
+                    print("Begin idle!")
+                    self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(idleTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+                }
                 previousDirectionalInput = .None
+                
             }
 
         }
-        
     }
+        
 
 }
