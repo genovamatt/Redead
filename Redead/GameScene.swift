@@ -192,10 +192,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if firstNode is Player && secondNode is Enemy{
             // hurt player
+            let e = secondNode as! Enemy
+            e.attack()
             player!.takeDamage()
             
         }else if firstNode is Enemy && secondNode is Player{
             // hurt player
+            let e = firstNode as! Enemy
+            e.attack()
             player!.takeDamage()
             
         }else if firstNode is Weapon && secondNode is Enemy{
