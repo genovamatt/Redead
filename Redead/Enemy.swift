@@ -258,14 +258,6 @@ class Enemy: SKSpriteNode{
             if directionFacing != .None{
                 var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
                 var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
-                if player.position.x == self.position.x {
-                    x = 0.0
-                    y = 0.0
-                }
-                if player.position.y == self.position.y {
-                    x = 0.0
-                    y = 0.0
-                }
                 //Checks the map bounds
                 if let tileMap = TileManager.instance.tileMap {
                     let layer = tileMap.layerNamed("MovableMap")
@@ -296,7 +288,8 @@ class Enemy: SKSpriteNode{
                     }
                     if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
                         y = 0.0
-                    }                }
+                    }
+                }
                 
                 move(x , yMove: y)
                 
