@@ -23,7 +23,7 @@ class Enemy: SKSpriteNode{
     var idleTexture = [SKTexture]()
     var deathTexture = [SKTexture]()
     let player: Player
-    let animationFrameTime = 0.2
+    let animationFrameTime = 0.1
     var dead = false
     
     var knockbackTimer = 0.0
