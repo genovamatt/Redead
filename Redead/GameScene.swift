@@ -44,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addMapToScene("FirstMap.tmx")
         addHeartsToScene()
         addTimerToScene()
-        //setBackgroundMusic("Assets/A_Journey_Awaits")
+        sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
@@ -242,14 +242,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                 }else if firstNode is Enemy && secondNode is Player{
                     // hurt player
-                    player!.takeDamage(secondNode as! Enemy)
+                    player!.takeDamage(firstNode as! Enemy)
                     //play hit sound, death sound if necessary
                     sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                 }else if firstNode is Weapon && secondNode is Enemy{
                     // hurt enemy if weapon is attacking
-                    if let weapon = secondNode as? Weapon{
+                    if let weapon = firstNode as? Weapon{
                         if weapon.attacking{
-                            let e = firstNode as! Enemy
+                            let e = secondNode as! Enemy
                             e.takeDamage(weapon)
                             print("hit enemy")
                             //play hit sound

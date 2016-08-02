@@ -215,7 +215,8 @@ class Enemy: SKSpriteNode{
                     isKnockedBack = false
                     setUpPhysics()
                 }
-            }else{
+            }
+            else{
             
                 if !hasAppeared && distanceFromPlayer() <= 400 {
                     self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
@@ -242,10 +243,6 @@ class Enemy: SKSpriteNode{
                 else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
                     directionFacing = .UpLeft
                 }
-            
-                else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
-                    directionFacing = .UpLeft
-                }
                 else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
                     directionFacing = .DownLeft
                 }
@@ -259,11 +256,19 @@ class Enemy: SKSpriteNode{
                     directionFacing = .None
                 }
                 let directionVector = getDirectionVector()
-            
-            
+                
+                
                 if directionFacing != .None{
                     var x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
                     var y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
+                    if player.position.x == self.position.x {
+                        x = 0.0
+                        y = 0.0
+                    }
+                    if player.position.y == self.position.y {
+                        x = 0.0
+                        y = 0.0
+                    }
                     //Checks the map bounds
                     if let tileMap = TileManager.instance.tileMap {
                         let layer = tileMap.layerNamed("MovableMap")

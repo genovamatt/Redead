@@ -19,7 +19,7 @@ class Sounds{
     
     public let deathMusic = "Assets/Death Is Just Another Path_0"
     public let deathMusicExt = "mp3"
-    public let dungeonMusic = "Assets/A Journey Awaits"
+    public let dungeonMusic = "Assets/A_Journey_Awaits"
     public let dungeonMusicExt = "mp3"
     public let bossMusic = "Assets/boss_theme"
     public let bossMusicExt = "mp3"
