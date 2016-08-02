@@ -38,7 +38,7 @@ class Sounds{
             backgroundAudioPlayer = nil
         }
         backgroundAudioPlayer.numberOfLoops = -1
-        backgroundAudioPlayer.volume = 0.2
+        backgroundAudioPlayer.volume = 0.6
         backgroundAudioPlayer.prepareToPlay()
         backgroundAudioPlayer.play()
     }
