@@ -40,7 +40,9 @@ class Sounds{
         backgroundAudioPlayer.numberOfLoops = -1
         backgroundAudioPlayer.volume = 0.3
         backgroundAudioPlayer.prepareToPlay()
-        backgroundAudioPlayer.play()
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {
+            self.backgroundAudioPlayer.play()
+        })
     }
     
     public let hitSound = "Assets/Hit"
@@ -65,7 +67,9 @@ class Sounds{
         }
         
         tempAudioPlayer.prepareToPlay()
-        tempAudioPlayer.play()
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {
+            self.tempAudioPlayer.play()
+        })
     }
     
 }
