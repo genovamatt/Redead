@@ -15,11 +15,14 @@ class Player: SKSpriteNode{
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var moveSpeed: CGFloat = 150.0
     var sword = Weapon()
+    var invinsibleTimer = 0.0
+    let invinsibleTimeAfterDamage = 1.0
     var knockbackTimer = 0.0
     var knockbackDirectionVector = CGVector()
     let knockbackTime = 0.3
     let knockbackSpeed: CGFloat = 150.0
     var isKnockedBack = false
+    var isInvinsible = false
     
     
     var walkUpTexture = [SKTexture]()
@@ -133,6 +136,15 @@ class Player: SKSpriteNode{
         let direction = InputManager.instance.getDpadDirection()
         let directionVector = InputManager.instance.getDpadDirectionVector()
         
+        if isInvinsible{
+            if invinsibleTimer > 0{
+                invinsibleTimer -= delta
+            }else{
+                isInvinsible = false
+                setUpPhysics()
+            }
+        }
+        
         if isKnockedBack{
             if knockbackTimer > 0{
                 knockbackTimer -= delta
@@ -142,7 +154,6 @@ class Player: SKSpriteNode{
                 move(x, yMove: y)
             }else{
                 isKnockedBack = false
-                setUpPhysics()
             }
         }else{
             if !sword.attacking && direction != .None{
@@ -205,10 +216,12 @@ class Player: SKSpriteNode{
     }
     
     func takeDamage(enemy: Enemy) {
-        if (health > 0 && !isKnockedBack) {
+        if (health > 0 && !isInvinsible) {
             removePhysics()
             isKnockedBack = true
+            isInvinsible = true
             knockbackTimer = knockbackTime
+            invinsibleTimer = invinsibleTimeAfterDamage
             var direction = CGVector(dx:  position.x - enemy.position.x, dy: position.y - enemy.position.y)
             let magnitude = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
             direction.dx = direction.dx / magnitude

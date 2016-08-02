@@ -20,6 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
     var initialized = false
+    var waitOneFrame = false
     let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FirstMap.tmx"]
     let totalRooms = 3
     
@@ -51,6 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVectorMake(0,0)
         
         initialized = true
+        
     }
     
     func addCameraToScene() {
@@ -81,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.camera!.addChild(zButton)
         self.camera!.addChild(xButton)
         
-        let dPadSize = CGSize(width: screenWidth/5, height: screenWidth/5)
+        let dPadSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
 
         directionalPad = DirectionalPad(imageName: "Assets/flatDark08.png", size: dPadSize)
         
@@ -172,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Controls the players movement
         
-        if initialized{
+        if initialized && waitOneFrame{
             if lastInterval == nil {
                 lastInterval = currentTime
             }
@@ -229,6 +231,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             InputManager.instance.update()
 
+        }else{
+            waitOneFrame = true
         }
     }
     
