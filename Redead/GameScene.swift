@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timerLabel: SKLabelNode? = nil
     var initialized = false
     let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FirstMap.tmx"]
+    let totalRooms = 3
     
     private var yCameraAdjust: CGFloat = 0.0
     private var xCameraAdjust: CGFloat = 0.0
@@ -30,6 +31,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let originY = ScreenHelper.instance.visibleScreen.origin.y
     private let sceneCoordinatesX = ScreenHelper.instance.sceneCoordinateSize.width
     private let sceneCoordinatesY = ScreenHelper.instance.sceneCoordinateSize.height
+    
+    private let sound = Sounds()
+    private var roomCount = 1
     
     override func didMoveToView(view: SKView) {
         yCameraAdjust = -CGRectGetMidY(self.frame) + screenHeight/6
@@ -195,6 +199,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let gid = layer.tileGidAt(player!.position)
             if gid == 3 {
                 addMapToScene(maps[tileMap!.name!]!)
+                roomCount++
+                if roomCount == totalRooms {
+                    sound.setBackgroundMusic(sound.bossMusic, ofType: sound.bossMusicExt)
+                }
+                else
+                {
+                    sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
+                }
             }
 
             
@@ -226,24 +238,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if firstNode is Player && secondNode is Enemy{
                     // hurt player
                     player!.takeDamage(secondNode as! Enemy)
-                    
+                    //play hit sound
+                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                 }else if firstNode is Enemy && secondNode is Player{
                     // hurt player
-                    player!.takeDamage(firstNode as! Enemy)
-                    
+                    player!.takeDamage(secondNode as! Enemy)
+                    //play hit sound, death sound if necessary
+                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                 }else if firstNode is Weapon && secondNode is Enemy{
                     // hurt enemy if weapon is attacking
-                    if let weapon = firstNode as? Weapon{
+                    if let weapon = secondNode as? Weapon{
                         if weapon.attacking{
-                            let e = secondNode as! Enemy
+                            let e = firstNode as! Enemy
                             e.takeDamage(weapon)
                             print("hit enemy")
+                            //play hit sound
+                            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                            if e.health <= 0 {
+                                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
+                            }
                         }
-                        
                     }
-                    
-                    
-                    
                 }else if firstNode is Enemy && secondNode is Weapon{
                     // hurt enemy if weapon is attacking
                     if let weapon = secondNode as? Weapon{
@@ -251,71 +266,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             let e = firstNode as! Enemy
                             e.takeDamage(weapon)
                             print("hit enemy")
+                            //play hit sound, death sound if necessary
+                            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                            if e.health <= 0 {
+                                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
+                            }
                         }
-                        
                     }
-
                 }
 
+                //play death music if necessary
+                if player!.health <= 0 {
+                    sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                    sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
+                }
+        
             }
         }
-        
-        
-        
         
         print("contact")
         
     
-    }
-    
-    /*
-     *  SOUND STUFF
-     *
-     *
-     */
-    
-    let deathMusic = "Assets/Death Is Just Another Path_0"
-    let dungeonMusic = "Assets/A Journey Awaits"
-    let bossMusic = "Assets/boss theme"
-    
-    private var backgroundSound = NSURL()
-    private var backgroundAudioPlayer : AVAudioPlayer!
-    
-    func setBackgroundMusic(musicPath: String)
-    {
-        backgroundSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(musicPath, ofType: "mp3")!)
-        do {
-            backgroundAudioPlayer = try AVAudioPlayer(contentsOfURL: backgroundSound)
-        }
-        catch
-        {
-            backgroundAudioPlayer = nil
-        }
-        backgroundAudioPlayer.numberOfLoops = -1
-        backgroundAudioPlayer.prepareToPlay()
-        backgroundAudioPlayer.play()
-    }
-    
-    let hitSound = "Assets/Hit"
-    let deathSound = "Assets/gameOverSound"
-    let zombieDeathSound = "Assets/zombieDeathSound"
-    
-    private var tempSound = NSURL()
-    private var tempAudioPlayer : AVAudioPlayer!
-    
-    func playTempSound(soundPath: String)
-    {
-        tempSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundPath, ofType: "mp3")!)
-        do {
-            tempAudioPlayer = try AVAudioPlayer(contentsOfURL: tempSound)
-        }
-        catch
-        {
-            tempAudioPlayer = nil
-        }
-        
-        tempAudioPlayer.prepareToPlay()
-        tempAudioPlayer.play()
     }
 
     

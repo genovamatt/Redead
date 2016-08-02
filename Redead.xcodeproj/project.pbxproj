@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6842597D1D50149F00BD00CA /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6842597C1D50149F00BD00CA /* Sounds.swift */; };
 		7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD871D416B8E00865A47 /* JSTileMap.m */; };
 		7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD891D416B8E00865A47 /* LFCGzipUtility.m */; };
 		7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7032BD8D1D416D3400865A47 /* libz.tbd */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6842597C1D50149F00BD00CA /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		7032BD851D416B8E00865A47 /* Redead-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Redead-Bridging-Header.h"; sourceTree = "<group>"; };
 		7032BD861D416B8E00865A47 /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
 		7032BD871D416B8E00865A47 /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */,
 				90AF8CC91D4065EF0044D8CF /* MenuScene.swift */,
 				90E4134A1D3DE250006EC40C /* GameViewController.swift */,
+				6842597C1D50149F00BD00CA /* Sounds.swift */,
 				90E4134C1D3DE250006EC40C /* Main.storyboard */,
 				90E4134F1D3DE250006EC40C /* Assets.xcassets */,
 				90E413511D3DE250006EC40C /* LaunchScreen.storyboard */,
@@ -367,6 +370,7 @@
 				908691381D46D972000C92E8 /* Enemy.swift in Sources */,
 				7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */,
 				70AF588B1D440BC500BB3B37 /* Player.swift in Sources */,
+				6842597D1D50149F00BD00CA /* Sounds.swift in Sources */,
 				908691401D482444000C92E8 /* InputManager.swift in Sources */,
 				7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */,
 			);
