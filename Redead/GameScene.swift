@@ -44,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addMapToScene("FirstMap.tmx")
         addHeartsToScene()
         addTimerToScene()
-        //setBackgroundMusic("Assets/A_Journey_Awaits")
+        sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
         self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
