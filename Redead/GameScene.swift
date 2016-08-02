@@ -21,8 +21,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timerLabel: SKLabelNode? = nil
     var initialized = false
     var waitOneFrame = false
-    let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FirstMap.tmx"]
-    let totalRooms = 3
+    let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FourthMap.tmx", "FourthMap.tmx": "FinalMap.tmx"]
+    let totalRooms = 5
+    var isGameOver = false
     
     private var yCameraAdjust: CGFloat = 0.0
     private var xCameraAdjust: CGFloat = 0.0
@@ -46,13 +47,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addHeartsToScene()
         addTimerToScene()
         sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
-        self.camera!.position = CGPoint(x: -xCameraAdjust - screenWidth/10, y: tileMap!.tileSize.height * 2.2)
+        self.camera!.position = CGPoint(x: -xCameraAdjust - screenWidth/9, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0,0)
         
         initialized = true
-        
     }
     
     func addCameraToScene() {
@@ -93,7 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addMapToScene(mapName: String) {
-        
         if (tileMap != nil) {
             player!.removeFromParent()
             for enemy in enemiesOnScreen {
@@ -136,7 +135,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addEnemiesToScene() {
-        print("MapSize: \(tileMap!.mapSize)")
         var x = 0
         var y = 0
         let enemyLocLayer = tileMap!.layerNamed("EnemyLocs")
@@ -146,7 +144,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let gid = enemyLocLayer.tileGidAt(enemyLocLayer.pointForCoord(point))
                 if gid != 0 {
                     var enemy: Enemy? = nil
-                    if gid == 2 {
+                    if gid == 1 {
+                        enemy = Enemy(level: Difficulty.Boss, thePlayer: player!)
+                    }
+                    else if gid == 2 {
                         enemy = Enemy(level: Difficulty.Easy, thePlayer: player!)
                     }
                     else if gid == 3 {
@@ -155,7 +156,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else if gid == 4 {
                         enemy = Enemy(level: Difficulty.Hard, thePlayer: player!)
                     }
-                    //print("GID \(gid)")
                     enemiesOnScreen.append(enemy!)
                     let enemyGridCoord = enemyLocLayer.pointForCoord(point)
                     enemy!.position = enemyGridCoord
@@ -174,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Controls the players movement
         
-        if initialized && waitOneFrame{
+        if initialized && waitOneFrame && !isGameOver {
             if lastInterval == nil {
                 lastInterval = currentTime
             }
@@ -205,10 +205,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if roomCount == totalRooms {
                     sound.setBackgroundMusic(sound.bossMusic, ofType: sound.bossMusicExt)
                 }
-                else
-                {
-                    sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
-                }
             }
 
             
@@ -230,7 +226,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             InputManager.instance.update()
-
         }else{
             waitOneFrame = true
         }
@@ -245,6 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //play hit sound
                     if player!.health <= 0 {
                         sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                        gameOver()
                         sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
                         
                     }else{
@@ -257,6 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //play death music if necessary
                     if player!.health <= 0 {
                         sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                        gameOver()
                         sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
                     }else{
                         sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
@@ -298,6 +295,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("contact")
         
     
+    }
+    
+    func gameOver() {
+        isGameOver = true
+        self.removeAllChildren()
+        gameOverColorize()
+        
+        let gameOverLabel = SKLabelNode(text: "Game Over!")
+        gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+        gameOverLabel.fontColor = SKColor.redColor()
+        gameOverLabel.fontSize = 65
+        
+        self.addChild(gameOverLabel)
+        
+        
+        
+        
     }
     
     func gameOverColorize(){

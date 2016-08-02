@@ -195,8 +195,6 @@ class Player: SKSpriteNode{
         }
         
         sword.update(delta)
-        
-        
     }
     
     func attack(){

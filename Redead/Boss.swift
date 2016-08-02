@@ -191,8 +191,44 @@ class Boss: SKSpriteNode{
     
     
     func move(xMove: CGFloat, yMove: CGFloat) {
-        self.position.x += xMove * moveSpeed / 100.0
-        self.position.y += yMove * moveSpeed / 100.0
+        var x = xMove
+        var y = yMove
+        //Checks the wall boundaries
+        if let tileMap = TileManager.instance.tileMap {
+            let layer = tileMap.layerNamed("MovableMap")
+            var gidTopRightX: Int32
+            var gidTopLeftX: Int32
+            var gidBottomRightX: Int32
+            var gidBottomLeftX: Int32
+            var gidTopRightY: Int32
+            var gidTopLeftY: Int32
+            var gidBottomRightY: Int32
+            var gidBottomLeftY: Int32
+            
+            
+            //Checks the player bounds
+            gidTopRightX = layer.tileGidAt(CGPointMake(rightBound + x, upperBound))
+            gidTopLeftX = layer.tileGidAt(CGPointMake(leftBound + x, upperBound))
+            gidBottomRightX = layer.tileGidAt(CGPointMake(rightBound + x, lowerBound))
+            gidBottomLeftX = layer.tileGidAt(CGPointMake(leftBound + x, lowerBound))
+            gidTopRightY = layer.tileGidAt(CGPointMake(rightBound, upperBound + y))
+            gidTopLeftY = layer.tileGidAt(CGPointMake(leftBound, upperBound + y))
+            gidBottomRightY = layer.tileGidAt(CGPointMake(rightBound, lowerBound + y))
+            gidBottomLeftY = layer.tileGidAt(CGPointMake(leftBound, lowerBound + y))
+            
+            
+            //Checks if the tile the player is moving to is part of the movableMap
+            if gidTopRightX == 0 || gidTopLeftX == 0 || gidBottomLeftX == 0 || gidBottomRightX == 0 {
+                x = 0.0
+            }
+            if gidTopRightY == 0 || gidTopLeftY == 0 || gidBottomLeftY == 0 || gidBottomRightY == 0 {
+                y = 0.0
+            }
+        }
+
+        
+        self.position.x += x * moveSpeed / 100.0
+        self.position.y += y * moveSpeed / 100.0
         upperBound = self.position.y + self.size.height/2 - 10
         lowerBound = self.position.y - self.size.height/2 + 10
         rightBound = self.position.x + self.size.width/3 - 10
@@ -261,16 +297,16 @@ class Boss: SKSpriteNode{
                         directionFacing = .Left
                     }
                 }
-                else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+                else if player.position.x <= self.position.x && distanceFromPlayer() < 350.0 && player.position.y > self.position.y {
                     directionFacing = .UpLeft
                 }
-                else if player.position.x <= self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
+                else if player.position.x <= self.position.x && distanceFromPlayer() < 350.0 && player.position.y <= self.position.y {
                     directionFacing = .DownLeft
                 }
-                else if player.position.x > self.position.x && distanceFromPlayer() < 200.0 && player.position.y > self.position.y {
+                else if player.position.x > self.position.x && distanceFromPlayer() < 350.0 && player.position.y > self.position.y {
                     directionFacing = .UpRight
                 }
-                else if player.position.x > self.position.x && distanceFromPlayer() < 200.0 && player.position.y <= self.position.y {
+                else if player.position.x > self.position.x && distanceFromPlayer() < 350.0 && player.position.y <= self.position.y {
                     directionFacing = .DownRight
                 }
                 else {
