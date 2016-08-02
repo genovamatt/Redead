@@ -233,55 +233,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        let firstNode = contact.bodyA.node as! SKSpriteNode
-        let secondNode = contact.bodyB.node as! SKSpriteNode
+        if let firstNode = contact.bodyA.node as? SKSpriteNode{
+            if let secondNode = contact.bodyB.node as? SKSpriteNode{
+                if firstNode is Player && secondNode is Enemy{
+                    // hurt player
+                    player!.takeDamage(secondNode as! Enemy)
+                    //play hit sound
+                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                }else if firstNode is Enemy && secondNode is Player{
+                    // hurt player
+                    player!.takeDamage(secondNode as! Enemy)
+                    //play hit sound, death sound if necessary
+                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                }else if firstNode is Weapon && secondNode is Enemy{
+                    // hurt enemy if weapon is attacking
+                    if let weapon = secondNode as? Weapon{
+                        if weapon.attacking{
+                            let e = firstNode as! Enemy
+                            e.takeDamage(weapon)
+                            print("hit enemy")
+                            //play hit sound
+                            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                            if e.health <= 0 {
+                                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
+                            }
+                        }
+                    }
+                }else if firstNode is Enemy && secondNode is Weapon{
+                    // hurt enemy if weapon is attacking
+                    if let weapon = secondNode as? Weapon{
+                        if weapon.attacking{
+                            let e = firstNode as! Enemy
+                            e.takeDamage(weapon)
+                            print("hit enemy")
+                            //play hit sound, death sound if necessary
+                            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                            if e.health <= 0 {
+                                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
+                            }
+                        }
+                    }
+                }
+
+                //play death music if necessary
+                if player!.health <= 0 {
+                    sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                    sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
+                }
         
-        if firstNode is Player && secondNode is Enemy{
-            // hurt player
-            let e = secondNode as! Enemy
-            e.attack()
-            player!.takeDamage()
-            //play hit sound
-            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
-            
-        }else if firstNode is Enemy && secondNode is Player{
-            // hurt player
-            let e = firstNode as! Enemy
-            e.attack()
-            player!.takeDamage()
-            //play hit sound, death sound if necessary
-            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
-            
-        }else if firstNode is Weapon && secondNode is Enemy{
-            // hurt enemy if weapon is attacking
-            let e = secondNode as! Enemy
-            e.takeDamage()
-            print("hit enemy")
-            //play hit sound
-            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
-            if e.health <= 0 {
-                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
-            }
-            
-        }else if firstNode is Enemy && secondNode is Weapon{
-            // hurt enemy if weapon is attacking
-            let e = firstNode as! Enemy
-            e.takeDamage()
-            print("hit enemy")
-            //play hit sound, death sound if necessary
-            sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
-            if e.health <= 0 {
-                sound.playTempSound(sound.zombieDeathSound, ofType: sound.zombieDeathSoundExt)
             }
         }
-        
-        //play death music if necessary
-        if player!.health <= 0 {
-            sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
-            sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
-        }
-        
-        
         
         print("contact")
         
