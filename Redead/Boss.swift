@@ -8,20 +8,17 @@
 
 import SpriteKit
 
-enum Difficulty{
-    case Boss, Hard, Medium, Easy
-}
-
-class Enemy: SKSpriteNode{
-    var health = 6
+class Boss: SKSpriteNode{
+    var health = 3
     var directionFacing = Direction.None
     var previousDirectionalInput = Direction.None
     var moveSpeed: CGFloat = 100.0
-    var walkLeftTexture = [SKTexture]()
+    var walkRightTexture = [SKTexture]()
     var attackTexture = [SKTexture]()
     var appearTexture = [SKTexture]()
     var idleTexture = [SKTexture]()
     var deathTexture = [SKTexture]()
+    var gestureTexture = [SKTexture]()
     let player: Player
     let animationFrameTime = 0.1
     var dead = false
@@ -32,8 +29,8 @@ class Enemy: SKSpriteNode{
     let knockbackSpeed: CGFloat = 150.0
     var isKnockedBack = false
     var hasAppeared = false
-
-
+    
+    
     var upperBound: CGFloat = 0.0
     var lowerBound: CGFloat = 0.0
     var leftBound: CGFloat = 0.0
@@ -44,51 +41,73 @@ class Enemy: SKSpriteNode{
     }
     
     init(level: Difficulty, thePlayer: Player) {
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_1.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_2.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_3.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_4.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_5.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_6.png"))
-        walkLeftTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/walk/go_7.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk0.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk1.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk2.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk3.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk4.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk5.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk6.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk7.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk8.png"))
+        walkRightTexture.append(SKTexture(imageNamed: "Assets/Boss/walk9.png"))
         
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_1.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_2.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_3.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_4.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_5.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_6.png"))
-        attackTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/attack/hit_7.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack0.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack1.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack2.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack3.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack4.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack5.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack6.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack7.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack8.png"))
+        attackTexture.append(SKTexture(imageNamed: "Assets/Boss/attack9.png"))
         
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_1.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_2.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_3.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_4.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_5.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_6.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_7.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_8.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_9.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_10.png"))
-        appearTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/appear/appear_11.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death9.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death8.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death7.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death6.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death5.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death4.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death3.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death2.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death1.png"))
+        appearTexture.append(SKTexture(imageNamed: "Assets/Boss/death0.png"))
         
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_1.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_2.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_3.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_4.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_5.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_6.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_7.png"))
-        deathTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/die/die_8.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death0.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death1.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death2.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death3.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death4.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death5.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death6.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death7.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death8.png"))
+        deathTexture.append(SKTexture(imageNamed: "Assets/Boss/death9.png"))
         
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_1.png"))
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_2.png"))
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_3.png"))
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_4.png"))
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_5.png"))
-        idleTexture.append(SKTexture(imageNamed: "Assets/CuteZombieSprite/idle/idle_6.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle0.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle1.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle2.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle3.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle4.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle5.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle6.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle7.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle8.png"))
+        idleTexture.append(SKTexture(imageNamed: "Assets/Boss/idle9.png"))
         
-        let enemySize = CGSizeMake(walkLeftTexture[1].size().width, walkLeftTexture[1].size().height)
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture0.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture1.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture2.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture3.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture4.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture5.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture6.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture7.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture8.png"))
+        gestureTexture.append(SKTexture(imageNamed: "Assets/Boss/gesture9.png"))
+        
+        let enemySize = CGSizeMake(walkRightTexture[1].size().width, walkRightTexture[1].size().height)
         
         
         player = thePlayer
@@ -101,7 +120,7 @@ class Enemy: SKSpriteNode{
         leftBound = self.position.x - self.size.width/3 + 10
         
         setUpPhysics()
-
+        
         
         switch level{
         case .Boss:
@@ -169,7 +188,7 @@ class Enemy: SKSpriteNode{
             
         })
     }
-
+    
     
     func move(xMove: CGFloat, yMove: CGFloat) {
         self.position.x += xMove * moveSpeed / 100.0
@@ -182,15 +201,15 @@ class Enemy: SKSpriteNode{
     
     func getDirectionVector() -> (CGVector){
         switch directionFacing{
-            case .None: return CGVector(dx: 0,dy: 0)
-            case .Up: return CGVector(dx: 0, dy: distanceFromPlayer()/200.0)
-            case .Down: return CGVector(dx: 0, dy: -distanceFromPlayer()/200.0)
-            case .Left: return CGVector(dx: -distanceFromPlayer()/200.0, dy: 0)
-            case .Right: return CGVector(dx: distanceFromPlayer()/200.0, dy: 0)
-            case .UpRight: return CGVector(dx: distanceFromPlayer()/200.0,dy: distanceFromPlayer()/200)
-            case .DownLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200)
-            case .UpLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: distanceFromPlayer()/200.0)
-            case .DownRight: return CGVector(dx: distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200.0)
+        case .None: return CGVector(dx: 0,dy: 0)
+        case .Up: return CGVector(dx: 0, dy: distanceFromPlayer()/200.0)
+        case .Down: return CGVector(dx: 0, dy: -distanceFromPlayer()/200.0)
+        case .Left: return CGVector(dx: -distanceFromPlayer()/200.0, dy: 0)
+        case .Right: return CGVector(dx: distanceFromPlayer()/200.0, dy: 0)
+        case .UpRight: return CGVector(dx: distanceFromPlayer()/200.0,dy: distanceFromPlayer()/200)
+        case .DownLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200)
+        case .UpLeft: return CGVector(dx: -distanceFromPlayer()/200.0, dy: distanceFromPlayer()/200.0)
+        case .DownRight: return CGVector(dx: distanceFromPlayer()/200.0, dy: -distanceFromPlayer()/200.0)
         }
     }
     
@@ -219,7 +238,7 @@ class Enemy: SKSpriteNode{
                 }
             }
             else{
-            
+                
                 if !hasAppeared && distanceFromPlayer() <= 400 {
                     self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
                         self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
@@ -310,13 +329,13 @@ class Enemy: SKSpriteNode{
                     }
                     
                     if previousDirectionalInput != directionFacing {
-                        if directionFacing == .UpRight || directionFacing == .DownRight || directionFacing == .Right || directionFacing == .Down {
+                        if directionFacing == .UpRight || directionFacing == .DownRight || directionFacing == .Left || directionFacing == .Down {
                             xScale = -1
-                            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
+                            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkRightTexture, timePerFrame: animationFrameTime, resize: true, restore: false)), withKey: "moveAnimation")
                         }
-                        else if directionFacing == .UpLeft || directionFacing == .DownLeft || directionFacing == .Left || directionFacing == .Up {
+                        else if directionFacing == .UpLeft || directionFacing == .DownLeft || directionFacing == .Right || directionFacing == .Up {
                             xScale = 1
-                            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
+                            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkRightTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
                         }
                     }
                     
@@ -331,7 +350,7 @@ class Enemy: SKSpriteNode{
                     
                 }
                 
-
+                
             }
         }
     }

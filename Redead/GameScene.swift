@@ -242,6 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if player!.health <= 0 {
                         sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
                         sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
+                        
                     }else{
                         sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                     }
@@ -293,6 +294,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("contact")
         
     
+    }
+    
+    func gameOverColorize(){
+        let turnDark = SKAction.colorizeWithColor(UIColor.blackColor(), colorBlendFactor: 1, duration: 0.2)
+        self.runAction(turnDark)
     }
 
     
