@@ -217,6 +217,8 @@ class Player: SKSpriteNode{
             knockbackDirectionVector = direction
             stopWalkingAnimation()
             
+            enemy.attack()
+            
             flash()
             heartsArray[health-1].texture = SKTexture(imageNamed: "Assets/empty_heart.png")
             health -= 1
