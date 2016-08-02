@@ -239,12 +239,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     // hurt player
                     player!.takeDamage(secondNode as! Enemy)
                     //play hit sound
-                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                    if player!.health <= 0 {
+                        sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                        sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
+                    }else{
+                        sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                    }
                 }else if firstNode is Enemy && secondNode is Player{
                     // hurt player
                     player!.takeDamage(firstNode as! Enemy)
                     //play hit sound, death sound if necessary
-                    sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                    //play death music if necessary
+                    if player!.health <= 0 {
+                        sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
+                        sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
+                    }else{
+                        sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
+                    }
+                    
                 }else if firstNode is Weapon && secondNode is Enemy{
                     // hurt enemy if weapon is attacking
                     if let weapon = firstNode as? Weapon{
@@ -273,12 +285,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     }
-                }
-
-                //play death music if necessary
-                if player!.health <= 0 {
-                    sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
-                    sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
                 }
         
             }

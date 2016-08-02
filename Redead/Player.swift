@@ -13,7 +13,7 @@ class Player: SKSpriteNode{
     var directionFacing = DirectionalPad.Direction.Down
     var previousDirectionalInput = DirectionalPad.Direction.None
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
-    var moveSpeed: CGFloat = 100.0
+    var moveSpeed: CGFloat = 150.0
     var sword = Weapon()
     var knockbackTimer = 0.0
     var knockbackDirectionVector = CGVector()
