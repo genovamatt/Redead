@@ -14,7 +14,7 @@ class Player: SKSpriteNode{
     var previousDirectionalInput = DirectionalPad.Direction.None
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var moveSpeed: CGFloat = 150.0
-    var sword = Weapon()
+    var sword = Sword()
     var invinsibleTimer = 0.0
     let invinsibleTimeAfterDamage = 1.0
     var knockbackTimer = 0.0
@@ -189,6 +189,8 @@ class Player: SKSpriteNode{
             if InputManager.instance.xButtonPressedInFrame{
                 print("x")
                 attack()
+            }else if InputManager.instance.zButtonPressedInFrame{
+                print("z")
             }
         }
         

@@ -28,6 +28,8 @@
 		90AF8CCA1D4065EF0044D8CF /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CC91D4065EF0044D8CF /* MenuScene.swift */; };
 		90AF8CCC1D406A080044D8CF /* DirectionalPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */; };
 		90AF8CD21D408E650044D8CF /* ScreenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8CD11D408E650044D8CF /* ScreenHelper.swift */; };
+		90D8EBF11D504B66006003E7 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8EBF01D504B66006003E7 /* Spell.swift */; };
+		90D8EBF31D504BAC006003E7 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8EBF21D504BAC006003E7 /* Sword.swift */; };
 		90E413451D3DE250006EC40C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413441D3DE250006EC40C /* AppDelegate.swift */; };
 		90E413491D3DE250006EC40C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E413481D3DE250006EC40C /* GameScene.swift */; };
 		90E4134B1D3DE250006EC40C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E4134A1D3DE250006EC40C /* GameViewController.swift */; };
@@ -80,6 +82,8 @@
 		90AF8CC91D4065EF0044D8CF /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPad.swift; sourceTree = "<group>"; };
 		90AF8CD11D408E650044D8CF /* ScreenHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenHelper.swift; sourceTree = "<group>"; };
+		90D8EBF01D504B66006003E7 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
+		90D8EBF21D504BAC006003E7 /* Sword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
 		90E413411D3DE250006EC40C /* Redead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Redead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E413441D3DE250006EC40C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90E413481D3DE250006EC40C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -192,11 +196,13 @@
 				90E413481D3DE250006EC40C /* GameScene.swift */,
 				90AF8CD11D408E650044D8CF /* ScreenHelper.swift */,
 				70AF588A1D440BC500BB3B37 /* Player.swift */,
+				90D8EBF01D504B66006003E7 /* Spell.swift */,
 				9086913F1D482444000C92E8 /* InputManager.swift */,
 				9086913D1D482406000C92E8 /* TileManager.swift */,
 				908691371D46D972000C92E8 /* Enemy.swift */,
 				68A08CD91D5032A500B736C4 /* Boss.swift */,
 				9086913B1D46E28A000C92E8 /* Weapon.swift */,
+				90D8EBF21D504BAC006003E7 /* Sword.swift */,
 				90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */,
 				90AF8CC91D4065EF0044D8CF /* MenuScene.swift */,
 				90E4134A1D3DE250006EC40C /* GameViewController.swift */,
@@ -382,9 +388,11 @@
 				7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */,
 				70AF588B1D440BC500BB3B37 /* Player.swift in Sources */,
 				68A08CDA1D5032A500B736C4 /* Boss.swift in Sources */,
+				90D8EBF11D504B66006003E7 /* Spell.swift in Sources */,
 				6842597D1D50149F00BD00CA /* Sounds.swift in Sources */,
 				908691401D482444000C92E8 /* InputManager.swift in Sources */,
 				7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */,
+				90D8EBF31D504BAC006003E7 /* Sword.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
