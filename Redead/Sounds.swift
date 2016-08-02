@@ -21,7 +21,7 @@ class Sounds{
     public let deathMusicExt = "mp3"
     public let dungeonMusic = "Assets/A_Journey_Awaits"
     public let dungeonMusicExt = "mp3"
-    public let bossMusic = "Assets/boss theme"
+    public let bossMusic = "Assets/boss_theme"
     public let bossMusicExt = "mp3"
     
     private var backgroundSound = NSURL()
@@ -38,7 +38,7 @@ class Sounds{
             backgroundAudioPlayer = nil
         }
         backgroundAudioPlayer.numberOfLoops = -1
-        backgroundAudioPlayer.volume = 0.6
+        backgroundAudioPlayer.volume = 0.3
         backgroundAudioPlayer.prepareToPlay()
         backgroundAudioPlayer.play()
     }
