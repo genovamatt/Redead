@@ -12,7 +12,7 @@ import SpriteKit
 class Weapon: SKSpriteNode{
     let weaponSize = CGSize(width: 70.0, height: 12.0)
     let totalSwingTime = 0.3
-    let swingRotation:Float = 45.0
+    let swingRotation:Float = 90.0
     var attacking = false
     
     init() {
@@ -23,6 +23,9 @@ class Weapon: SKSpriteNode{
         self.zPosition = 0.1
         hidden = true
         
+    }
+    
+    func setUpPhysics(){
         let physicsRectSize = CGSize(width: weaponSize.width*8/9, height: weaponSize.height*8/9)
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: physicsRectSize)
@@ -30,12 +33,14 @@ class Weapon: SKSpriteNode{
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.categoryBitMask = 2
         self.physicsBody!.contactTestBitMask = 4
-        
-        
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func removePhysics(){
+        self.physicsBody = nil
+    }
+    
+    required init?(coder aDecoder: NSCoder){
+        super.init(coder: aDecoder)
     }
     
     func update(delta: CFTimeInterval){
@@ -43,6 +48,7 @@ class Weapon: SKSpriteNode{
     }
     
     func attack(direction: DirectionalPad.Direction){
+        setUpPhysics()
         hidden = false
         attacking = true
         var initialAngle:Float = 0.0
@@ -66,6 +72,7 @@ class Weapon: SKSpriteNode{
         self.runAction(action, completion: {
             self.attacking = false
             self.hidden = true
+            self.removePhysics()
         })
     }
     
