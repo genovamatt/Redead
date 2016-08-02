@@ -25,6 +25,7 @@ class Enemy: SKSpriteNode{
     let player: Player
     let animationFrameTime = 0.1
     var dead = false
+    var attacking = false
     
     var knockbackTimer = 0.0
     var knockbackDirectionVector = CGVector()
@@ -195,7 +196,10 @@ class Enemy: SKSpriteNode{
     
     
     func attack() {
-        self.runAction(SKAction.animateWithTextures(attackTexture, timePerFrame: animationFrameTime, resize: true, restore: false))
+        attacking = true
+        self.runAction(SKAction.animateWithTextures(attackTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
+            self.attacking = false
+        })
     }
     
     func distanceFromPlayer() -> CGFloat  {
@@ -216,7 +220,7 @@ class Enemy: SKSpriteNode{
                     setUpPhysics()
                 }
             }
-            else{
+            else if !attacking{
             
                 if !hasAppeared && distanceFromPlayer() <= 400 {
                     self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
