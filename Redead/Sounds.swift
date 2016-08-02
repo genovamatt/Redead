@@ -17,17 +17,17 @@ class Sounds{
     *
     */
     
-    public let deathMusic = "Assets/Death Is Just Another Path_0"
-    public let deathMusicExt = "mp3"
-    public let dungeonMusic = "Assets/A_Journey_Awaits"
-    public let dungeonMusicExt = "mp3"
-    public let bossMusic = "Assets/boss_theme"
-    public let bossMusicExt = "mp3"
+    let deathMusic = "Assets/Death Is Just Another Path_0"
+    let deathMusicExt = "mp3"
+    let dungeonMusic = "Assets/A_Journey_Awaits"
+    let dungeonMusicExt = "mp3"
+    let bossMusic = "Assets/boss_theme"
+    let bossMusicExt = "mp3"
     
     private var backgroundSound = NSURL()
     private var backgroundAudioPlayer : AVAudioPlayer!
     
-    public func setBackgroundMusic(musicPath: String, ofType: String)
+    func setBackgroundMusic(musicPath: String, ofType: String)
     {
         backgroundSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(musicPath, ofType: ofType)!)
         do {
@@ -45,17 +45,17 @@ class Sounds{
         })
     }
     
-    public let hitSound = "Assets/Hit"
-    public let hitSoundExt = "wav"
-    public let deathSound = "Assets/gameOverSound"
-    public let deathSoundExt = "mp3"
-    public let zombieDeathSound = "Assets/zombieDeathSoundQuestionMark"
-    public let zombieDeathSoundExt = "mp3"
+    let hitSound = "Assets/Hit"
+    let hitSoundExt = "wav"
+    let deathSound = "Assets/gameOverSound"
+    let deathSoundExt = "mp3"
+    let zombieDeathSound = "Assets/zombieDeathSoundQuestionMark"
+    let zombieDeathSoundExt = "mp3"
     
     private var tempSound = NSURL()
     private var tempAudioPlayer : AVAudioPlayer!
     
-    public func playTempSound(soundPath: String, ofType: String)
+    func playTempSound(soundPath: String, ofType: String)
     {
         tempSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundPath, ofType: ofType)!)
         do {

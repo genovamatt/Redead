@@ -45,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addHeartsToScene()
         addTimerToScene()
         sound.setBackgroundMusic(sound.dungeonMusic, ofType: sound.dungeonMusicExt)
-        self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
+        self.camera!.position = CGPoint(x: -xCameraAdjust - screenWidth/10, y: tileMap!.tileSize.height * 2.2)
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0,0)
@@ -100,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             enemiesOnScreen = [Enemy]()
-            self.camera!.position = CGPoint(x: -xCameraAdjust, y: tileMap!.tileSize.height * 2.2)
+            self.camera!.position = CGPoint(x: -xCameraAdjust - screenWidth/10, y: tileMap!.tileSize.height * 2.2)
             tileMap!.removeFromParent()
         }
         tileMap = JSTileMap(named: mapName)
@@ -199,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let gid = layer.tileGidAt(player!.position)
             if gid == 3 {
                 addMapToScene(maps[tileMap!.name!]!)
-                roomCount++
+                roomCount += 1
                 if roomCount == totalRooms {
                     sound.setBackgroundMusic(sound.bossMusic, ofType: sound.bossMusicExt)
                 }
@@ -211,7 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             
             //Handles the scrolling of the map vertically.
-            let cameraSpeed: CGFloat = 2.0
+            let cameraSpeed: CGFloat = 3.0
             if player!.position.y > self.camera!.position.y + 20 {
                 self.camera!.position = CGPointMake(self.camera!.position.x, self.camera!.position.y + cameraSpeed)
             }
@@ -220,10 +220,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             //Handles the scrolling of the map horizontally.
-            if player!.position.x - xCameraAdjust > self.camera!.position.x + 95  {
+            if player!.position.x - xCameraAdjust > self.camera!.position.x + 280  {
                 self.camera!.position = CGPointMake(self.camera!.position.x + cameraSpeed, self.camera!.position.y)
             } //account for camera adjust
-            else if player!.position.x - xCameraAdjust < self.camera!.position.x - 95 {
+            else if player!.position.x - xCameraAdjust < self.camera!.position.x + 200 {
                 self.camera!.position = CGPointMake(self.camera!.position.x - cameraSpeed, self.camera!.position.y)
             }
             
