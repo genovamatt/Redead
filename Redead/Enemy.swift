@@ -328,10 +328,9 @@ class Enemy: SKSpriteNode{
                     previousDirectionalInput = .None
                     
                 }
-            }
+                
 
+            }
         }
     }
-        
-
 }
