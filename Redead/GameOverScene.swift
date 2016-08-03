@@ -93,6 +93,8 @@ class GameOverScene: SKScene {
         buttonLabel.fontColor = SKColor.whiteColor()
         buttonLabel.fontSize = 30
         zButton.addChild(buttonLabel)
+        zButton.zPosition = 1
+        buttonLabel.zPosition = 2
         self.addChild(zButton)
         
     }

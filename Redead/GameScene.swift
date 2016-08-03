@@ -243,7 +243,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //play hit sound
                     if player!.health <= 0 {
                         sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
-                        gameOver()
                         sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
                         
                     }else{
@@ -256,7 +255,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //play death music if necessary
                     if player!.health <= 0 {
                         sound.playTempSound(sound.deathSound, ofType: sound.deathSoundExt)
-                        gameOver()
                         sound.setBackgroundMusic(sound.deathMusic, ofType: sound.deathMusicExt)
                     }else{
                         sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
@@ -268,7 +266,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if weapon.attacking{
                             let e = secondNode as! Enemy
                             e.takeDamage(weapon)
-                            print("hit enemy")
                             //play hit sound
                             sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                             if e.health <= 0 {
@@ -282,7 +279,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if weapon.attacking{
                             let e = firstNode as! Enemy
                             e.takeDamage(weapon)
-                            print("hit enemy")
                             //play hit sound, death sound if necessary
                             sound.playTempSound(sound.hitSound, ofType: sound.hitSoundExt)
                             if e.health <= 0 {
@@ -294,8 +290,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
             }
         }
-        
-        print("contact")
         
     
     }

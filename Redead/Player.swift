@@ -55,7 +55,6 @@ class Player: SKSpriteNode{
         heartsArray.append(SKSpriteNode(imageNamed: "Assets/heart.png"))
 
         playerSize = walkDownTexture[1].size()
-        //let texture = SKTexture(imageNamed: "Assets/player_05.png")
         super.init(texture: walkDownTexture[1], color: UIColor.clearColor(), size: walkDownTexture[1].size())
         sword.position = self.position
         self.addChild(sword)

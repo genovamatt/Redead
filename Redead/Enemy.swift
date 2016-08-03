@@ -286,16 +286,21 @@ class Enemy: SKSpriteNode {
     }
     
     func getDirectionVector() -> (CGVector){
+        var diagnolDistance = distanceFromPlayer()/distanceToNoticePlayer
+        //So the zombie's diagnol movespeed will never be that slow, and they'll be a bit faster the farther away the player is
+        if (diagnolDistance < 0.5) {
+            diagnolDistance = 0.5
+        }
         switch directionFacing{
             case .None: return CGVector(dx: 0,dy: 0)
-            case .Up: return CGVector(dx: 0, dy: distanceFromPlayer()/distanceToNoticePlayer)
-            case .Down: return CGVector(dx: 0, dy: -distanceFromPlayer()/distanceToNoticePlayer)
-            case .Left: return CGVector(dx: -distanceFromPlayer()/distanceToNoticePlayer, dy: 0)
-            case .Right: return CGVector(dx: distanceFromPlayer()/distanceToNoticePlayer, dy: 0)
-            case .UpRight: return CGVector(dx: distanceFromPlayer()/distanceToNoticePlayer,dy: distanceFromPlayer()/distanceToNoticePlayer)
-            case .DownLeft: return CGVector(dx: -distanceFromPlayer()/distanceToNoticePlayer, dy: -distanceFromPlayer()/distanceToNoticePlayer)
-            case .UpLeft: return CGVector(dx: -distanceFromPlayer()/distanceToNoticePlayer, dy: distanceFromPlayer()/distanceToNoticePlayer)
-            case .DownRight: return CGVector(dx: distanceFromPlayer()/distanceToNoticePlayer, dy: -distanceFromPlayer()/distanceToNoticePlayer)
+            case .Up: return CGVector(dx: 0, dy: 1)
+            case .Down: return CGVector(dx: 0, dy: -1)
+            case .Left: return CGVector(dx: -1, dy: 0)
+            case .Right: return CGVector(dx: 1, dy: 0)
+            case .UpRight: return CGVector(dx: diagnolDistance,dy: diagnolDistance)
+            case .DownLeft: return CGVector(dx: -diagnolDistance, dy: -diagnolDistance)
+            case .UpLeft: return CGVector(dx: -diagnolDistance, dy: diagnolDistance)
+            case .DownRight: return CGVector(dx: diagnolDistance, dy: -diagnolDistance)
         }
     }
     
@@ -305,6 +310,10 @@ class Enemy: SKSpriteNode {
         attacking = true
         self.runAction(SKAction.animateWithTextures(attackTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
             self.attacking = false
+            if (self.player.health <= 0) {
+                let scene = self.scene! as! GameScene
+                scene.gameOver()
+            }
         })
     }
     
@@ -330,8 +339,10 @@ class Enemy: SKSpriteNode {
                 //400 is the distance for the enemy to appear
                 if !hasAppeared && distanceFromPlayer() <= 450 {
                     self.runAction(SKAction.animateWithTextures(appearTexture, timePerFrame: animationFrameTime, resize: true, restore: false), completion: {
-                        self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
-                    })
+                        if self.distanceFromPlayer() > self.distanceToNoticePlayer {
+                            self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(self.idleTexture, timePerFrame: self.animationFrameTime, resize: true, restore: false)), withKey: "idleAnimation")
+                        }
+                        })
                     hasAppeared = true
                 }
                 if player.position.x <= self.position.x + 1.5 && player.position.x >= self.position.x - 1.5  && distanceFromPlayer() < distanceToNoticePlayer {
@@ -399,7 +410,6 @@ class Enemy: SKSpriteNode {
                             self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(walkLeftTexture, timePerFrame: animationFrameTime,resize: true, restore: false)), withKey: "moveAnimation")
                         }
                     }
-                    
                     previousDirectionalInput = directionFacing
                 }
                 else{
