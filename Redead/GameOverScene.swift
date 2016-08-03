@@ -28,8 +28,13 @@ class GameOverScene: SKScene {
         var isANewHighScore: Bool?
         
         if oldHighScore == nil {
-            defaults.setObject(time, forKey: "HighScore")
-            isANewHighScore = true
+            if (GameScene.gameEndVariables.victory) {
+                defaults.setObject(time, forKey: "HighScore")
+                isANewHighScore = true
+            }
+            else {
+                isANewHighScore = false
+            }
         }
         else {
             if let stringOldScore = oldHighScore as? String {
