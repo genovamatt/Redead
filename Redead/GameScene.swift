@@ -174,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Controls the players movement
         
-        if initialized && waitOneFrame && !isGameOver {
+        if initialized && waitOneFrame && !gameEndVariables.victory {
             if lastInterval == nil {
                 lastInterval = currentTime
             }
@@ -227,6 +227,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             InputManager.instance.update()
         }else{
+            if gameEndVariables.victory {
+                gameOver()
+            }
             waitOneFrame = true
         }
     }
@@ -298,25 +301,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func gameOver() {
-        isGameOver = true
-        self.removeAllChildren()
-        gameOverColorize()
-        
-        let gameOverLabel = SKLabelNode(text: "Game Over!")
-        gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
-        gameOverLabel.fontColor = SKColor.redColor()
-        gameOverLabel.fontSize = 65
-        
-        self.addChild(gameOverLabel)
-        
-        
-        
-        
+        gameEndVariables.currentTime = timerLabel!.text!
+        let transition = SKTransition.fadeWithDuration(5)
+        let newScene = GameOverScene(size: ScreenHelper.instance.sceneCoordinateSize)
+        newScene.scaleMode = .AspectFill
+        self.scene!.view!.presentScene(newScene, transition: transition)
     }
     
     func gameOverColorize(){
         let turnDark = SKAction.colorizeWithColor(UIColor.blackColor(), colorBlendFactor: 1, duration: 0.2)
         self.runAction(turnDark)
+    }
+    
+    struct gameEndVariables {
+        static var currentTime = ""
+        static var victory = false
     }
 
     

@@ -205,7 +205,12 @@ class Enemy: SKSpriteNode {
             if health == 0 {
                 dead = true
                 self.removeActionForKey("moveAnimation")
-                self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime*1.2, resize: true, restore: false), completion: {self.removeFromParent()})
+                self.runAction(SKAction.animateWithTextures(deathTexture, timePerFrame: animationFrameTime*1.2, resize: true, restore: false), completion: {
+                    if self.difficulty == .Boss {
+                        GameScene.gameEndVariables.victory = true
+                    }
+                    self.removeFromParent()
+                })
             }else{
                 isKnockedBack = true
                 knockbackTimer = knockbackTime
