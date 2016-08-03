@@ -53,6 +53,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0,0)
         
+        gameEndVariables.victory = false
+        gameEndVariables.currentTime = ""
+        
         initialized = true
     }
     

@@ -166,15 +166,15 @@ class Enemy: SKSpriteNode {
         
         switch level {
         case .Boss:
-            health = 8
-            moveSpeed = 300.0
+            health = 6
+            moveSpeed = 225.0
         case .Hard:
-            health = 3
-            moveSpeed = 200.0
-        case .Medium:
+            health = 4
             moveSpeed = 150.0
+        case .Medium:
+            moveSpeed = 125.0
         case .Easy:
-            moveSpeed = 100.0
+            moveSpeed = 85.0
         }
     }
     
