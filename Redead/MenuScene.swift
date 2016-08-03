@@ -20,12 +20,13 @@ class MenuScene: SKScene {
         let screenHeight = ScreenHelper.instance.visibleScreen.height
         let x = ScreenHelper.instance.visibleScreen.origin.x
         let y = ScreenHelper.instance.visibleScreen.origin.y
-
         let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
         
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedStartButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(x + screenWidth / 2, y + screenHeight / 2)
+        
+        
         
         self.addChild(zButton)
     }

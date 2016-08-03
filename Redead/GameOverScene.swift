@@ -40,37 +40,36 @@ class GameOverScene: SKScene {
                 isANewHighScore = false
             }
             else {
-                print("o")
                 isANewHighScore = false
             }
         }
         let gameOverLabel = SKLabelNode()
         gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+screenHeight/8)
-        gameOverLabel.fontSize = 65
+        gameOverLabel.fontSize = 60
+        gameOverLabel.fontName = "Zapfino"
         
         if GameScene.gameEndVariables.victory {
             gameOverLabel.text = "A+!"
-            gameOverLabel.fontName = "Zapfino"
+            
             gameOverLabel.fontColor = SKColor.greenColor()
             
             
             let highScoreLabel = SKLabelNode()
             
-            if isANewHighScore! {
+            
+            if !isANewHighScore! {
                 let labelText = "High Score: \(defaults.objectForKey("HighScore")! as! String)"
-                let highScoreLabel = SKLabelNode(text: labelText)
-                highScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - screenHeight/8)
-                highScoreLabel.fontColor = SKColor.blackColor()
-                highScoreLabel.fontSize = 40
-                
+                highScoreLabel.text = labelText
+                highScoreLabel.fontColor = SKColor.brownColor()
             }
             else {
                 let labelText = "NEW HIGH SCORE: \(defaults.objectForKey("HighScore")! as! String)"
-                let highScoreLabel = SKLabelNode(text: labelText)
-                highScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - screenHeight/8)
+                highScoreLabel.text = labelText
                 highScoreLabel.fontColor = SKColor.magentaColor()
-                highScoreLabel.fontSize = 80
             }
+            highScoreLabel.fontSize = 30
+            highScoreLabel.fontName = "Zapfino"
+            highScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - screenHeight/4)
             self.addChild(highScoreLabel)
 
         }
@@ -83,13 +82,19 @@ class GameOverScene: SKScene {
     }
     
     func addButtonsToScene(){
-        let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
+        let buttonSize = CGSize(width: screenWidth/4, height: screenWidth/8)
         
-        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedPlayAgainButton)
+        let zButton = SgButton(normalImageNamed: "Assets/buttonStock.png", highlightedImageNamed: "Assets/buttonStockPressed.png", buttonFunc: tappedPlayAgainButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(x + screenWidth / 2, y + screenHeight / 2)
         
+        let buttonLabel = SKLabelNode(text: "Play Again")
+        buttonLabel.position = CGPointMake(buttonLabel.position.x, -10)
+        buttonLabel.fontColor = SKColor.whiteColor()
+        buttonLabel.fontSize = 30
+        zButton.addChild(buttonLabel)
         self.addChild(zButton)
+        
     }
     
     func tappedPlayAgainButton(button: SgButton){
