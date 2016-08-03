@@ -66,10 +66,13 @@ class Sounds{
             tempAudioPlayer = nil
         }
         
-        tempAudioPlayer.prepareToPlay()
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {
-            self.tempAudioPlayer.play()
-        })
+        if tempAudioPlayer != nil && !tempAudioPlayer.playing{
+            tempAudioPlayer.prepareToPlay()
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {
+                self.tempAudioPlayer.play()
+            })
+        }
+        
     }
     
 }
