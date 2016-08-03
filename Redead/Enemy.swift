@@ -223,6 +223,7 @@ class Enemy: SKSpriteNode {
             }
         }
         print("Enemy Health: \(health)")
+        weapon.onEnemyHit()
     }
     
     func flash(){

@@ -98,9 +98,10 @@ class GameOverScene: SKScene {
         self.addChild(zButton)
         
     }
+
     
     func tappedPlayAgainButton(button: SgButton){
-        let newScene = MenuScene(size: ScreenHelper.instance.sceneCoordinateSize)
+        let newScene = GameScene(size: ScreenHelper.instance.sceneCoordinateSize)
         newScene.scaleMode = .AspectFill
         self.scene!.view!.presentScene(newScene)
     }

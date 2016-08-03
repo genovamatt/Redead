@@ -42,4 +42,8 @@ class Weapon: SKSpriteNode{
     
     }
     
+    func onEnemyHit(){
+        
+    }
+    
 }
