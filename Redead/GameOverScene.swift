@@ -49,7 +49,8 @@ class GameOverScene: SKScene {
         gameOverLabel.fontSize = 65
         
         if GameScene.gameEndVariables.victory {
-            gameOverLabel.text = "You Win!"
+            gameOverLabel.text = "A+!"
+            gameOverLabel.fontName = "Zapfino"
             gameOverLabel.fontColor = SKColor.greenColor()
             
             
