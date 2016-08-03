@@ -13,6 +13,7 @@ class MenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         addButtonsToScene()
+        addScoreToScene()
     }
     
     func addButtonsToScene(){
@@ -20,7 +21,8 @@ class MenuScene: SKScene {
         let screenHeight = ScreenHelper.instance.visibleScreen.height
         let x = ScreenHelper.instance.visibleScreen.origin.x
         let y = ScreenHelper.instance.visibleScreen.origin.y
-        let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
+
+        let buttonSize = CGSize(width: 500, height: 200)
         
         let zButton = SgButton(normalImageNamed: "Assets/buttonStock.png", highlightedImageNamed: "Assets/buttonStockPressed.png", buttonFunc: tappedStartButton)
         zButton.size = buttonSize
@@ -34,6 +36,26 @@ class MenuScene: SKScene {
         label.fontColor = UIColor.yellowColor()
         label.zPosition = 0.1
         zButton.addChild(label)
+    }
+    
+    func addScoreToScene() {
+        
+        
+        let defaults = NSUserDefaults()
+        
+        if defaults.objectForKey("HighScore") != nil {
+            let labelText = "High Score: \(defaults.objectForKey("HighScore")! as! String)"
+            let highScoreLabel = SKLabelNode()
+            highScoreLabel.text = labelText
+            highScoreLabel.fontColor = SKColor.brownColor()
+        
+            highScoreLabel.fontSize = 30
+            highScoreLabel.fontName = "Zapfino"
+            let screenHeight = ScreenHelper.instance.visibleScreen.height
+            highScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - screenHeight/4)
+            self.addChild(highScoreLabel)
+        }
+
     }
     
     func tappedStartButton(button: SgButton){

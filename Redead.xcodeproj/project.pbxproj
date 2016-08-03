@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6842597D1D50149F00BD00CA /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6842597C1D50149F00BD00CA /* Sounds.swift */; };
-		68A08CDA1D5032A500B736C4 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A08CD91D5032A500B736C4 /* Boss.swift */; };
 		7032BD8A1D416B8E00865A47 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD871D416B8E00865A47 /* JSTileMap.m */; };
 		7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7032BD891D416B8E00865A47 /* LFCGzipUtility.m */; };
 		7032BD8E1D416D3400865A47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7032BD8D1D416D3400865A47 /* libz.tbd */; };
@@ -62,7 +61,6 @@
 
 /* Begin PBXFileReference section */
 		6842597C1D50149F00BD00CA /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
-		68A08CD91D5032A500B736C4 /* Boss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boss.swift; sourceTree = "<group>"; };
 		7032BD851D416B8E00865A47 /* Redead-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Redead-Bridging-Header.h"; sourceTree = "<group>"; };
 		7032BD861D416B8E00865A47 /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
 		7032BD871D416B8E00865A47 /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 				9086913F1D482444000C92E8 /* InputManager.swift */,
 				9086913D1D482406000C92E8 /* TileManager.swift */,
 				908691371D46D972000C92E8 /* Enemy.swift */,
-				68A08CD91D5032A500B736C4 /* Boss.swift */,
 				9086913B1D46E28A000C92E8 /* Weapon.swift */,
 				90D8EBF21D504BAC006003E7 /* Sword.swift */,
 				90AF8CCB1D406A080044D8CF /* DirectionalPad.swift */,
@@ -399,7 +396,6 @@
 				908691381D46D972000C92E8 /* Enemy.swift in Sources */,
 				7032BD8B1D416B8E00865A47 /* LFCGzipUtility.m in Sources */,
 				70AF588B1D440BC500BB3B37 /* Player.swift in Sources */,
-				68A08CDA1D5032A500B736C4 /* Boss.swift in Sources */,
 				90D8EBF11D504B66006003E7 /* Spell.swift in Sources */,
 				6842597D1D50149F00BD00CA /* Sounds.swift in Sources */,
 				908691401D482444000C92E8 /* InputManager.swift in Sources */,
