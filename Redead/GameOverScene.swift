@@ -83,14 +83,25 @@ class GameOverScene: SKScene {
     }
     
     func addButtonsToScene(){
-        let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
+        let screenWidth = ScreenHelper.instance.visibleScreen.width
+        let screenHeight = ScreenHelper.instance.visibleScreen.height
+        let x = ScreenHelper.instance.visibleScreen.origin.x
+        let y = ScreenHelper.instance.visibleScreen.origin.y
         
-        let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: tappedPlayAgainButton)
+        let buttonSize = CGSize(width: 500, height: 200)
+        
+        let zButton = SgButton(normalImageNamed: "Assets/buttonStock.png", highlightedImageNamed: "Assets/buttonStockPressed.png", buttonFunc: tappedPlayAgainButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(x + screenWidth / 2, y + screenHeight / 2)
         
         self.addChild(zButton)
+        let label = SKLabelNode(text: "Restart Redead")
+        label.fontName = "AmericanTypewriter-Bold"
+        label.fontColor = UIColor.yellowColor()
+        label.zPosition = 0.1
+        zButton.addChild(label)
     }
+
     
     func tappedPlayAgainButton(button: SgButton){
         let newScene = MenuScene(size: ScreenHelper.instance.sceneCoordinateSize)

@@ -19,6 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lastInterval: CFTimeInterval?
     var elapsedTime: Float = 0.0
     var timerLabel: SKLabelNode? = nil
+    var projectileLabel: SKLabelNode? = nil
     var initialized = false
     var waitOneFrame = false
     let maps: [String: String] = ["FirstMap.tmx": "secondMap.tmx", "secondMap.tmx": "ThirdMap.tmx", "ThirdMap.tmx": "FourthMap.tmx", "FourthMap.tmx": "FinalMap.tmx"]
@@ -41,8 +42,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yCameraAdjust = -CGRectGetMidY(self.frame) + screenHeight/6
         xCameraAdjust = -CGRectGetMidX(self.frame)
         addCameraToScene()
-        addButtonsToScene()
         addPlayerToScene()
+        addButtonsToScene()
         addMapToScene("FirstMap.tmx")
         addHeartsToScene()
         addTimerToScene()
@@ -67,6 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addTimerToScene(){
         timerLabel = SKLabelNode(text: "00:00")
         timerLabel!.position = CGPointMake(originX + screenWidth * 18/20.0 + xCameraAdjust, originY + screenHeight * 18/20.0 + yCameraAdjust)
+        timerLabel!.fontName = "AmericanTypewriter-Bold"
         self.camera!.addChild(timerLabel!)
     }
     
@@ -77,12 +79,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         zButton.position = CGPointMake(originX + screenWidth * 16/20.0 + xCameraAdjust, originY + screenHeight * 4/16.0 + yCameraAdjust)
         zButton.zPosition = 0.2
         
+        projectileLabel = SKLabelNode(text: "\(player!.spellCount)")
+        projectileLabel!.position = zButton.position
+        projectileLabel!.zPosition = 0.2
+        projectileLabel!.fontName = "AmericanTypewriter-Bold"
+        projectileLabel!.position.y -= zButton.size.width * 3/4
+        
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: InputManager.instance.pushedXButton)
         xButton.size = buttonSize
         xButton.position = CGPointMake(originX + screenWidth * 18/20.0 + xCameraAdjust, originY + screenHeight * 2/16.0 + yCameraAdjust)
         xButton.zPosition = 0.2
         
         self.camera!.addChild(zButton)
+        self.camera!.addChild(projectileLabel!)
         self.camera!.addChild(xButton)
         
         let dPadSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
@@ -229,6 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             InputManager.instance.update()
+            projectileLabel!.text = "\(player!.spellCount)"
         }else{
             if gameEndVariables.victory {
                 gameOver()

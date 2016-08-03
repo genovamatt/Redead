@@ -18,6 +18,7 @@ class Player: SKSpriteNode{
     var projectile = Spell()
     var invinsibleTimer = 0.0
     let invinsibleTimeAfterDamage = 1.0
+    var spellCount = 8
     var knockbackTimer = 0.0
     var knockbackDirectionVector = CGVector()
     let knockbackTime = 0.3
@@ -203,7 +204,8 @@ class Player: SKSpriteNode{
     }
     
     func projectileAttack(){
-        if !projectile.attacking && !sword.attacking{
+        if !projectile.attacking && !sword.attacking && spellCount > 0{
+            spellCount -= 1
             switch directionFacing {
             case .Down: projectile.position = CGPointMake(0, -playerSize.height/3)
             case .Left: projectile.position = CGPointMake(playerSize.width/3, 0)
