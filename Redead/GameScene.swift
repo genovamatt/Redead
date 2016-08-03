@@ -71,14 +71,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addButtonsToScene(){
-        let buttonSize = CGSize(width: screenWidth/10, height: screenWidth/10)
+        let buttonSize = CGSize(width: screenWidth/9, height: screenWidth/9)
         let zButton = SgButton(normalImageNamed: "Assets/blueButton.png", highlightedImageNamed: "Assets/bluePushed.png", buttonFunc: InputManager.instance.pushedZButton)
         zButton.size = buttonSize
         zButton.position = CGPointMake(originX + screenWidth * 16/20.0 + xCameraAdjust, originY + screenHeight * 4/16.0 + yCameraAdjust)
+        zButton.zPosition = 0.2
         
         let xButton = SgButton(normalImageNamed: "Assets/redButton.png", highlightedImageNamed: "Assets/redPushed.png", buttonFunc: InputManager.instance.pushedXButton)
         xButton.size = buttonSize
         xButton.position = CGPointMake(originX + screenWidth * 18/20.0 + xCameraAdjust, originY + screenHeight * 2/16.0 + yCameraAdjust)
+        xButton.zPosition = 0.2
         
         self.camera!.addChild(zButton)
         self.camera!.addChild(xButton)
@@ -89,6 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         directionalPad!.position = CGPointMake(originX + screenWidth * 1/8.0 + xCameraAdjust, originY + screenHeight * 5/22.0 + yCameraAdjust)
         self.camera!.addChild(directionalPad!)
+        directionalPad!.zPosition = 0.2
         InputManager.instance.setDirectionalPad(directionalPad!)
     }
     

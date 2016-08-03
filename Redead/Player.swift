@@ -15,6 +15,7 @@ class Player: SKSpriteNode{
     var heartsArray: [SKSpriteNode] = [SKSpriteNode]()
     var moveSpeed: CGFloat = 150.0
     var sword = Sword()
+    var projectile = Spell()
     var invinsibleTimer = 0.0
     let invinsibleTimeAfterDamage = 1.0
     var knockbackTimer = 0.0
@@ -58,6 +59,8 @@ class Player: SKSpriteNode{
         //let texture = SKTexture(imageNamed: "Assets/player_05.png")
         super.init(texture: walkDownTexture[1], color: UIColor.clearColor(), size: walkDownTexture[1].size())
         sword.position = self.position
+        projectile.position = self.position
+        self.addChild(projectile)
         self.addChild(sword)
         
         upperBound = self.position.y + playerSize.height/2
@@ -156,7 +159,7 @@ class Player: SKSpriteNode{
                 isKnockedBack = false
             }
         }else{
-            if !sword.attacking && direction != .None{
+            if !sword.attacking && !projectile.attacking && direction != .None{
                 let x: CGFloat = directionVector.dx * moveSpeed * CGFloat(delta)
                 let y: CGFloat = directionVector.dy * moveSpeed * CGFloat(delta)
                 
@@ -191,14 +194,29 @@ class Player: SKSpriteNode{
                 attack()
             }else if InputManager.instance.zButtonPressedInFrame{
                 print("z")
+                projectileAttack()
             }
         }
         
         sword.update(delta)
+        projectile.update(delta)
+    }
+    
+    func projectileAttack(){
+        if !projectile.attacking && !sword.attacking{
+            switch directionFacing {
+            case .Down: projectile.position = CGPointMake(0, -playerSize.height/3)
+            case .Left: projectile.position = CGPointMake(playerSize.width/3, 0)
+            case .Right: projectile.position = CGPointMake(playerSize.width/3, 0)
+            case .Up: projectile.position = CGPointMake(0, playerSize.height/3)
+            default: break
+            }
+            projectile.attack(directionFacing)
+        }
     }
     
     func attack(){
-        if !sword.attacking{
+        if !sword.attacking && !projectile.attacking{
             switch directionFacing {
             case .Down: sword.position = CGPointMake(0, -playerSize.height/3)
             case .Left: sword.position = CGPointMake(playerSize.width/3, 0)
